@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    background: white;
+}
+
+nav{
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 90px;
+    height: 100vh;
+    overflow: hidden;
+    background: white;
+    transition: 1s;
+    box-shadow: 0 20px 35px rgb(0, 0, 0, 0.1);
+}
+
+nav:hover{
+    width: 280px;
+    transition: 1s;
+}
+
+.logo{
+    text-align: center;
+    display: flex;
+    margin: 0px;
+    padding-bottom: 1rem;
+}
+
+.logo img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.logo span{
+    top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+nav a{
+    position: relative;
+    width: 280px;
+    font-size: 14px;
+    color: #7a7a7d;
+    display: table;
+    padding: 10px;
+}
+
+nav .fas{
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 10px;
+    font-size: 23px;
+    text-align: center;
+}
+
+.nav-item{
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+.nav-item:hover{
+    color:  rgb(194, 16, 16);
+}
+
+a:hover{
+    background: #eee;
+}
+
+a:hover i{
+    color:  rgb(194, 16, 16);
+    transition: 0.5s;
+}
+
+.logout{
+    position: absolute;
+    bottom: 0;
+}
+
+.container{
+display: flex;
+}
+
+.main{
+    position: relative;
+    padding: 20px;
+    width: 100%;
+}
+
+.main-top{
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    border-bottom: 2px solid rgb(123, 123, 123);
+}
+
+.main-top .uil{
+    position: relative;
+    right: 0;
+    margin: 0px 20px;
+    top: 0px;
+    font-size: 40px;
+    color: black;
+}
+.main-top p{
+    margin-top: 1%;
+    margin-left: 40rem;
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.main-top h1{
+    margin-top: 5px;
+    padding-bottom: 2rem;
+}
+
+.main .users{
+    display: flex;
+    width: 100%;
+}
+
+.dashboard{
+    margin-top: 1rem;
+    text-transform: capitalize;
+}
+
+.dashboard-list{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 5px 40px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-list h1{
+    font-size: 30px;
+    bottom: 0;
+}
+
+.dashboard-list .btn-actualizar{
+    padding: 10px;
+    color: white;
+    border: none;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: rgb(194, 16, 16);
+}
+
+.table{
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 15px;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+table thead tr{
+    color: white;
+    background: rgb(194, 16, 16);
+    text-align: center;
+    font-weight: bold;
+}
+
+table thead tbody td i:hover{
+    width: 10px;
+}
+
+
+.table th,
+.table td{
+    text-align: center;
+    padding: 12px 15px;
+}
+
+.table tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(odd){
+    background: #f3f3f3;
+}
+
+.table tbody td .entregado{
+    font-weight: bold;
+    background-color: aqua;
+}
+
+.table tbody tr:last-of-type{
+    border-bottom: 2px solid rgb(194, 16, 16);
+}
+
+.table button{
+    padding: 6px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #4AD489;
+}
+
+.table button:hover{
+    background: #4AD489;
+    color: #fff;
+    transition: 0.5rem;
+}
+
+.boton-modal{
+    padding: 40px;
+    background-color: #fff;
+}
+
+.boton-modal label{
+    padding: 10px 15px;
+    background-color: rgb(194, 16, 16);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.boton-modal label:hover{
+    background-color:  rgb(230, 72, 72);
+}
+
+#btn-modal{
+    display: none;
+}
+
+.container-modal{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+    background-color: rgba(144, 148, 150, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#btn-modal:checked ~ .container-modal{
+    display: flex;
+}
+
+.content-modal{
+    width: 70%;
+    max-width: 750px;
+    height: 95%;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.content-modal .tittle{
+    font-size: 30px;
+    padding-top: 0px;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: rgb(194, 16, 16) solid 1px;
+    margin-bottom: 1rem;
+}
+
+.content-modal form .row{
+    margin: 0px;
+    padding: 10px;
+}
+
+.content-modal form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.content-modal form .block{
+    grid-column: 1 / 3;
+}
+
+form .row input{
+    width: 100%;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+form .row select{
+    width: 100%;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.content-modal .btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 25px;
+    background-color: rgb(194, 16, 16);
+}
+
+.row .btn:hover{
+    background-color:  rgb(230, 72, 72);
+    color: white;
+}
+
+.cerrar-modal{
+    width:100%;
+    height: 100vh;
+    position: absolute;
+    top:0; left: 0;
+    z-index: -1;
+}
+
+@media screen and (max-width:800px) {
+    .content-modal{
+        width: 90%;
+    }
+
+    .container-item{
+        margin: 40px auto;        
+    }
+}

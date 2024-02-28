@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+header{
+    display: flex;
+    min-height: 70px;
+    background-color:  rgb(194, 16, 16);
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5%;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.logo img{
+    height: 80px;
+    transition: all 0.3s;
+    margin-right: 20px;
+}
+
+.logo img:hover{
+    scale: 1.10;
+}
+
+.logo h2{
+    color: white;
+}
+
+.login p{
+    display: inline-block;
+    color: white;
+    font-size: 18px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropbtn {
+    background: none;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.dropbtn i{
+    font-size: 30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    margin-left: -6.5rem;
+    min-width: 160px;
+    border-radius: 14px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.carrito{
+    color: white;
+    display: inline-block;
+    border-left: rgb(230, 72, 72) solid 2px;
+    margin-left: 10px;
+}
+
+.carrito{
+    padding-left: 35px;
+    font-size: 40px;
+}
+
+.carousel{
+	margin-top: 20px;
+}
+
+.carousel-item img{
+	width: 100%;
+	height: 28rem;
+}
+
+.tittle{
+    margin-top: 40px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    color: rgb(194, 16, 16);
+}
+
+.contenedor-items{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: .3s;
+}
+
+.contenedor-items .item{
+    display: flex;
+    overflow: hidden;
+    width: 240px;
+    height: 380px;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    transition: all .3s;
+    border: 1px solid rgb(194, 16, 16);
+}
+
+.item .img-item{
+    width: 100%;
+    height: 10rem;
+    border-radius: 5px;
+}
+
+.item:hover{
+    box-shadow: 0 0 10px #666;
+    scale: 1.05;
+}
+
+.item .titulo-item{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item .card-button{
+    color: white;
+    border: none;
+    margin: 10px;
+    margin-top: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: rgb(194, 16, 16);
+}
+
+.item a:link .item a:visited{
+    color: white;
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    transition: all .3s;
+}
+
+.item a{
+    color: white;
+    text-decoration: none;
+}
+
+.pie-pagina{
+    width: 100%;
+    background-color: rgb(194, 16, 16);
+}
+
+.pie-pagina .grupo-1{
+    width: 100%;
+    margin: auto;
+    display:grid;
+    grid-gap:50px;
+    padding: 45px 0px;
+    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);    
+}
+
+.pie-pagina .grupo-1 .box figure{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pie-pagina .grupo-1 .box figure img{
+    width: 205px;
+    margin-left: -100px;
+}
+
+.pie-pagina .grupo-1 .box h2{
+    color: white;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.pie-pagina .grupo-1 .box p{
+    color: #efefef;
+    margin-bottom: 10px;
+}
+
+.pie-pagina .grupo-1 .red-social a{
+    width: 45px;
+    height: 45px;
+    color: white;
+    font-size: 23px;
+    line-height: 45px;
+    margin-right: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    transition: all .3s;
+    background-color: rgb(230, 72, 72);
+}
+
+.pie-pagina .grupo-1 .red-social a:hover{
+    color: rgb(194, 16, 16);
+    scale: 1.10;
+}
+
+.pie-pagina .grupo-2{
+    color: white;
+    padding: 15px 10px;
+    text-align: center;
+    background-color: rgb(230, 72, 72);
+}
+
+.pie-pagina .grupo-2 small{
+    font-size: 15px;
+}
+
+figure .image img{
+    left: 10px;
+    float: right;
+    padding: 4px;
+    max-width:70%;
+    max-height:70%; 
+    margin-right: 5rem;   
+}
+
+
+@media screen and (max-width:630px){
+    header{
+        flex-direction: column;
+    }
+
+    nav{
+        padding: 10px 0;
+    }
+
+    .pie-pagina .grupo-1{
+        width: 90%;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap:30px;
+        padding: 35px 0px;
+    }
+}

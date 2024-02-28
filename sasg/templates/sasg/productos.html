@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Productos</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index2.php" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png' %}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </a></li>
+
+                <li><a href="dashboard.php">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+
+                <li><a href="usuarios.php">
+                    <i class="fas uil uil-users-alt"></i>
+                    <span class="nav-item">Usuarios</span>
+                </a></li>
+
+                <li><a href="productos.php">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+
+                <li><a href="ventas.php">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li>
+
+                <li><a href="pedidos.php">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+                
+                <li><a href="compras.php">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li>
+
+                <li><a href="proveedores.php">
+                    <i class="fas uil uil-user"></i>
+                    <span class="nav-item">Proveedores</span>
+                </a></li>
+                
+                <li><a href="config/logout.php" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>';
+            </ul>
+        </nav>
+
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Listado Productos</h1>
+            </div>
+        
+
+            <input type="checkbox" id="btn-modal">
+            <div class="container-modal">
+                <div class="content-modal">
+                    <div class="tittle">
+                        <span>Registrar Producto</span>
+                    </div>   
+
+                    <form action="insertar_producto.php" method="post">
+                        <div class="row">
+                            <label>ID Producto</label>
+                            <input type="number" name="id_producto" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Fecha Registro</label>
+                            <input type="date" name="fecha_registro" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre_producto" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Categoria</label>
+                            <select name="categoria" class="form-select" >
+                                <option value="">Seleccione una categoria</option>
+                                <option value="Carnicos">Carnicos</option>
+                                <option value="Pollo">Pollo</option>
+                                <option value="Cerdo">Cerdo</option>
+                                <option value="Chorizo">Chorizo</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <label>Cantidad</label>
+                            <input type="number" name="cantidad" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Fecha Vencimiento</label>
+                            <input type="date" name="fecha_vencimiento" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Valor Libra</label>
+                            <input type="number" name="valor_libra" required>
+                        </div>
+
+                        <div class="row block">
+                            <input class="btn" type="submit" value="Agregar Producto">
+                        </div>
+                    </form>                    
+                   
+                    <label for="btn-modal" class="cerrar-modal"></label>
+                </div>
+            </div>
+
+            <section class="dashboard">
+                <div class="dashboard-list">
+                    <h1>Productos</h1>
+                    {% if Producto %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Fecha Registro</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>cantidad</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Valor libra</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto in Producto%}
+                            <tr id="producto{{Producto.id}}">
+                                <td>{{producto.idProducto}}</td>
+                                <td>{{producto.FechaRegistro}}</td>
+                                <td>{{producto.NomProducto}}</td>
+                                <td>{{producto.NomCategoria}}</td>
+                                <td>{{producto.cantidad}}</td>
+                                <td>{{producto.FechaVencimiento}}</td>
+                                <td>{{producto.Valorlibra}}</td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center">No hay personas registradas</p>
+                {% endif %}
+            </section>
+        </section>
+    </div>
+    
+</body>
+</html>
