@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-    <link rel="stylesheet" href="Css/tables.css">
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
     <title>Ventas</title>
 </head>
 
@@ -56,7 +57,7 @@
                 <li><a href="config/logout.php" class="logout">
                 <i class="fas uil uil-sign-out-alt"></i>
                 <span class="nav-item">Cerrar Sesión</span>
-                </a></li>';
+                </a></li>
             </ul>
         </nav>
 
@@ -64,11 +65,10 @@
             <div class="main-top">
                 <i class="fas uil uil-bill"></i>
                 <h1>Listado Ventas</h1>
-                <p></p>
             </div>
                 <div class="boton-modal">
                         <label for="btn-modal">Agregar Venta</label>
-                        </div>';
+                        </div>
                 
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
@@ -131,14 +131,16 @@
                         <div class="row block">
                             <input class="btn" type="submit" value="Agregar Venta">
                         </div>
-                    </form>                    
-                   
+                    </form>
+
                     <label for="btn-modal" class="cerrar-modal"></label>
                 </div>
             </div>
 
             <section class="dashboard">
                 <div class="dashboard-list">
+                    <h1>Ventas</h1>
+                    {% if venta %}
                     <table class="table">
                         <thead>
                         <tr>
@@ -152,26 +154,32 @@
                             <th>Valor Producto</th>
                             <th>SubTotal</th>
                             <th>Valor Total</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
+
                         <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                      
+                            {% for venta in venta %}
+                            <tr id="venta{{venta.id}}">
+                                <td>{{venta.idventa}}</td>
+                                <td>{{venta.fechaemision}}</td>
+                                <td>{{venta.idpedido}}</td>
+                                <td>{{venta.idcliente}}</td>
+                                <td>{{venta.idproducto}}</td>
+                                <td>{{venta.producto}}</td>
+                                <td>{{venta.cantidad}}</td>
+                                <td>{{venta.valorproducto}}</td>
+                                <td>{{venta.subtotal}}</td>
+                                <td>{{venta.valortotal}}</td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
-
+                {% else %}
+                <p class="text-center">No hay productos registradas</p>
+                {% endif %}
             </section>
         </section>
     </div>

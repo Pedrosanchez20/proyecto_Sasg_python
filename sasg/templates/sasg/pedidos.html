@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     {% load static %}
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
-    <title>Producto</title>
+    <title>Pedidos</title>
 </head>
 
 <body>
@@ -57,67 +57,61 @@
                 <li><a href="config/logout.php" class="logout">
                 <i class="fas uil uil-sign-out-alt"></i>
                 <span class="nav-item">Cerrar Sesión</span>
-                </a></li>
+                </a></li>';
             </ul>
         </nav>
 
         <section class="main">
             <div class="main-top">
-                <i class="fas uil uil-shopping-bag"></i>
-                <h1>Listado Productos</h1>
+                <i class="fas uil uil-truck"></i>
+                <h1>Listado Pedidos</h1>
+            </div>
+
+            <div class="boton-modal">
+                <label for="btn-modal">Agregar Pedido</label>
             </div>
 
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
                 <div class="content-modal">
                     <div class="tittle">
-                        <span>Registrar Producto</span>
-                    </div>   
+                        <span>Registrar Pedido</span>
+                    </div>
 
-                    <form action="insertar_producto.php" method="post">
+                    <form action="insertar_pedido.php" method="post">
                         <div class="row">
-                            <label>ID Producto</label>
-                            <input type="number" name="id_producto" required>
+                            <label>ID Pedido</label>
+                            <input type="number" name="id_pedido" required>
                         </div>
 
                         <div class="row">
-                            <label>Fecha Registro</label>
-                            <input type="date" name="fecha_registro" required>
+                            <label>Id Cliente</label>
+                            <input type="number" name="id_cliente" required>
                         </div>
 
                         <div class="row">
-                            <label>Nombre</label>
-                            <input type="text" name="nombre_producto" required>
+                            <label>Fecha Emisión</label>
+                            <input type="date" name="fecha_emision" required>
                         </div>
 
                         <div class="row">
-                            <label>Categoria</label>
-                            <select name="categoria" class="form-select" >
-                                <option value="">Seleccione una categoria</option>
-                                <option value="Carnicos">Carnicos</option>
-                                <option value="Pollo">Pollo</option>
-                                <option value="Cerdo">Cerdo</option>
-                                <option value="Chorizo">Chorizo</option>
+                            <label>Estado Pedido</label>
+                            <select name="estado" class="form-select" >
+                                <option value="">Seleccione una Estado</option>
+                                <option class="alistamiento" value="alistamiento">En Alistamiento</option>
+                                <option class="enviado" value="enviado">Enviado</option>
+                                <option class="entregado" value="entregado">Entegrado</option>
+                                <option class="anulado" value="anulado">Cancelado</option>
                             </select>
                         </div>
 
-                        <div class="row">
-                            <label>Cantidad</label>
-                            <input type="number" name="cantidad" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Fecha Vencimiento</label>
-                            <input type="date" name="fecha_vencimiento" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Valor Libra</label>
-                            <input type="number" name="valor_libra" required>
+                        <div class="row block">
+                            <label>Valor Total</label>
+                            <input type="number" name="valor_total" required>
                         </div>
 
                         <div class="row block">
-                            <input class="btn" type="submit" value="Agregar Producto">
+                            <input class="btn" type="submit" value="Agregar Pedido">
                         </div>
                     </form>
                     <label for="btn-modal" class="cerrar-modal"></label>
@@ -126,32 +120,30 @@
 
             <section class="dashboard">
                 <div class="dashboard-list">
-                    <h1>Productos</h1>
-                    {% if producto %}
+                    <h1>Pedidos</h1>
+                    {% if pedido %}
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Fecha Registro</th>
-                            <th>Nombre</th>
-                            <th>Categoria</th>
-                            <th>cantidad</th>
-                            <th>Fecha Vencimiento</th>
-                            <th>Valor libra</th>
-                            <th>Acciones</th>
-                        </tr>
+                            <tr>
+                                <th>Id Pedido</th>
+                                <th>Id Usuario</th>
+                                <th>Fecha Emisión</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Valor Total</th>
+                                <th>Acciones</th>
+                            </tr>
                         </thead>
 
                         <tbody>
-                            {% for producto in producto%}
-                            <tr id="producto{{producto.id}}">
-                                <td>{{producto.idproducto}}</td>
-                                <td>{{producto.fecharegistro}}</td>
-                                <td>{{producto.nomproducto}}</td>
-                                <td>{{producto.nomcategoria}}</td>
-                                <td>{{producto.cantidad}}</td>
-                                <td>{{producto.fechavencimiento}}</td>
-                                <td>{{producto.valorlibra}}</td>
+                            {% for pedido in pedido%}
+                            <tr id="pedido{{pedido.id}}">
+                                <td>{{pedido.idpedido}}</td>
+                                <td>{{pedido.idusuario}}</td>
+                                <td>{{pedido.fechaemision}}</td>
+                                <td>{{pedido.descripcion}}</td>
+                                <td>{{pedido.estado}}</td>
+                                <td>{{pedido.valortotal}}</td>
                                 <td></td>
                             </tr>
                             {% endfor %}

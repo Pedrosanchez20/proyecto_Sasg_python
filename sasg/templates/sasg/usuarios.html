@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Usuarios</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index2.php" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png' %}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </a></li>
+
+                <li><a href="dashboard.php">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+
+                <li><a href="usuarios.php">
+                    <i class="fas uil uil-users-alt"></i>
+                    <span class="nav-item">Usuarios</span>
+                </a></li>
+
+                <li><a href="productos.php">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+
+                <li><a href="ventas.php">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li>
+
+                <li><a href="pedidos.php">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+                
+                <li><a href="compras.php">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li>
+
+                <li><a href="proveedores.php">
+                    <i class="fas uil uil-user"></i>
+                    <span class="nav-item">Proveedores</span>
+                </a></li>
+                
+                <li><a href="config/logout.php" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-bill"></i>
+                <h1>Listado Usuarios</h1>
+                {% if usuarios %}
+            </div>
+
+            <section class="dashboard">
+                <div class="dashboard-list">
+                    <h1>Clientes</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Rol</th>
+                                <th>Nombres</th>
+                                <th>Apellido</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Email</th>
+                                <th>Contraseña</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for usuarios in usuarios%}
+                            <tr id="usuarios{{usuarios.id}}">
+                                <td>{{usuarios.idusuario}}</td>
+                                <td>{{usuarios.rol}}</td>
+                                <td>{{usuarios.nombres}}</td>
+                                <td>{{usuarios.apellidos}}</td>
+                                <td>{{usuarios.fechanacimiento}}</td>
+                                <td>{{usuarios.direccion}}</td>
+                                <td>{{usuarios.telefono}}</td>
+                                <td>{{usuarios.email}}</td>
+                                <td>{{usuarios.contrasena}}</td>
+                                <td>{{usuarios.estado}}</td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center">No hay productos registradas</p>
+                {% endif %}
+            </section>
+        </section>
+    </div>
+</body>
+</html>
