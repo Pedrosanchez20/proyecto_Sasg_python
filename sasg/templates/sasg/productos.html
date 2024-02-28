@@ -130,7 +130,7 @@
             <section class="dashboard">
                 <div class="dashboard-list">
                     <h1>Productos</h1>
-                    {% if Producto %}
+                    {% if producto %}
                     <table class="table">
                         <thead>
                         <tr>
@@ -145,15 +145,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                            {% for producto in Producto%}
-                            <tr id="producto{{Producto.id}}">
-                                <td>{{producto.idProducto}}</td>
-                                <td>{{producto.FechaRegistro}}</td>
-                                <td>{{producto.NomProducto}}</td>
-                                <td>{{producto.NomCategoria}}</td>
+                            {% for producto in producto%}
+                            <tr id="producto{{producto.id}}">
+                                <td>{{producto.idproducto}}</td>
+                                <td>{{producto.fecharegistro}}</td>
+                                <td>{{producto.nomproducto}}</td>
+                                <td>{{producto.nomcategoria}}</td>
                                 <td>{{producto.cantidad}}</td>
-                                <td>{{producto.FechaVencimiento}}</td>
-                                <td>{{producto.Valorlibra}}</td>
+                                <td>{{producto.fechavencimiento}}</td>
+                                <td>{{producto.valorlibra}}</td>
                                 <td></td>
                             </tr>
                             {% endfor %}
@@ -161,7 +161,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-center">No hay personas registradas</p>
+                <p class="text-center">No hay productos registradas</p>
                 {% endif %}
             </section>
         </section>
