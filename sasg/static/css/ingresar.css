@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    overflow: hidden;
+    background: none;
+}
+
+.container-item{
+    max-width: 440px;
+    padding: 0 20px;
+    margin: 150px auto;
+}
+
+.container{
+    width: 100%;
+    border: 5px;
+    border-radius: 20px;
+    box-shadow: 0 .4rem .8rem;
+    background: white;
+}
+
+.container .tittle{
+    font-size: 30px;
+    padding: 18px;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: rgb(194, 16, 16) solid 1px;
+}
+
+.container .text{
+    font-size: 18px;
+    text-align: center;
+    margin-top: 13px;
+}
+
+.container .text .bold{
+    font-weight: bold;
+    color: rgb(194, 16, 16);
+}
+
+.container form{
+    padding: 20px 20px 25px 20px;
+}
+
+.container form .row{
+    margin-bottom: 15px;
+}
+
+form .row .flex{
+    display: flex;
+    align-items: center;
+}
+
+form .row label{
+    padding: 8px;
+    color: black;
+    font-size: 18px;
+    font-weight: 300px;
+}
+
+form .row input{
+    width: 95%;
+    margin: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.row .pass{
+    margin-top: 12px;
+    text-align: center;
+    
+}
+
+.row .pass a{
+    font-weight: bold;
+    color: rgb(194, 16, 16); 
+}
+
+.row .btn{
+    padding: 10px;
+    color: white;
+    border: none;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 25px;
+    background-color: rgb(194, 16, 16);
+}
+
+.row .btn:hover{
+    background-color:  rgb(230, 72, 72);
+    color: white;
+}
+
+.row .btnregistro{
+    width: 95%;
+    padding: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 25px;
+    text-decoration: none;
+    color: rgb(194, 16, 16);
+    border: rgb(194, 16, 16) solid 1.5px;
+}
+
+.row .btnregistro:hover{
+    color: white;
+    border: white;
+    background-color: rgb(230, 72, 72);
+}
+
+@media screen and (max-height:742px) {
+    .container-item{
+        margin: 40px auto;        
+    }
+}

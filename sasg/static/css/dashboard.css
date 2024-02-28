@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    background: white;
+}
+
+nav{
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 90px;
+    height: 100vh;
+    overflow: hidden;
+    background: white;
+    transition: 1s;
+    box-shadow: 0 20px 35px rgb(0, 0, 0, 0.1);
+}
+
+nav:hover{
+    width: 280px;
+    transition: 1s;
+}
+
+.logo{
+    text-align: center;
+    display: flex;
+    margin: 0px;
+    padding-bottom: 1rem;
+}
+
+.logo img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.logo span{
+    top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+nav a{
+    position: relative;
+    width: 280px;
+    font-size: 14px;
+    color: #7a7a7d;
+    display: table;
+    padding: 10px;
+}
+
+nav .fas{
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 10px;
+    font-size: 23px;
+    text-align: center;
+}
+
+.nav-item{
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+.nav-item:hover{
+    color:  rgb(194, 16, 16);
+}
+
+a:hover{
+    background: #eee;
+}
+
+a:hover i{
+    color:  rgb(194, 16, 16);
+    transition: 0.5s;
+}
+
+.logout{
+    position: absolute;
+    bottom: 0;
+}
+
+.container{
+display: flex;
+}
+
+.main{
+    position: relative;
+    padding: 20px;
+    width: 100%;
+}
+
+.main-top{
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    border-bottom: 2px solid rgb(123, 123, 123);
+}
+
+.main-top .uil{
+    position: relative;
+    right: 0;
+    margin: 0px 20px;
+    top: 0px;
+    font-size: 40px;
+    color: black;
+}
+.main-top p{
+    margin-top: 1%;
+    margin-left: 40rem;
+    font-weight: bold;
+    font-size: 110%;
+}
+.main-top h1{
+    margin-top: 5px;
+    padding-bottom: 2rem;
+}
+
+.main .users{
+    display: flex;
+    width: 100%;
+}
+
+.contenedor-proveedores{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: .3s;
+}
+
+.contenedor-proveedores .item{
+    display: flex;
+    overflow: hidden;
+    width: 265px;
+    height: 380px;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    transition: all .3s;
+    border: 1px solid rgb(194, 16, 16);
+}
+
+.contenedor-items{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: .3s;
+    margin-bottom: 50px;
+    margin: 40px 4rem;
+}
+
+.contenedor-items .item{
+    display: flex;
+    overflow: hidden;
+    width: 255px;
+    height: 180px;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    transition: all .3s;
+    border: 1px solid rgb(194, 16, 16);
+}
+
+.item:hover{
+    box-shadow: 0 0 10px #666;
+    scale: 1.05;
+}
+
+.item .img-item{
+    width: 100%;
+    height: 10rem;
+    border-radius: 5px;
+}
+
+.item .titulo-item{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item .card-button{
+    border: none;
+    margin: 10px;
+    margin-top: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: rgb(194, 16, 16);
+}
+
+.item .card-button a{
+    color: white;
+    text-decoration: none;
+}
+
+.item a:hover{
+    background: none;
+}
+
+.item .text{
+    font-size: 16px;
+}
+
+.item .card-text{
+    font-size: 30px;
+}
+
+.item .iconBx{
+    font-size: 50px;
+}
+
+.item a:link .item a:visited{
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    transition: all .3s;
+}
+
+
+
+@media screen and (max-width:800px) {
+    .content-modal{
+        width: 90%;
+    }
+
+    .container-item{
+        margin: 40px auto;        
+    }
+}
