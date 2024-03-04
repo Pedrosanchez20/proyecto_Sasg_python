@@ -46,7 +46,8 @@ class Producto(models.Model):
 class Proveedor(models.Model):
     idproveedor = models.IntegerField(db_column='IdProveedor', primary_key=True)  # Field name made lowercase.
     nomempresa = models.CharField(db_column='NomEmpresa', max_length=50)  # Field name made lowercase.
-    producto = models.CharField(db_column='Producto', max_length=50)  # Field name made lowercase.
+    
+    
 
     class Meta:
         managed = False

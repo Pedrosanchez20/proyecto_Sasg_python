@@ -1,7 +1,8 @@
 from django.urls import path
 
 from .views import (asagoView, catCarnView, catCerdView, catChoView,
-                    catPollView, pedView, prodView, ventView, usuaView)
+                    catPollView, pedView, prodView, ventView, 
+                    proveesView, usuaView)
 
 urlpatterns = [
     path('', asagoView,name='asago'),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('pedidos',pedView,name='pedidos'),
     path('ventas',ventView,name='ventas'),
     path('usuarios',usuaView,name='usuarios'),
+    path('proveedores',proveesView,name='proveedores'),
 ]

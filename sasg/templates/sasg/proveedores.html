@@ -1,0 +1,287 @@
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/tables.css' %}">
+  <title>Proveedores</title>
+</head>
+
+<body>
+    <div class="provee">
+        <nav>
+            <ul>
+                
+              <li><a href="{% url 'asago' %}" class="logo">
+                
+                <img src="{% static "imagenes/logo_asago1.png" %}">
+                <span class="nav-item">Asago S.A.S</span>
+              </a></li>
+      
+              <li><a href="{% url 'usuarios' %}">
+                <i class="fas uil uil-estate"></i>
+                <span class="nav-item">Dashboard</span>
+              </a></li>
+      
+              <li><a href="usuarios">
+                <i class="fas uil uil-users-alt"></i>
+                <span class="nav-item">Usuarios</span>
+              </a></li>
+      
+              <li><a href="productos2.php">
+                <i class="fas uil uil-shopping-bag"></i>
+                <span class="nav-item">Productos</span>
+              </a></li>
+      
+              <li><a href="ventas2.php">
+                <i class="fas uil uil-bill"></i>
+                <span class="nav-item">Ventas</span>
+              </a></li>
+      
+              <li><a href="pedidos2.php">
+                <i class="fas uil uil-truck"></i>
+                <span class="nav-item">Pedidos</span>
+              </a></li>
+              
+              <li><a href="compras.php">
+                <i class="fas uil uil-store"></i>
+                <span class="nav-item">Compras</span>
+              </a></li>
+      
+              <li><a href="{% url 'proveedores' %}">
+                <i class="fas uil uil-user"></i>
+                <span class="nav-item">Proveedores</span>
+              </a></li>
+      
+              <li><a href="config/logout.php" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+              </a></li>
+              </ul>
+          </nav>
+      
+    </div>
+     
+
+
+    <section class="main">
+        <div class="main-top">
+            <i class="bi bi-person-raised-hand"></i>
+            <h1>Listado Proveedores</h1>
+          
+        </div>
+
+    <section class="main">
+            
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Proveedor</th>
+              <th>Imagen</th>
+              <th>Teléfono</th>
+              <th>Email</th>
+              <th>Dirección</th>
+              <th>Ver Productos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Carnicos De Luxe</td>
+              <td><img src="{% static 'imagenes/logo_luxe.png' %}" alt="" class="img-item"></td>
+              <td>321 7421234</td>
+              <td>deluxe1@luxe.com</td>
+              <td>calle 49N 5-12</td>
+              <td><button class="carde-button"><a href="empresa_luxe.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnicos Fama</td>
+              <td><img src="{% static 'imagenes/logo_fama.png' %}" alt="" class="img-item"></td>
+              <td>322 1873562</td>
+              <td>fama@fama.com</td>
+              <td>Call 17 # 29-70</td>
+              <td><button class="carde-button"><a href="empresa_fama.php">Ver Productos</a></button></td>
+            </tr>
+    
+            <tr>
+              <td>Carnicos Versalles</td>
+              <td><img src="{% static 'imagenes/logo_versalles.png' %}" alt="" class="img-item"></td>
+              <td>310 2387128</td>
+              <td>versal3@gmail.com</td>
+              <td>Av 30 # 26-37</td>
+              <td><button class="carde-button"><a href="empresa_versalles.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>El Gran Campo</td>
+              <td><img src="{% static 'imagenes/logo_gran_campo.jpg' %}" alt="" class="img-item"></td>
+              <td>312 3109367</td>
+              <td>campo2@gmail.com</td>
+              <td>Car 10 # 3-92</td>
+              <td><button class="carde-button"><a href="empresa_gran_campo.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>La Cumbre</td>
+              <td><img src="{% static 'imagenes/logo_la_cumbre.png' %}" alt="" class="img-item"></td>
+              <td>311 0938654</td>
+              <td>lcum2@cumbre.com</td>
+              <td>Car 21 # 17 -63</td>
+              <td><button class="carde-button"><a href="empresa_cumbre.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnicos El Campo</td>
+              <td><img src="{% static 'imagenes/logo_carnicos_del_campo.webp' %}" alt="" class="img-item"></td>
+              <td>316 9836172</td>
+              <td>Camp1@gmail.com</td>
+              <td>Call 10 # 5-51</td>
+              <td><button class="carde-button"><a href="empresa_campo.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnicos Torino</td>
+              <td><img src="{% static 'imagenes/logo_carnicos_torino.jpg' %}" alt="" class="img-item"></td>
+              <td>314 8361035</td>
+              <td>tor7@torino.com</td>
+              <td>Call 25 # 6-08</td>
+              <td><button class="carde-button"><a href="empresa_torino.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnicos Monaco</td>
+              <td><img src="{% static 'imagenes/logo_monaco.png' %}" alt="" class="img-item"></td>
+              <td>350 5050092</td>
+              <td>mon9@monaco.com</td>
+              <td>Av 1 # 28-57</td>
+              <td><button class="carde-button"><a href="empresa_monaco.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnes La Especial</td>
+              <td><img src="{% static 'imagenes/logo_la_especial.webp' %}" alt="" class="img-item"></td>
+              <td>301 0982612</td>
+              <td>laE2@especial.com</td>
+              <td>Call 5 # 4-48</td>
+              <td><button class="carde-button"><a href="empresa_especial.php">Ver Productos</a></button></td>
+            </tr>
+            <tr>
+              <td>Carnicos Prime</td>
+              <td><img src="{% static 'imagenes/logo_prime.png' %}" alt="" class="img-item"></td>
+              <td>323 0022123</td>
+              <td>Prim2@prime.com</td>
+              <td>Call 20 # 24-05</td>
+              <td><button class="carde-button"><a href="empresa_prime.php">Ver Productos</a>
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Usuarios</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index2.php" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png' %}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </a></li>
+
+                <li><a href="dashboard.php">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+
+                <li><a href="usuarios.php">
+                    <i class="fas uil uil-users-alt"></i>
+                    <span class="nav-item">Usuarios</span>
+                </a></li>
+
+                <li><a href="productos.php">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+
+                <li><a href="ventas.php">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li>
+
+                <li><a href="pedidos.php">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+                
+                <li><a href="compras.php">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li>
+
+                <li><a href="proveedores.php">
+                    <i class="fas uil uil-user"></i>
+                    <span class="nav-item">Proveedores</span>
+                </a></li>
+                
+                <li><a href="config/logout.php" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-bill"></i>
+                <h1>Listado Proveedores</h1>
+                {% if proveedor %}
+            </div>
+
+            <section class="dashboard">
+                <div class="dashboard-list">
+                    <h1>Proveedores</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Email</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for proveedor in proveedor%}
+                            <tr id="proveedor{{proveedor.id}}">
+                                <td>{{provedor.IdProveedor}}</td>
+                                <td>{{usuarios.Imagen}}</td>
+                                <td>{{usuarios.nombres}}</td>
+                                <td>{{usuarios.direccion}}</td>
+                                <td>{{usuarios.telefono}}</td>
+                                <td>{{usuarios.email}}</td>
+                                
+                                
+                                <td></td>   
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center">No hay proveedores registrados</p>
+                {% endif %}
+            </section>
+        </section>
+    </div>
+</body>
+</html>

@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
-from .models import Pedido, Producto, Usuarios, Venta
+from .models import Pedido, Producto, Usuarios, Venta, Proveedor
 
 
 # Create your views here.
@@ -49,3 +49,12 @@ def usuaView(request):
         'usuarios': usuarios,
     }
     return render(request, 'sasg/usuarios.html',data)
+
+#proveedores
+
+def proveesView(request):
+    proveedores = Proveedor.objects.all()
+    data={
+        'proveedores': proveedores,
+    }
+    return render(request, 'sasg/proveedores.html',data)
