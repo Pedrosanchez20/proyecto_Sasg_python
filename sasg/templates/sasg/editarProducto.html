@@ -76,31 +76,58 @@
         </div>
 
       <section class="dashboard">
-        <form action="procesar_actualizar.php" method="post">
+        <form name="form_persona"
+                method="POST"
+                action="{% url 'actualizar_producto' producto.idproducto%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
           <div class="dashboard-list">
             <table class="table">
+              
               <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th>Estado Pedido</th>
-                  <th>Valor Total</th>
+                  <th>IdProducto</th>
+                  <th>Fecha Registro</th>
+                  <th>Nombre</th>
+                  <th>Categoria</th>
+                  <th>cantidad</th>
+                  <th>Fecha Vencimiento</th>
+                  <th>Valor libra</th>
                 </tr>
               </thead>
-
               <tbody>
                 <tr>
-                  <td><input type="hidden" value="<?php echo $row["IdPedido"];?>" name="id_pedido" ></td>
-                  <td><input type="hidden" value="<?php echo $row["IdUsuario"];?>" name="id_cliente" ></td>
-                  <td><input type="hidden" value="<?php echo $row["FechaEmision"];?>" name="fecha_emision" ></td>
-                  <td><input type="text" value="<?php echo $row["Estado"];?>" name="estado" ></td>
-                  <td><input type="number" value="<?php echo $row["ValorTotal"];?>" name="valor_total" ></td>
+                  <td>
+                    <input type="text" name="idproducto" class="form-control" value="{{producto.idproducto}}" required>
+                  </td>
+                  <td>
+                    <input type="date" name="fecharegistro" class="form-control" value="{{producto.fecharegistro|date:'Y-m-d'}}" required>
+                  </td>
+                  <td>
+                    <input type="text" name="nomproducto" class="form-control" value="{{producto.nomproducto}}" required>
+                  </td>
+                  <td>
+                    <input type="text" name="nomcategoria" class="form-control" value="{{producto.nomcategoria}}" required>
+                  </td>
+                  <td>
+                    <input type="text" name="cantidad" class="form-control" value="{{producto.cantidad}}" required>
+                  </td>
+                  <td>
+                    <input type="text" name="fechavencimiento" class="form-control" value="{{producto.fechavencimiento|date:'Y-m-d'}}" required>
+                  </td>
+                  <td>
+                    <input type="text" name="valorlibra" class="form-control" value="{{producto.valorlibra}}" required>
+                  </td>
                 </tr>
                 
               </tbody>
             </table>
-          <input class="btn-actualizar" type="submit" value="Actualizar"></td>
+            <input type="submit" value="Actualizar" class="btn btn-primary"/>
+            <a class="btn btn-secondary"
+                        title="Cancelar"
+                        href="{% url 'listar_productos' %}">
+                        Cancelar
+                    </a>
         </div>
         </form>
       </section>
