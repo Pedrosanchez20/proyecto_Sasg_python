@@ -259,12 +259,13 @@ table thead tbody td i:hover{
     display: none;
 }
 
-.container-modal {
+/*Modal*/
+
+.container-modal{
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     background-color: rgba(144, 148, 150, 0.8);
     display: none;
     justify-content: center;
@@ -276,11 +277,11 @@ table thead tbody td i:hover{
     display: flex;
 }
 
-.content-modal {
+.content-modal{
     width: auto;
-    margin: auto;
-    max-width: 600px;
-    padding: 18px;
+    max-width: 750px;
+    height: auto;
+    padding: 15px;
     background-color: #fff;
     border-radius: 4px;
 }
@@ -295,30 +296,28 @@ table thead tbody td i:hover{
 }
 
 .content-modal form .row{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px; 
-}
-
-.content-modal form .row{
     margin: 0px;
     padding: 10px;
 }
 
-.content-modal .row .form-control,
-form .row select {
-    width: 100%;
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid black;
+.content-modal form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .content-modal form .block{
     grid-column: 1 / 3;
 }
 
-form .row .form-control{
+form .row input{
+    width: 100%;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+form .row select{
     width: 100%;
     margin: 5px;
     padding: 8px;
@@ -346,10 +345,24 @@ form .row .form-control{
 .cerrar-modal{
     width:100%;
     height: 100vh;
-    z-index: -1;
-    cursor: pointer;
     position: absolute;
     top:0; left: 0;
+    z-index: -1;
+}
+
+/*Config. Modl Diferentes*/
+
+#btn-modal-agregar:checked ~ #container-modal-agregar {
+    display: flex;
+}
+
+
+#btn-modal-consultar:checked ~ #container-modal-consultar {
+    display: flex;
+}
+
+.checkbox-hidden {
+    display: none;
 }
 
 @media screen and (max-width:800px) {

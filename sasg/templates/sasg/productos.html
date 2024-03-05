@@ -79,25 +79,29 @@
                         <span>Registrar Producto</span>
                     </div>   
 
-                    <form action="insertar_producto.php" method="post">
+                    <form name="form_persona"
+                        method="POST"
+                        action="{% url 'registrar_producto'%}"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="row">
                             <label>ID Producto</label>
-                            <input type="number" name="id_producto" required>
+                            <input type="number" name="idproducto" required>
                         </div>
 
                         <div class="row">
                             <label>Fecha Registro</label>
-                            <input type="date" name="fecha_registro" required>
+                            <input type="date" name="fecharegistro" required>
                         </div>
 
                         <div class="row">
                             <label>Nombre</label>
-                            <input type="text" name="nombre_producto" required>
+                            <input type="text" name="nomproducto" required>
                         </div>
 
                         <div class="row">
                             <label>Categoria</label>
-                            <select name="categoria" class="form-select" >
+                            <select name="nomcategoria" class="form-select" >
                                 <option value="">Seleccione una categoria</option>
                                 <option value="Carnicos">Carnicos</option>
                                 <option value="Pollo">Pollo</option>
@@ -113,17 +117,16 @@
 
                         <div class="row">
                             <label>Fecha Vencimiento</label>
-                            <input type="date" name="fecha_vencimiento" required>
+                            <input type="date" name="fechavencimiento" required>
                         </div>
 
                         <div class="row">
                             <label>Valor Libra</label>
-                            <input type="number" name="valor_libra" required>
+                            <input type="number" name="valorlibra" required>
                         </div>
-
-                        <div class="row block">
-                            <input class="btn" type="submit" value="Agregar Producto">
-                        </div>
+                        <div class="row">
+                            <input type="submit" value="Registrar" class="btn btn-primary"/>
+                         </div>
                     </form>
                     <label for="btn-modal" class="cerrar-modal"></label>
                 </div>
@@ -157,65 +160,16 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td class="boton-modal">
-                                    <a href="#" class="editar" title="Editar" aria-hidden="true" onclick="openModal({{producto.idproducto}})">Editar</a>
+                                <td>
+                                    <span style="display: flex; justify-content:space-between">
+                                        <a class="editar"
+                                        title="Editar Datos"
+                                        href="{% url 'pre_editar_producto' producto.idproducto %}">
+                                        Editar
+                                    </a>
+                                    {% csrf_token %}
+                                    </span>
                                 </td>
-
-                                <div class="container-modal" id="modal{{producto.idproducto}}">
-                                    <div class="content-modal">
-                                        <span class="cerrar-modal" onclick="closeModal({{producto.idproducto}})"></span>
-                                        <div class="tittle">
-                                            <span>Editar Producto</span>
-                                        </div>
-
-                                        <form class="form_edit" name="form_producto" action="{% url 'pre_editar_producto' producto.idproducto %}" method="POST" enctype="multipart/form-data">
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                <label for='idproducto' class="form-laber">Id Producto</label>
-                                                <input type="text" name="idproducto" class="form-control" value="{{producto.idproducto}}" required>
-                                            </div> 
-
-                                            <div class="row">   
-                                                <label for='fecharegistro' class="form-laber">Fecha registro</label>
-                                                <input type="date" name="fecharegistro" class="form-control" value="{{producto.fecharegistro}}" required>
-
-                                            <div class="row">    
-                                                <label for='nomproducto' class="form-laber">Nombre</label>
-                                                <input type="text" name="nomproducto" class="form-control" value="{{producto.nomproducto}}" required>
-                                            </div> 
-
-                                            <div class="row">    
-                                                <label for='nomcategoria' class="form-laber">Categoria</label>
-                                                <input type="text" name="nomcategoria" class="form-control" value="{{producto.nomcategoria}}" required>
-                                            </div>
-
-                                            <div class="row">
-                                                <label for='cantidad' class="form-laber">Cantidad</label>
-                                                <input type="number" name="cantidad" class="form-control" value="{{producto.cantidad}}" required>
-                                            </div> 
-
-                                            <div class="row">
-                                                <label for='fechavencimiento' class="form-laber">Vencimiento</label>
-                                                <input type="date" name="fechavencimiento" class="form-control" value="{{producto.fechavencimiento}}" required>
-                                            </div> 
-
-                                            <div class="row">
-                                                <label for='valorlibra' class="form-laber">Valor libra</label>
-                                                <input type="number" name="valorlibra" class="form-control" value="{{producto.valorlibra}}" required>
-                                            </div> 
-                            
-                                            <div class="row">
-                                                <input type="submit" value="Actualizar" class="btn btn-primary"/>
-                                                <a class="btn btn-secondary"
-                                                    title="Cancelar"
-                                                    href="{% url 'listar_productos' %}">
-                                                    Cancelar
-                                                </a>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
                             </tr>
                             {% endfor %}
                         </tbody>
