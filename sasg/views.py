@@ -3,15 +3,10 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
-<<<<<<< HEAD
-from .models import Pedido, Producto, Usuarios, Venta, Roles
-=======
-from .models import Pedido, Producto, Usuarios, Venta, Proveedor
->>>>>>> 3c539f8a67e9379f9089003b240c8c0a99ec2db8
-
+from .models import Pedido, Producto, Usuarios, Venta, Roles, Proveedor
 
 # Create your views here.
-def asagoView(request):
+def sasg(request):
     return render(request, 'sasg/index.html')
 
 def catCarnView(request):
@@ -26,37 +21,7 @@ def catCerdView(request):
 def catChoView(request):
     return render(request, 'sasg/catchorizo.html')
 
-def prodView(request):
-    producto = Producto.objects.all()
-    data={
-        'producto':producto,
-    }
-    return render(request, 'sasg/productos.html',data)
-
-def pedView(request):
-    pedido = Pedido.objects.all()
-    data={
-        'pedido':pedido,
-    }
-    return render(request, 'sasg/pedidos.html',data)
-
-def ventView(request):
-    venta = Venta.objects.all()
-    data={
-        'venta': venta,
-    }
-    return render(request, 'sasg/ventas.html',data)
-
-def usuaView(request):
-    usuarios = Usuarios.objects.all()
-    data={
-        'usuarios': usuarios,
-    }
-    return render(request, 'sasg/usuarios.html',data)
-
-<<<<<<< HEAD
-def sasg(request):
-    return render(request, 'sasg/index.html')
+#--------------------USUARIOS----------------------------
 
 def registrar_usuario(request):
     if request.method== 'POST':
@@ -94,16 +59,23 @@ def listar_usuario(reques):
     }
     return render(reques,'sasg/usuarios.html',data)
 
-def pre_editar_persona(request,id):
-    persona=Persona.objects.get(id=id)
-    ciudades=Ciudad.objects.all()
-    data={
-        "persona":persona,
-        "ciudades":ciudades
-    }
-    return render(request, "personas/editar.html", data)
+#--------------------PRODUCTOS----------------------------
 
-def actualizar_persona(request, id):
+def listar_producto(request):
+    producto = Producto.objects.all()
+    data={
+        'producto':producto,
+    }
+    return render(request, 'sasg/productos.html',data)
+
+def pre_editar_producto(request,idproducto):
+    producto=Producto.objects.get(idproducto=idproducto)
+    data={
+        "producto":producto,
+    }
+    return render(request, "sasg/productos.html", data)
+
+def actualizar_producto(request, id):
     if request.method=='POST':
         persona=Persona.objects.get(id=id)
         
@@ -116,13 +88,30 @@ def actualizar_persona(request, id):
         
         persona.save()
     return redirect("listar_personas")
-=======
-#proveedores
 
-def proveesView(request):
+#--------------------VENTAS----------------------------
+
+def listar_venta(request):
+    venta = Venta.objects.all()
+    data={
+        'venta': venta,
+    }
+    return render(request, 'sasg/ventas.html',data)
+
+#--------------------PEDIDOS----------------------------
+
+def listar_pedido(request):
+    pedido = Pedido.objects.all()
+    data={
+        'pedido':pedido,
+    }
+    return render(request, 'sasg/pedidos.html',data)
+
+#--------------------PROVEEDORES----------------------------
+
+def listar_proveedor(request):
     proveedores = Proveedor.objects.all()
     data={
         'proveedores': proveedores,
     }
     return render(request, 'sasg/proveedores.html',data)
->>>>>>> 3c539f8a67e9379f9089003b240c8c0a99ec2db8

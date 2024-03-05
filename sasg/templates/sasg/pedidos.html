@@ -14,42 +14,42 @@
     <div class="container">
         <nav>
             <ul>
-                <li><a href="index2.php" class="logo">
-                    <img src="{%static 'imagenes/logo_asago1.png' %}">
+                <li><a href="{% url 'asago' %}" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
-                </a></li>
+                </li>
 
-                <li><a href="dashboard.php">
+                <li><a href="{% url 'asago' %}">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
 
-                <li><a href="usuarios.php">
+                <li><a href="{% url 'listar_usuario' %}">
                     <i class="fas uil uil-users-alt"></i>
                     <span class="nav-item">Usuarios</span>
                 </a></li>
 
-                <li><a href="productos.php">
+                <li><a href="{% url 'listar_productos' %}">
                     <i class="fas uil uil-shopping-bag"></i>
                     <span class="nav-item">Productos</span>
                 </a></li>
 
-                <li><a href="ventas.php">
+                <li><a href="{% url 'listar_venta' %}">
                     <i class="fas uil uil-bill"></i>
                     <span class="nav-item">Ventas</span>
                 </a></li>
 
-                <li><a href="pedidos.php">
+                <li><a href="{% url 'listar_pedido' %}">
                     <i class="fas uil uil-truck"></i>
                     <span class="nav-item">Pedidos</span>
                 </a></li>
                 
-                <li><a href="compras.php">
+                <li><a href="{% url 'asago' %}">
                     <i class="fas uil uil-store"></i>
                     <span class="nav-item">Compras</span>
                 </a></li>
 
-                <li><a href="proveedores.php">
+                <li><a href="{% url 'listar_proveedor' %}">
                     <i class="fas uil uil-user"></i>
                     <span class="nav-item">Proveedores</span>
                 </a></li>
@@ -139,7 +139,7 @@
                             {% for pedido in pedido%}
                             <tr id="pedido{{pedido.id}}">
                                 <td>{{pedido.idpedido}}</td>
-                                <td>{{pedido.idusuario}}</td>
+                                <td>{{pedido.idusuario.idusuario}}</td>
                                 <td>{{pedido.fechaemision}}</td>
                                 <td>{{pedido.descripcion}}</td>
                                 <td>{{pedido.estado}}</td>
