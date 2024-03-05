@@ -14,17 +14,17 @@
     <div class="container">
         <nav>
             <ul>
-                <li><a href="index2.php" class="logo">
-                    <img src="{%static 'imagenes/logo_asago1.png' %}">
+                <li><a href="{% url 'asago' %}" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
-                </a></li>
+                </href=></li>
 
                 <li><a href="dashboard.php">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
 
-                <li><a href="usuarios.php">
+                <li><a href="{% url 'listar_usuario' %}">
                     <i class="fas uil uil-users-alt"></i>
                     <span class="nav-item">Usuarios</span>
                 </a></li>
@@ -70,7 +70,6 @@
 
             <section class="dashboard">
                 <div class="dashboard-list">
-                    <h1>Clientes</h1>
                     <table class="table">
                         <thead>
                             <tr>
@@ -82,7 +81,6 @@
                                 <th>Direccion</th>
                                 <th>Telefono</th>
                                 <th>Email</th>
-                                <th>Contraseña</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -92,14 +90,13 @@
                             {% for usuarios in usuarios%}
                             <tr id="usuarios{{usuarios.id}}">
                                 <td>{{usuarios.idusuario}}</td>
-                                <td>{{usuarios.rol}}</td>
+                                <td>{{usuarios.rol.rolnombre}}</td>
                                 <td>{{usuarios.nombres}}</td>
                                 <td>{{usuarios.apellidos}}</td>
                                 <td>{{usuarios.fechanacimiento}}</td>
                                 <td>{{usuarios.direccion}}</td>
                                 <td>{{usuarios.telefono}}</td>
                                 <td>{{usuarios.email}}</td>
-                                <td>{{usuarios.contrasena}}</td>
                                 <td>{{usuarios.estado}}</td>
                                 <td></td>   
                             </tr>

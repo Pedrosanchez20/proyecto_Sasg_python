@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
-from .models import Pedido, Producto, Usuarios, Venta
+from .models import Pedido, Producto, Usuarios, Venta, Roles
 
 
 # Create your views here.
@@ -49,3 +49,65 @@ def usuaView(request):
         'usuarios': usuarios,
     }
     return render(request, 'sasg/usuarios.html',data)
+
+def sasg(request):
+    return render(request, 'sasg/index.html')
+
+def registrar_usuario(request):
+    if request.method== 'POST':
+        idusuario=request.POST.get('idusuario')
+        idrol=request.POST.get('rol')
+        nombres=request.POST.get('nombres')
+        apellidos=request.POST.get('apellidos')
+        fechanacimiento=request.POST.get('fechanacimiento')
+        direccion=request.POST.get(' direccion')
+        telefono=request.POST.get('telefono')
+        email=request.POST.get('email')
+        contrasena=request.POST.get('contrasena')
+        estado=request.POST.get('estado')
+        
+        usuario = Usuarios(
+            idusuario=idusuario,
+            nombres=nombres,
+            apellidos=apellidos,
+            fechanacimiento=fechanacimiento,
+            direccion=direccion,
+            telefono=telefono,
+            email=email,           
+            contrasena=contrasena,
+            estado=estado,            
+            rol=Roles.objects.get(idrol=idrol),
+        )
+        
+        usuario.save()
+    return render(request, "personas/editar.html")
+
+def listar_usuario(reques):
+    usuarios = Usuarios.objects.all()
+    data={
+        'usuarios':usuarios,
+    }
+    return render(reques,'sasg/usuarios.html',data)
+
+def pre_editar_persona(request,id):
+    persona=Persona.objects.get(id=id)
+    ciudades=Ciudad.objects.all()
+    data={
+        "persona":persona,
+        "ciudades":ciudades
+    }
+    return render(request, "personas/editar.html", data)
+
+def actualizar_persona(request, id):
+    if request.method=='POST':
+        persona=Persona.objects.get(id=id)
+        
+        persona.documento=request.POST.get('documento')
+        persona.nombre=request.POST.get('nombre')
+        persona.apellido=request.POST.get('apellido')
+        persona.direccion=request.POST.get('direccion')
+        persona.correo=request.POST.get('correo')
+        persona.ciudad=Ciudad.objects.get(idCiudad=request.POST.get('idCiudad'))
+        
+        persona.save()
+    return redirect("listar_personas")
