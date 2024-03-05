@@ -73,7 +73,7 @@ def pre_editar_producto(request,idproducto):
     data={
         "producto":producto,
     }
-    return render(request, "sasg/productos.html", data)
+    return render(request, "sasg/editarProducto.html", data)
 
 def actualizar_producto(request, id):
     if request.method=='POST':

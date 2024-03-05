@@ -67,6 +67,10 @@
                 <h1>Listado Productos</h1>
             </div>
 
+            <div class="boton-modal">
+                <label for="btn-modal">Agregar Producto</label>
+            </div>
+
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
                 <div class="content-modal">
@@ -152,7 +156,7 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td><a href="{% url 'pre_editar_producto' producto.idproducto %}" class="editar" data-toggle="tooltip" title="Editar" aria-hidden="true">Editar</a></td>
+                                <td class="boton-modal"><a href="{% url 'pre_editar_producto' producto.idproducto %}" class="editar" data-toggle="tooltip" title="Editar" aria-hidden="true">Editar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

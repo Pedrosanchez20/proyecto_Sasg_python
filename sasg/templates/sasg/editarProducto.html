@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Actualizar Producto</title>
+</head>
+
+<body>
+  <div class="container">
+    <input type="checkbox" id="btn-modal">
+            <div class="container-modal">
+                <div class="content-modal">
+                    <div class="tittle">
+                        <span>Registrar Producto</span>
+                    </div>   
+
+                    <form action="insertar_producto.php" method="post">
+                        <div class="row">
+                            <label>ID Producto</label>
+                            <input type="number" name="id_producto" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Fecha Registro</label>
+                            <input type="date" name="fecha_registro" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre_producto" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Categoria</label>
+                            <select name="categoria" class="form-select" >
+                                <option value="">Seleccione una categoria</option>
+                                <option value="Carnicos">Carnicos</option>
+                                <option value="Pollo">Pollo</option>
+                                <option value="Cerdo">Cerdo</option>
+                                <option value="Chorizo">Chorizo</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <label>Cantidad</label>
+                            <input type="number" name="cantidad" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Fecha Vencimiento</label>
+                            <input type="date" name="fecha_vencimiento" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Valor Libra</label>
+                            <input type="number" name="valor_libra" required>
+                        </div>
+
+                        <div class="row block">
+                            <input class="btn" type="submit" value="Agregar Producto">
+                        </div>
+                    </form>
+                    <label for="btn-modal" class="cerrar-modal"></label>
+                </div>
+            </div>
+
+    <section class="main">
+        <div class="main-top">
+            <i class="fas uil uil-shopping-bag"></i>
+            <h1>Editar Productos</h1>
+        </div>
+
+      <section class="dashboard">
+        <form action="procesar_actualizar.php" method="post">
+          <div class="dashboard-list">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>Estado Pedido</th>
+                  <th>Valor Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><input type="hidden" value="<?php echo $row["IdPedido"];?>" name="id_pedido" ></td>
+                  <td><input type="hidden" value="<?php echo $row["IdUsuario"];?>" name="id_cliente" ></td>
+                  <td><input type="hidden" value="<?php echo $row["FechaEmision"];?>" name="fecha_emision" ></td>
+                  <td><input type="text" value="<?php echo $row["Estado"];?>" name="estado" ></td>
+                  <td><input type="number" value="<?php echo $row["ValorTotal"];?>" name="valor_total" ></td>
+                </tr>
+                
+              </tbody>
+            </table>
+          <input class="btn-actualizar" type="submit" value="Actualizar"></td>
+        </div>
+        </form>
+      </section>
+    </section>
+  </div>
+</body>
+</html>
