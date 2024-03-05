@@ -208,6 +208,13 @@ table thead tbody td i:hover{
     background-color: aqua;
 }
 
+.table tbody td .editar{
+
+    border-radius: black;
+    font-weight: bold;
+    background-color: rgb(255, 98, 0);
+}
+
 .table tbody tr:last-of-type{
     border-bottom: 2px solid rgb(194, 16, 16);
 }

@@ -152,17 +152,7 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td>
-                                    <span style="display: flex; justify-content:space-between">
-                                        <a class="btn btn-warning"
-                                        title="Editar Datos"
-                                        href="{% url 'pre_editar_producto' producto.idproducto %}">
-                                        Editar
-                                    </a>
-                                    {% csrf_token %}
-                                    
-                                    </span>
-                                </td>
+                                <td><a href="{% url 'pre_editar_producto' producto.idproducto %}" class="editar" data-toggle="tooltip" title="Editar" aria-hidden="true">Editar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>
