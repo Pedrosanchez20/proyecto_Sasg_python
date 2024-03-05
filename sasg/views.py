@@ -3,7 +3,11 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
+<<<<<<< HEAD
 from .models import Pedido, Producto, Usuarios, Venta, Roles
+=======
+from .models import Pedido, Producto, Usuarios, Venta, Proveedor
+>>>>>>> 3c539f8a67e9379f9089003b240c8c0a99ec2db8
 
 
 # Create your views here.
@@ -50,6 +54,7 @@ def usuaView(request):
     }
     return render(request, 'sasg/usuarios.html',data)
 
+<<<<<<< HEAD
 def sasg(request):
     return render(request, 'sasg/index.html')
 
@@ -111,3 +116,13 @@ def actualizar_persona(request, id):
         
         persona.save()
     return redirect("listar_personas")
+=======
+#proveedores
+
+def proveesView(request):
+    proveedores = Proveedor.objects.all()
+    data={
+        'proveedores': proveedores,
+    }
+    return render(request, 'sasg/proveedores.html',data)
+>>>>>>> 3c539f8a67e9379f9089003b240c8c0a99ec2db8
