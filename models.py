@@ -14,7 +14,6 @@ class Compra(models.Model):
     idproveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='IdProveedor')  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=100)  # Field name made lowercase.
     valorproducto = models.IntegerField(db_column='ValorProducto')  # Field name made lowercase.
-    subtotal = models.IntegerField(db_column='SubTotal')  # Field name made lowercase.
     valortotal = models.IntegerField(db_column='ValorTotal')  # Field name made lowercase.
 
     class Meta:
@@ -94,7 +93,6 @@ class Venta(models.Model):
     producto = models.CharField(db_column='Producto', max_length=50)  # Field name made lowercase.
     cantidad = models.IntegerField(db_column='Cantidad')  # Field name made lowercase.
     valorproducto = models.IntegerField(db_column='ValorProducto')  # Field name made lowercase.
-    subtotal = models.IntegerField(db_column='SubTotal')  # Field name made lowercase.
     valortotal = models.IntegerField(db_column='ValorTotal')  # Field name made lowercase.
 
     class Meta:
