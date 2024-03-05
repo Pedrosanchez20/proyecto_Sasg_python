@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     {% load static %}
+    <script src="{% static 'js/scripts.js' %}"></script>
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
     <title>Producto</title>
 </head>
@@ -156,7 +157,65 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td class="boton-modal"><a href="{% url 'pre_editar_producto' producto.idproducto %}" class="editar" data-toggle="tooltip" title="Editar" aria-hidden="true">Editar</a></td>
+                                <td class="boton-modal">
+                                    <a href="#" class="editar" title="Editar" aria-hidden="true" onclick="openModal({{producto.idproducto}})">Editar</a>
+                                </td>
+
+                                <div class="container-modal" id="modal{{producto.idproducto}}">
+                                    <div class="content-modal">
+                                        <span class="cerrar-modal" onclick="closeModal({{producto.idproducto}})"></span>
+                                        <div class="tittle">
+                                            <span>Editar Producto</span>
+                                        </div>
+
+                                        <form class="form_edit" name="form_producto" action="{% url 'pre_editar_producto' producto.idproducto %}" method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <label for='idproducto' class="form-laber">Id Producto</label>
+                                                <input type="text" name="idproducto" class="form-control" value="{{producto.idproducto}}" required>
+                                            </div> 
+
+                                            <div class="row">   
+                                                <label for='fecharegistro' class="form-laber">Fecha registro</label>
+                                                <input type="date" name="fecharegistro" class="form-control" value="{{producto.fecharegistro}}" required>
+
+                                            <div class="row">    
+                                                <label for='nomproducto' class="form-laber">Nombre</label>
+                                                <input type="text" name="nomproducto" class="form-control" value="{{producto.nomproducto}}" required>
+                                            </div> 
+
+                                            <div class="row">    
+                                                <label for='nomcategoria' class="form-laber">Categoria</label>
+                                                <input type="text" name="nomcategoria" class="form-control" value="{{producto.nomcategoria}}" required>
+                                            </div>
+
+                                            <div class="row">
+                                                <label for='cantidad' class="form-laber">Cantidad</label>
+                                                <input type="number" name="cantidad" class="form-control" value="{{producto.cantidad}}" required>
+                                            </div> 
+
+                                            <div class="row">
+                                                <label for='fechavencimiento' class="form-laber">Vencimiento</label>
+                                                <input type="date" name="fechavencimiento" class="form-control" value="{{producto.fechavencimiento}}" required>
+                                            </div> 
+
+                                            <div class="row">
+                                                <label for='valorlibra' class="form-laber">Valor libra</label>
+                                                <input type="number" name="valorlibra" class="form-control" value="{{producto.valorlibra}}" required>
+                                            </div> 
+                            
+                                            <div class="row">
+                                                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                                                <a class="btn btn-secondary"
+                                                    title="Cancelar"
+                                                    href="{% url 'listar_productos' %}">
+                                                    Cancelar
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </tr>
                             {% endfor %}
                         </tbody>

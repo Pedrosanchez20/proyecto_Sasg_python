@@ -73,7 +73,7 @@ def pre_editar_producto(request,idproducto):
     data={
         "producto":producto,
     }
-    return render(request, "sasg/editarProducto.html", data)
+    return redirect("actualizar_producto")
 
 def actualizar_producto(request, id):
     if request.method=='POST':
@@ -87,7 +87,7 @@ def actualizar_producto(request, id):
         persona.ciudad=Ciudad.objects.get(idCiudad=request.POST.get('idCiudad'))
         
         persona.save()
-    return redirect("listar_personas")
+    return redirect("listar_producto")
 
 #--------------------VENTAS----------------------------
 
