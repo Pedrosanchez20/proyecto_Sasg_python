@@ -33,7 +33,6 @@ def catChoView(request):
 #--------------------USUARIOS----------------------------
 
 def user_login(request):
-    
     if request.method == 'POST':  # Si se envió el formulario
             # idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
             # contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
@@ -74,12 +73,39 @@ def registrar_usuario(request):
         usuario.save()
     return render(request, "sasg/registro.html")
 
-def listar_usuario(reques):
-    usuarios = Usuarios.objects.all()
-    data={
-        'usuarios':usuarios,
+def listar_usuario(request):
+    usuario_list = Usuarios.objects.all()
+    paginator = Paginator(usuario_list, 13) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/usuarios.html', {'page_obj': page_obj})
+
+def pre_editar_usuario(request, idusuario):
+    usuario = Usuarios.objects.get(idusuario=idusuario)
+    roles = Roles.objects.all()
+    data = {
+        "usuarios": usuario,
+        "rol": roles,
     }
-    return render(reques,'sasg/usuarios.html',data)
+    return render(request, 'sasg/editarUsuario.html', data)
+
+def actualizar_usuario(request, idusuario):
+    if request.method=='POST':
+        usuario=Usuarios.objects.get(idusuario=idusuario)
+        
+        usuario.idusuario=request.POST.get('idusuario')
+        # usuario.nombres=request.POST.get('nombres')
+        # usuario.apellidos=request.POST.get('apellidos')
+        # usuario.fechanacimiento=request.POST.get('fechanacimiento')
+        # usuario.direccion=request.POST.get('direccion')
+        # usuario.telefono=request.POST.get('telefono')
+        # usuario.email=request.POST.get('email')
+        # usuario.contrasena=request.POST.get('contrasena')
+        usuario.estado=request.POST.get('estado')
+        usuario.rol=Roles.objects.get(idrol=request.POST.get('idrol')) 
+        
+        usuario.save()
+    return redirect("listar_usuario")
 
 #--------------------PRODUCTOS----------------------------
 
@@ -104,7 +130,7 @@ def registrar_producto(request):
         )
         
         producto.save()
-    return redirect("listar_productos")
+    return redirect("listar_producto")
 
 def listar_producto(request):
     product_list = Producto.objects.all()

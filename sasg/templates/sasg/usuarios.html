@@ -98,7 +98,16 @@
                                 <td>{{usuarios.telefono}}</td>
                                 <td>{{usuarios.email}}</td>
                                 <td>{{usuarios.estado}}</td>
-                                <td></td>   
+                                <td>
+                                    <span>
+                                        <a class="editar"
+                                        title="Editar Datos"
+                                        href="{% url 'pre_editar_usuario' usuarios.idusuario %}">
+                                        Editar
+                                    </a>
+                                    {% csrf_token %}
+                                    </span>
+                                </td>   
                             </tr>
                             {% endfor %}
                         </tbody>
