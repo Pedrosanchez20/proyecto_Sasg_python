@@ -18,6 +18,7 @@
                 <i class="fas uil uil-shopping-bag"></i>
                 <h1>Editar Pedido</h1>
             </div>
+
           <section class="dashboard">
             <form name="form_pedido"
                 method="POST"
@@ -28,18 +29,25 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Id</th>
                       <th>Estado</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     <tr>
-                      <td><input type="text" name="idpedido" class="form-control" value="{{pedido.idpedido}}" required></td>
-                      <td><input type="text" name="estado" class="form-control" value="{{pedido.estado}}" required></td>
+                      <td>
+                        <select name="estado" class="form-control">
+                          <option value="#" selected>Seleccione</option>
+                          <option value="en Alistamiento" selected>En alistamiento</option>
+                          <option value="en Camino" selected>En camino</option>
+                          <option value="cancelado" selected>Cancelado</option>
+                        </select>
+                      </td>
+                      
                     </tr>            
                   </tbody>
                 </table>
+
                 <input type="submit" value="Actualizar" class="btn btn-primary"/>
                 <a class="btn btn-secondary"
                     title="Cancelar"

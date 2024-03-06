@@ -65,62 +65,10 @@
             <div class="main-top">
                 <i class="fas uil uil-truck"></i>
                 <h1>Listado Pedidos</h1>
-            </div>
-
-            <div class="boton-modal">
-                <label for="btn-modal">Agregar Pedido</label>
-            </div>
-
-            <input type="checkbox" id="btn-modal">
-            <div class="container-modal">
-                <div class="content-modal">
-                    <div class="tittle">
-                        <span>Registrar Pedido</span>
-                    </div>
-
-                    <form action="insertar_pedido.php" method="post">
-                        <div class="row">
-                            <label>ID Pedido</label>
-                            <input type="number" name="id_pedido" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Id Cliente</label>
-                            <input type="number" name="id_cliente" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Fecha Emisión</label>
-                            <input type="date" name="fecha_emision" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Estado Pedido</label>
-                            <select name="estado" class="form-select" >
-                                <option value="">Seleccione una Estado</option>
-                                <option class="alistamiento" value="alistamiento">En Alistamiento</option>
-                                <option class="enviado" value="enviado">Enviado</option>
-                                <option class="entregado" value="entregado">Entegrado</option>
-                                <option class="anulado" value="anulado">Cancelado</option>
-                            </select>
-                        </div>
-
-                        <div class="row block">
-                            <label>Valor Total</label>
-                            <input type="number" name="valor_total" required>
-                        </div>
-
-                        <div class="row block">
-                            <input class="btn" type="submit" value="Agregar Pedido">
-                        </div>
-                    </form>
-                    <label for="btn-modal" class="cerrar-modal"></label>
-                </div>
-            </div>
+            </div>          
 
             <section class="dashboard">
                 <div class="dashboard-list">
-                    <h1>Pedidos</h1>
                     {% if page_obj %}
                     <table class="table">
                         <thead>
