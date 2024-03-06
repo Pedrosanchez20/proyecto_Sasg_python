@@ -33,7 +33,6 @@ def catChoView(request):
 #--------------------USUARIOS----------------------------
 
 def user_login(request):
-    
     if request.method == 'POST':  # Si se envió el formulario
             # idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
             # contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
@@ -74,12 +73,13 @@ def registrar_usuario(request):
         usuario.save()
     return render(request, "personas/editar.html")
 
-def listar_usuario(reques):
-    usuarios = Usuarios.objects.all()
-    data={
-        'usuarios':usuarios,
-    }
-    return render(reques,'sasg/usuarios.html',data)
+
+def listar_usuario(request):
+    usuario_list = Usuarios.objects.all()
+    paginator = Paginator(usuario_list, 13) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/usuarios.html', {'page_obj': page_obj})
 
 #--------------------PRODUCTOS----------------------------
 
@@ -104,7 +104,7 @@ def registrar_producto(request):
         )
         
         producto.save()
-    return redirect("listar_productos")
+    return redirect("listar_producto")
 
 def listar_producto(request):
     product_list = Producto.objects.all()
