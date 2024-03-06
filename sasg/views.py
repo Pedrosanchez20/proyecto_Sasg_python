@@ -1,14 +1,13 @@
 import json
 
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
-
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
 from .forms import LoginForm
-from .models import Pedido, Producto, Usuarios, Venta, Roles, Proveedor
+from .models import Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 
 
 # Create your views here.
@@ -32,21 +31,15 @@ def catChoView(request):
 def user_login(request):
     
     if request.method == 'POST':  # Si se envió el formulario
-        form = LoginForm(request.POST)  # Crea una instancia del formulario con los datos recibidos
-        if form.is_valid():  # Verifica si el formulario es válido
-            idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
-            contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
-            user = authenticate(request, idusuario=idusuario, contrasena=contrasena)  # Autentica al usuario
-            if user is not None and check_password(contrasena, user.contrasena):
-                # Autenticación exitosa
-                login(request, user)
-                return redirect('success_page')
-            else:
-                # Autenticación fallida
-                return render(request, 'sasg/login.html', {'form': form, 'error_message': 'Invalid login'})
-    else:
-        form = LoginForm()
-    return render(request, 'sasg/login.html', {'form': form})
+        # idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
+        # contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
+        # user = authenticate(request, idusuario=idusuario, contrasena=contrasena)  # Autentica al usuario
+        usuario = Usuarios.objects.get(idusuario=request.POST['idusuario'])
+        if usuario.contrasena == request.POST['contrasena']:
+            request.session['user'] = usuario.idusuario
+            return redirect('listar_venta')
+    return render(request,'sasg/login.html')
+            
 
 
 def registrar_usuario(request):
