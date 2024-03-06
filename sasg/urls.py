@@ -11,6 +11,8 @@ urlpatterns = [
     #/-----usuarios------/
     path('listar_usuario/',views.listar_usuario, name='listar_usuario'),
     path('registrar_usuario/',views.registrar_usuario,name='registrar_usuario'),
+    path('pre_editar_usuario/<str:idusuario>',views.pre_editar_usuario,name='pre_editar_usuario'),
+    path('actualizar_usuario/<str:idusuario>/', views.actualizar_usuario, name='actualizar_usuario'),
     #/-----productos------/
     path('listar_productos/',views.listar_producto,name='listar_productos'),
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
