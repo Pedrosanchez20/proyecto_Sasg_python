@@ -35,6 +35,7 @@ def catChoView(request):
 def user_login(request):
     
     if request.method == 'POST':  # Si se envió el formulario
+<<<<<<< Updated upstream
         form = LoginForm(request.POST)  # Crea una instancia del formulario con los datos recibidos
         if form.is_valid():  # Verifica si el formulario es válido
             idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
@@ -50,6 +51,17 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'sasg/login.html', {'form': form})
+=======
+            # idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
+            # contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
+            # user = authenticate(request, idusuario=idusuario, contrasena=contrasena)  # Autentica al usuario
+            usuario = Usuarios.objects.get(idusuario=request.POST['idusuario'])
+            if usuario.contrasena == request.POST['contrasena']:
+                request.session['user'] = usuario.idusuario
+                return redirect('listar_usuario')
+    return render(request, 'sasg/login.html')
+            
+>>>>>>> Stashed changes
 
 
 def registrar_usuario(request):
@@ -72,9 +84,9 @@ def registrar_usuario(request):
             fechanacimiento=fechanacimiento,
             direccion=direccion,
             telefono=telefono,
-            email=email,           
+            email=email,
             contrasena=contrasena,
-            estado=estado,            
+            estado=estado,
             rol=Roles.objects.get(idrol=idrol),
         )
         

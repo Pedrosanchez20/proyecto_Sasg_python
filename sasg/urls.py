@@ -10,6 +10,7 @@ urlpatterns = [
     path('catChorizo',views.catChoView,name='catChorizo'),
     #/-----usuarios------/
     path('listar_usuario/',views.listar_usuario, name='listar_usuario'),
+    path('registrar_usuario/',views.registrar_usuario,name='registrar_usuario'),
     #/-----productos------/
     path('listar_productos/',views.listar_producto,name='listar_productos'),
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
