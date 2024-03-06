@@ -15,7 +15,7 @@
 <body> 
     <header>
         <div class="logo">
-        <a href="index.php"><img src="imagenes/logo_asago1.png" alt=""></a>
+            <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
         <h2>Asago S.A.S</h2>
         </div>
         <p></p>
@@ -46,12 +46,12 @@
 
                 <div class="col-6">
                     <label class="form-label">Numero Documento</label>
-                    <input name="id_usuario" class="form-control" type="number" required>
+                    <input name="idusuario" class="form-control" type="number" required>
                 </div>
 
                 <div class="col-6">
                     <label class="form-label">Fecha de nacimiento</label>
-                    <input name="fecha_nacimiento" class="form-control" type="date" required>
+                    <input name="fechanacimiento" class="form-control" type="date" required>
                 </div>
 
                 <div class="col-6">
@@ -71,14 +71,8 @@
 
                 <div class="col-6">
                     <label class="form-label">Contraseña</label>
-                    <input name="contraseña" class="form-control" type="password" required>
+                    <input name="contrasena" class="form-control" type="password" required>
                 </div>
-
-                <!--<div class="col-6">
-                    <label class="form-label">Confirmar Contraseña</label>
-                    <input name="contraseña2" class="form-control" type="password" required>
-                    <br>
-                </div>-->
 
                 <div class="form-check mx-3">
                     <input class="form-check-input"  type="checkbox" value="" id="flexCheckChecked" required>
@@ -96,4 +90,3 @@
     </div> 
       
 </body>
-</php>

@@ -67,12 +67,12 @@ def registrar_usuario(request):
             telefono=telefono,
             email=email,
             contrasena=contrasena,
-            estado=estado,
-            rol=Roles.objects.get(idrol=idrol),
-        )
-        
+            estado="habilitado",
+            rol=Roles.objects.get(idrol=354),
+            )
+            
         usuario.save()
-    return render(request, "personas/editar.html")
+    return render(request, "sasg/registro.html")
 
 def listar_usuario(reques):
     usuarios = Usuarios.objects.all()
