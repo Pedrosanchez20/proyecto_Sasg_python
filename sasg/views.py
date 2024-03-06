@@ -94,26 +94,51 @@ def listar_producto(request):
     }
     return render(request, 'sasg/productos.html',data)
 
+
+def registrar_producto(request):
+    if request.method== 'POST':
+        idproducto=request.POST.get('idproducto')
+        fecharegistro=request.POST.get('fecharegistro')
+        nomproducto=request.POST.get('nomproducto')
+        nomcategoria=request.POST.get('nomcategoria')
+        cantidad=request.POST.get('cantidad')
+        fechavencimiento=request.POST.get('fechavencimiento')
+        valorlibra=request.POST.get('valorlibra')
+        
+        producto = Producto(
+            idproducto=idproducto,
+            fecharegistro=fecharegistro,
+            nomproducto=nomproducto,
+            nomcategoria=nomcategoria,
+            cantidad=cantidad,
+            fechavencimiento=fechavencimiento,
+            valorlibra=valorlibra,
+        )
+        
+        producto.save()
+    return redirect("listar_productos")
+
 def pre_editar_producto(request,idproducto):
     producto=Producto.objects.get(idproducto=idproducto)
     data={
         "producto":producto,
     }
-    return render(request, "sasg/editarProducto.html", data)
+    return render(request, 'sasg/editarProducto.html',data)
 
-def actualizar_producto(request, id):
+def actualizar_producto(request, idproducto):
     if request.method=='POST':
-        persona=Persona.objects.get(id=id)
+        producto=Producto.objects.get(idproducto=idproducto)
         
-        persona.documento=request.POST.get('documento')
-        persona.nombre=request.POST.get('nombre')
-        persona.apellido=request.POST.get('apellido')
-        persona.direccion=request.POST.get('direccion')
-        persona.correo=request.POST.get('correo')
-        persona.ciudad=Ciudad.objects.get(idCiudad=request.POST.get('idCiudad'))
+        producto.idproducto=request.POST.get('idproducto')
+        producto.fecharegistro=request.POST.get('fecharegistro')
+        producto.nomproducto=request.POST.get('nomproducto')
+        producto.nomcategoria=request.POST.get('nomcategoria')
+        producto.cantidad=request.POST.get('cantidad')
+        producto.fechavencimiento=request.POST.get('fechavencimiento')
+        producto.valorlibra=request.POST.get('valorlibra')
         
-        persona.save()
-    return redirect("listar_personas")
+        producto.save()
+    return redirect("listar_productos")
 
 #--------------------VENTAS----------------------------
 

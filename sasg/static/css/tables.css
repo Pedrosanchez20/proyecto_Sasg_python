@@ -138,6 +138,8 @@ display: flex;
     width: 100%;
 }
 
+/*--------------TABLA-------------*/
+
 .dashboard{
     margin-top: 1rem;
     text-transform: capitalize;
@@ -209,10 +211,10 @@ table thead tbody td i:hover{
 }
 
 .table tbody td .editar{
-
-    border-radius: black;
-    font-weight: bold;
-    background-color: rgb(255, 98, 0);
+    color: rgb(255, 255, 255);
+    padding: 4px 7px;
+    border-radius: 25px;
+    background-color: rgb(111, 194, 16);
 }
 
 .table tbody tr:last-of-type{
@@ -232,6 +234,8 @@ table thead tbody td i:hover{
     color: #fff;
     transition: 0.5rem;
 }
+
+/*--------------MODAL-------------*/
 
 .boton-modal{
     padding: 40px;
@@ -255,9 +259,11 @@ table thead tbody td i:hover{
     display: none;
 }
 
+/*Modal*/
+
 .container-modal{
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: fixed;
     top: 0; left: 0;
     background-color: rgba(144, 148, 150, 0.8);
@@ -272,9 +278,9 @@ table thead tbody td i:hover{
 }
 
 .content-modal{
-    width: 70%;
+    width: auto;
     max-width: 750px;
-    height: 95%;
+    height: auto;
     padding: 15px;
     background-color: #fff;
     border-radius: 4px;
@@ -342,6 +348,21 @@ form .row select{
     position: absolute;
     top:0; left: 0;
     z-index: -1;
+}
+
+/*Config. Modl Diferentes*/
+
+#btn-modal-agregar:checked ~ #container-modal-agregar {
+    display: flex;
+}
+
+
+#btn-modal-consultar:checked ~ #container-modal-consultar {
+    display: flex;
+}
+
+.checkbox-hidden {
+    display: none;
 }
 
 @media screen and (max-width:800px) {

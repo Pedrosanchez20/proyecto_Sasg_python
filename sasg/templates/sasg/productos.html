@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     {% load static %}
+    <script src="{% static 'js/scripts.js' %}"></script>
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
     <title>Producto</title>
 </head>
@@ -78,25 +79,29 @@
                         <span>Registrar Producto</span>
                     </div>   
 
-                    <form action="insertar_producto.php" method="post">
+                    <form name="form_persona"
+                        method="POST"
+                        action="{% url 'registrar_producto'%}"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="row">
                             <label>ID Producto</label>
-                            <input type="number" name="id_producto" required>
+                            <input type="number" name="idproducto" required>
                         </div>
 
                         <div class="row">
                             <label>Fecha Registro</label>
-                            <input type="date" name="fecha_registro" required>
+                            <input type="date" name="fecharegistro" required>
                         </div>
 
                         <div class="row">
                             <label>Nombre</label>
-                            <input type="text" name="nombre_producto" required>
+                            <input type="text" name="nomproducto" required>
                         </div>
 
                         <div class="row">
                             <label>Categoria</label>
-                            <select name="categoria" class="form-select" >
+                            <select name="nomcategoria" class="form-select" >
                                 <option value="">Seleccione una categoria</option>
                                 <option value="Carnicos">Carnicos</option>
                                 <option value="Pollo">Pollo</option>
@@ -112,17 +117,16 @@
 
                         <div class="row">
                             <label>Fecha Vencimiento</label>
-                            <input type="date" name="fecha_vencimiento" required>
+                            <input type="date" name="fechavencimiento" required>
                         </div>
 
                         <div class="row">
                             <label>Valor Libra</label>
-                            <input type="number" name="valor_libra" required>
+                            <input type="number" name="valorlibra" required>
                         </div>
-
-                        <div class="row block">
-                            <input class="btn" type="submit" value="Agregar Producto">
-                        </div>
+                        <div class="row">
+                            <input type="submit" value="Registrar" class="btn btn-primary"/>
+                         </div>
                     </form>
                     <label for="btn-modal" class="cerrar-modal"></label>
                 </div>
@@ -156,7 +160,16 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td class="boton-modal"><a href="{% url 'pre_editar_producto' producto.idproducto %}" class="editar" data-toggle="tooltip" title="Editar" aria-hidden="true">Editar</a></td>
+                                <td>
+                                    <span style="display: flex; justify-content:space-between">
+                                        <a class="editar"
+                                        title="Editar Datos"
+                                        href="{% url 'pre_editar_producto' producto.idproducto %}">
+                                        Editar
+                                    </a>
+                                    {% csrf_token %}
+                                    </span>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

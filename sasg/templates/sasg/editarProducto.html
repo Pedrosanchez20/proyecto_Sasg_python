@@ -12,99 +12,54 @@
 
 <body>
   <div class="container">
-    <input type="checkbox" id="btn-modal">
-            <div class="container-modal">
-                <div class="content-modal">
-                    <div class="tittle">
-                        <span>Registrar Producto</span>
-                    </div>   
-
-                    <form action="insertar_producto.php" method="post">
-                        <div class="row">
-                            <label>ID Producto</label>
-                            <input type="number" name="id_producto" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Fecha Registro</label>
-                            <input type="date" name="fecha_registro" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Nombre</label>
-                            <input type="text" name="nombre_producto" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Categoria</label>
-                            <select name="categoria" class="form-select" >
-                                <option value="">Seleccione una categoria</option>
-                                <option value="Carnicos">Carnicos</option>
-                                <option value="Pollo">Pollo</option>
-                                <option value="Cerdo">Cerdo</option>
-                                <option value="Chorizo">Chorizo</option>
-                            </select>
-                        </div>
-
-                        <div class="row">
-                            <label>Cantidad</label>
-                            <input type="number" name="cantidad" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Fecha Vencimiento</label>
-                            <input type="date" name="fecha_vencimiento" required>
-                        </div>
-
-                        <div class="row">
-                            <label>Valor Libra</label>
-                            <input type="number" name="valor_libra" required>
-                        </div>
-
-                        <div class="row block">
-                            <input class="btn" type="submit" value="Agregar Producto">
-                        </div>
-                    </form>
-                    <label for="btn-modal" class="cerrar-modal"></label>
-                </div>
+    <input type="checkbox" id="btn-modal">       
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Editar Productos</h1>
             </div>
+          <section class="dashboard">
+            <form name="form_persona"
+                method="POST"
+                action="{% url 'actualizar_producto' producto.idproducto%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+              <div class="dashboard-list">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Fecha Registro</th>
+                      <th>Nombre</th>
+                      <th>Categoria</th>
+                      <th>cantidad</th>
+                      <th>Fecha Vencimiento</th>
+                      <th>Valor libra</th>
+                    </tr>
+                  </thead>
 
-    <section class="main">
-        <div class="main-top">
-            <i class="fas uil uil-shopping-bag"></i>
-            <h1>Editar Productos</h1>
-        </div>
-
-      <section class="dashboard">
-        <form action="procesar_actualizar.php" method="post">
-          <div class="dashboard-list">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th>Estado Pedido</th>
-                  <th>Valor Total</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td><input type="hidden" value="<?php echo $row["IdPedido"];?>" name="id_pedido" ></td>
-                  <td><input type="hidden" value="<?php echo $row["IdUsuario"];?>" name="id_cliente" ></td>
-                  <td><input type="hidden" value="<?php echo $row["FechaEmision"];?>" name="fecha_emision" ></td>
-                  <td><input type="text" value="<?php echo $row["Estado"];?>" name="estado" ></td>
-                  <td><input type="number" value="<?php echo $row["ValorTotal"];?>" name="valor_total" ></td>
-                </tr>
-                
-              </tbody>
-            </table>
-          <input class="btn-actualizar" type="submit" value="Actualizar"></td>
-        </div>
-        </form>
-      </section>
-    </section>
-  </div>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" name="idproducto" class="form-control" value="{{producto.idproducto}}" required></td>
+                      <td><input type="date" name="fecharegistro" class="form-control" value="{{producto.fecharegistro|date:'Y-m-d'}}" required></td>
+                      <td><input type="text" name="nomproducto" class="form-control" value="{{producto.nomproducto}}" required></td>
+                      <td><input type="text" name="nomcategoria" class="form-control" value="{{producto.nomcategoria}}" required></td>
+                      <td><input type="text" name="cantidad" class="form-control" value="{{producto.cantidad}}" required></td>
+                      <td><input type="date" name="fechavencimiento" class="form-control" value="{{producto.fechavencimiento|date:'Y-m-d'}}" required></td>
+                      <td><input type="text" name="valorlibra" class="form-control" value="{{producto.valorlibra}}" required></td>
+                    </tr>            
+                  </tbody>
+                </table>
+                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                <a class="btn btn-secondary"
+                    title="Cancelar"
+                    href="{% url 'listar_productos' %}">
+                    Cancelar
+                </a>
+            </div>
+            </form>
+          </section>
+        </section>
+    </div>
 </body>
 </html>
