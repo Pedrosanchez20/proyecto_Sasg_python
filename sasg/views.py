@@ -93,7 +93,7 @@ def actualizar_usuario(request, idusuario):
     if request.method=='POST':
         usuario=Usuarios.objects.get(idusuario=idusuario)
         
-        usuario.idusuario=request.POST.get('idusuario')
+        # usuario.idusuario=request.POST.get('idusuario')
         # usuario.nombres=request.POST.get('nombres')
         # usuario.apellidos=request.POST.get('apellidos')
         # usuario.fechanacimiento=request.POST.get('fechanacimiento')
@@ -192,12 +192,12 @@ def actualizar_pedido(request, idpedido):
     if request.method=='POST':
         pedido=Pedido.objects.get(idpedido=idpedido)
         
-        pedido.idpedido=request.POST.get('idproducto')
-        pedido.fechaemision=request.POST.get('fechaemision')
-        pedido.descripcion=request.POST.get('descripcion')
+        # pedido.idpedido=request.POST.get('idproducto')
+        # pedido.fechaemision=request.POST.get('fechaemision')
+        # pedido.descripcion=request.POST.get('descripcion')
         pedido.estado=request.POST.get('estado')
-        pedido.valortotal=request.POST.get('valortotal')    
-        pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
+        # pedido.valortotal=request.POST.get('valortotal')    
+        # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
           
         
         pedido.save()
