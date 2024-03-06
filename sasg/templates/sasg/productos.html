@@ -84,10 +84,6 @@
                         action="{% url 'registrar_producto'%}"
                         enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="row">
-                            <label>ID Producto</label>
-                            <input type="number" name="idproducto" required>
-                        </div>
 
                         <div class="row">
                             <label>Fecha Registro</label>
@@ -124,7 +120,7 @@
                             <label>Valor Libra</label>
                             <input type="number" name="valorlibra" required>
                         </div>
-                        <div class="row">
+                        <div class="row block">
                             <input type="submit" value="Registrar" class="btn btn-primary"/>
                          </div>
                     </form>
@@ -135,7 +131,7 @@
             <section class="dashboard">
                 <div class="dashboard-list">
                     <h1>Productos</h1>
-                    {% if producto %}
+                    {% if page_obj %}
                     <table class="table">
                         <thead>
                         <tr>
@@ -151,7 +147,7 @@
                         </thead>
 
                         <tbody>
-                            {% for producto in producto %}
+                            {% for producto in page_obj %}
                             <tr id="producto{{producto.id}} ">
                                 <td>{{producto.idproducto}}</td>
                                 <td>{{producto.fecharegistro}}</td>
@@ -161,7 +157,7 @@
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
                                 <td>
-                                    <span style="display: flex; justify-content:space-between">
+                                    <span>
                                         <a class="editar"
                                         title="Editar Datos"
                                         href="{% url 'pre_editar_producto' producto.idproducto %}">
@@ -174,6 +170,24 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"><i class="uil uil-angle-double-left"></i></a>
+                                <a href="?page={{ page_obj.previous_page_number }}"><i class="uil uil-angle-left-b"></i></a>
+                            {% endif %}
+
+                            <span class="current">
+                                Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"><i class="uil uil-angle-right-b"></i></a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="uil uil-angle-double-right"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
                 {% else %}
                 <p class="text-center">No hay productos registradas</p>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Actualizar Pedido</title>
+</head>
+
+<body>
+  <div class="container">
+    <input type="checkbox" id="btn-modal">       
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Editar Pedido</h1>
+            </div>
+          <section class="dashboard">
+            <form name="form_persona"
+                method="POST"
+                action="{% url 'actualizar_pedido' pedido.idpedido %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+              <div class="dashboard-list">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td><input type="text" name="idpedido" class="form-control" value="{{pedido.idpedido}}" required></td>
+                      <td><input type="text" name="estado" class="form-control" value="{{pedido.estado}}" required></td>
+                    </tr>            
+                  </tbody>
+                </table>
+                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                <a class="btn btn-secondary"
+                    title="Cancelar"
+                    href="{% url 'listar_pedido' %}">
+                    Cancelar
+                </a>
+            </div>
+            </form>
+          </section>
+        </section>
+    </div>
+</body>
+</html>

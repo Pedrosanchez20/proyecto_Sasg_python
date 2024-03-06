@@ -65,7 +65,7 @@
             <div class="main-top">
               <i class="fas uil uil-user"></i>
                 <h1>Listado Proveedores</h1>
-                {% if proveedor %}
+                {% if page_obj %}
             </div>
 
             <section class="dashboard">
@@ -85,7 +85,7 @@
                         </thead>
 
                         <tbody>
-                            {% for proveedor in proveedor%}
+                            {% for proveedor in page_obj %}
                             <tr id="proveedor{{proveedor.id}}">
                                 <td>{{provedor.IdProveedor}}</td>
                                 <td>{{usuarios.Imagen}}</td>
@@ -98,6 +98,24 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"><i class="uil uil-angle-double-left"></i></a>
+                                <a href="?page={{ page_obj.previous_page_number }}"><i class="uil uil-angle-left-b"></i></a>
+                            {% endif %}
+
+                            <span class="current">
+                                Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"><i class="uil uil-angle-right-b"></i></a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="uil uil-angle-double-right"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
                 {% else %}
                 <p class="text-center">No hay proveedores registrados</p>

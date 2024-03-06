@@ -136,7 +136,7 @@
             <section class="dashboard">
                 <div class="dashboard-list">
                     <h1>Ventas</h1>
-                    {% if venta %}
+                    {% if page_obj %}
                     <table class="table">
                         <thead>
                         <tr>
@@ -154,7 +154,7 @@
                         </thead>
 
                         <tbody>
-                            {% for venta in venta %}
+                            {% for venta in page_obj %}
                             <tr id="venta{{venta.id}}">
                                 <td>{{venta.idventa}}</td>
                                 <td>{{venta.fechaemision}}</td>
@@ -170,6 +170,24 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"><i class="uil uil-angle-double-left"></i></a>
+                                <a href="?page={{ page_obj.previous_page_number }}"><i class="uil uil-angle-left-b"></i></a>
+                            {% endif %}
+
+                            <span class="current">
+                                Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"><i class="uil uil-angle-right-b"></i></a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="uil uil-angle-double-right"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
                 {% else %}
                 <p class="text-center">No hay ventas registradas</p>

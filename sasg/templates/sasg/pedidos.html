@@ -121,7 +121,7 @@
             <section class="dashboard">
                 <div class="dashboard-list">
                     <h1>Pedidos</h1>
-                    {% if pedido %}
+                    {% if page_obj %}
                     <table class="table">
                         <thead>
                             <tr>
@@ -136,7 +136,7 @@
                         </thead>
 
                         <tbody>
-                            {% for pedido in pedido%}
+                            {% for pedido in page_obj %}
                             <tr id="pedido{{pedido.id}}">
                                 <td>{{pedido.idpedido}}</td>
                                 <td>{{pedido.idusuario.idusuario}}</td>
@@ -144,14 +144,39 @@
                                 <td>{{pedido.descripcion}}</td>
                                 <td>{{pedido.estado}}</td>
                                 <td>{{pedido.valortotal}}</td>
-                                <td></td>
+                                <td><span>
+                                    <a class="editar"
+                                    title="Editar Datos"
+                                    href="{% url 'pre_editar_pedido' pedido.idpedido %}">
+                                    Editar
+                                </a>
+                                {% csrf_token %}
+                                </span></td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"><i class="uil uil-angle-double-left"></i></a>
+                                <a href="?page={{ page_obj.previous_page_number }}"><i class="uil uil-angle-left-b"></i></a>
+                            {% endif %}
+
+                            <span class="current">
+                                Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"><i class="uil uil-angle-right-b"></i></a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="uil uil-angle-double-right"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
                 {% else %}
-                <p class="text-center">No hay productos registradas</p>
+                <p class="text-center">No hay pedidos registradas</p>
                 {% endif %}
             </section>
         </section>

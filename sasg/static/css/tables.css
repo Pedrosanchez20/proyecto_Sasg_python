@@ -193,6 +193,8 @@ table thead tbody td i:hover{
 
 .table th,
 .table td{
+    align-items: center;
+    justify-content: center;
     text-align: center;
     padding: 12px 15px;
 }
@@ -214,7 +216,7 @@ table thead tbody td i:hover{
     color: rgb(255, 255, 255);
     padding: 4px 7px;
     border-radius: 25px;
-    background-color: rgb(111, 194, 16);
+    background-color: rgb(60, 60, 60);
 }
 
 .table tbody tr:last-of-type{
@@ -258,8 +260,6 @@ table thead tbody td i:hover{
 #btn-modal{
     display: none;
 }
-
-/*Modal*/
 
 .container-modal{
     width: 100%;
@@ -363,6 +363,36 @@ form .row select{
 
 .checkbox-hidden {
     display: none;
+}
+
+/*--------------PAGINACION-------------------*/
+
+.pagination{
+    padding: 15px 0 ;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination .step-links a{ 
+    color: black;
+    justify-items: center; 
+}
+
+.pagination .step-links a i{ 
+    color: rgb(194, 16, 16);
+    padding: 3px;
+    border-radius: 20%;
+    border: rgb(194, 16, 16) solid 2px;
+}
+
+.pagination .step-links span{ 
+    color: black;
+    padding: 0px 5px;
+}
+.pagination .step-links a i:hover{ 
+    color: white;
+    background-color: rgb(230, 72, 72);
 }
 
 @media screen and (max-width:800px) {

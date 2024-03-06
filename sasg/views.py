@@ -1,3 +1,4 @@
+from cProfile import Profile
 import json
 
 from django.http import HttpResponse, JsonResponse
@@ -5,7 +6,9 @@ from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
+from django.core.paginator import Paginator
 
+from sasg.models import Producto
 
 from .forms import LoginForm
 from .models import Pedido, Producto, Usuarios, Venta, Roles, Proveedor
@@ -87,14 +90,6 @@ def listar_usuario(reques):
 
 #--------------------PRODUCTOS----------------------------
 
-def listar_producto(request):
-    producto = Producto.objects.all()
-    data={
-        'producto':producto,
-    }
-    return render(request, 'sasg/productos.html',data)
-
-
 def registrar_producto(request):
     if request.method== 'POST':
         idproducto=request.POST.get('idproducto')
@@ -117,6 +112,13 @@ def registrar_producto(request):
         
         producto.save()
     return redirect("listar_productos")
+
+def listar_producto(request):
+    product_list = Producto.objects.all()
+    paginator = Paginator(product_list, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/productos.html', {'page_obj': page_obj})
 
 def pre_editar_producto(request,idproducto):
     producto=Producto.objects.get(idproducto=idproducto)
@@ -143,26 +145,50 @@ def actualizar_producto(request, idproducto):
 #--------------------VENTAS----------------------------
 
 def listar_venta(request):
-    venta = Venta.objects.all()
-    data={
-        'venta': venta,
-    }
-    return render(request, 'sasg/ventas.html',data)
+    venta_list = Venta.objects.all()
+    paginator = Paginator(venta_list, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/ventas.html', {'page_obj': page_obj})
 
 #--------------------PEDIDOS----------------------------
 
 def listar_pedido(request):
-    pedido = Pedido.objects.all()
+    pedido_list = Pedido.objects.all()
+    paginator = Paginator(pedido_list, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/pedidos.html', {'page_obj': page_obj})
+
+def pre_editar_pedido(request,idpedido):
+    pedido=Pedido.objects.get(idpedido=idpedido)
+    usuario=Usuarios.objects.all()
     data={
-        'pedido':pedido,
+        "pedido":pedido,
+        "usuario":usuario,
     }
-    return render(request, 'sasg/pedidos.html',data)
+    return render(request, 'sasg/editarPedido.html',data)
+
+def actualizar_pedido(request, idpedido):
+    if request.method=='POST':
+        pedido=Pedido.objects.get(idpedido=idpedido)
+        
+        pedido.idpedido=request.POST.get('idproducto')
+        pedido.fechaemision=request.POST.get('fechaemision')
+        pedido.descripcion=request.POST.get('descripcion')
+        pedido.estado=request.POST.get('estado')
+        pedido.valortotal=request.POST.get('valortotal')    
+        pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
+          
+        
+        pedido.save()
+    return redirect("listar_pedido")
 
 #--------------------PROVEEDORES----------------------------
 
 def listar_proveedor(request):
-    proveedores = Proveedor.objects.all()
-    data={
-        'proveedores': proveedores,
-    }
-    return render(request, 'sasg/proveedores.html',data)
+    provee_list = Proveedor.objects.all()
+    paginator = Paginator(provee_list, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
