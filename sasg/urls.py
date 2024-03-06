@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .import views
+from . import views
 
 urlpatterns = [
     path('',views.sasg,name='asago'),
@@ -23,4 +23,6 @@ urlpatterns = [
     path('actualizar_pedido/<str:idpedido>',views.actualizar_pedido,name='actualizar_pedido'),
     #/-----proveedores------/
     path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
+    path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
+    path('login/',views.user_login,name='login'),
 ]
