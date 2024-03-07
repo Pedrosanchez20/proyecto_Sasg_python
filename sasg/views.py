@@ -89,17 +89,29 @@ def registrar_usuario(request):
                     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
                 }
                 h1 {
-                    color: #297EF7;
+                    color: red;
                 }
                  p {
                     color: #353535 ;
+                }
+
+                img{
+                    width: 360px
+                }
+                
+                p{
+                    font-size: 20px;
+                    
                 }
                 
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>¡ASAGO S.A.S te da la bienvenida.!</h1>
+                <h1>¡ASAGO S.A.S TE DA LA BIENVENIDA.!</h1>
+                <br>
+                <img src="https://lh3.googleusercontent.com/p/AF1QipO5GdPOtKoAywDpXRg9q4sRiM1itwVOxVvwa7s0=w1080-h608-p-no-v0" alt="Derechos reservados">
+                <br>
                 <p>Esperamos que disfrutes de tu experiencia.</p>
             </div>
         </body>
