@@ -67,7 +67,105 @@
                 <h1>Listado Proveedores</h1>
                 {% if page_obj %}
             </div>
+            <div class="boton-modal">
+                <label for="btn-modal">Agregar Proveedor</label>
+            </div>
 
+            <input type="checkbox" id="btn-modal">
+            <div class="container-modal">
+                <div class="content-modal">
+                    <div class="tittle">
+                        <span>Registrar proveedor</span>
+                    </div>   
+
+                    <form name="form_persona"
+                        method="POST"
+                        action="{% url 'registrar_producto'%}"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <label>Id Proveedor</label>
+                            <input type="number" name="idproveedor" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Nombre</label>
+                            <input type="text" name="nomproducto" required>
+                        </div>
+
+        
+
+                        <div class="row">
+                            <label>Direccion</label>
+                            <input type="text" name="cantidad" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Telefono</label>
+                            <input type="number" name="fechavencimiento" required>
+                        </div>
+
+                        <div class="row">
+                            <label>Email</label>
+                            <input type="email" name="valorlibra" required>
+                        </div>
+                        <div class="row block">
+                            <input type="submit" value="Registrar" class="btn btn-primary"/>
+                         </div>
+                    </form>
+                    <label for="btn-modal" class="cerrar-modal"></label>
+                </div>
+            </div>
+
+            <div class="boton-modal">
+                <label for="btn-modal">Contactar Proveedor</label>
+            </div>
+
+            <input type="checkbox" id="btn-modal">
+            <div class="container-modal">
+                <div class="content-modal">
+                    <div class="tittle">
+                        <span>Contactar Porveedor</span>
+                    </div>   
+
+                    <form name="form_persona"
+                        method="POST"
+                        action="{% url 'registrar_compra'%}"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <label>Id Compra</label>
+                            <input type="date" name="idcompra" required>
+                        </div>
+                        <div class="row">
+                            <label>Fechas de Emision</label>
+                            <input type="text" name="fechaemision" required>
+                        </div>
+                        <div class="row">
+                            <label>Id Proveedor</label>
+                            <input type="number" name="idproveedor" required>
+                        </div>
+                        <div class="row">
+                            <label>Descripcion</label>
+                            <input type="date" name="descripcion" required>
+                        </div>
+                        <div class="row">
+                            <label>Valor Producto</label>
+                            <input type="number" name="valorproducto" required>
+                        </div>
+                        <div class="row">
+                            <label>Valor Total</label>
+                            <input type="number" name="valortotal" required>
+                        </div>
+                        <div class="row block">
+                            <input type="submit" value="Registrar" class="btn btn-primary"/>
+                         </div>
+                    </form>
+                    <label for="btn-modal" class="cerrar-modal"></label>
+                </div>
+            </div>
+           
             <section class="dashboard">
                 <div class="dashboard-list">
                     <h1>Proveedores</h1>
@@ -75,11 +173,12 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Imagen</th>
                                 <th>Nombre</th>
                                 <th>Direccion</th>
                                 <th>Telefono</th>
                                 <th>Email</th>
+                                <th>Acciones</th>
+                           
 
                             </tr>
                         </thead>
@@ -88,7 +187,6 @@
                             {% for proveedor in page_obj %}
                             <tr id="proveedor{{proveedor.id}}">
                                 <td>{{provedor.IdProveedor}}</td>
-                                <td>{{usuarios.Imagen}}</td>
                                 <td>{{usuarios.nombres}}</td>
                                 <td>{{usuarios.direccion}}</td>
                                 <td>{{usuarios.telefono}}</td>
