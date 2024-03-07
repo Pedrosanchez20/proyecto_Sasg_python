@@ -133,6 +133,21 @@
                     <h1>Productos</h1>
                     {% if page_obj %}
                     <table class="table">
+                        <form method="get" class="filtro-form">
+                            <div class="form-group">
+                                <label for="id_cantidad">Cantidad:</label>
+                                {{ productoFilter.form.cantidad }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_nomproducto">Nombre del producto:</label>
+                                {{ productoFilter.form.nomproducto }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_nomcategoria">Categoría:</label>
+                                {{ productoFilter.form.nomcategoria }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </form>
                         <thead>
                         <tr>
                             <th>Id</th>
