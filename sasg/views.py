@@ -16,8 +16,7 @@ from sasg.models import Producto
 
 from .forms import LoginForm
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
-
-
+from .filters import ProductoFilter
 # Create your views here.
 def sasg(request):
     return render(request, 'sasg/index.html')
@@ -179,10 +178,13 @@ def registrar_producto(request):
 
 def listar_producto(request):
     product_list = Producto.objects.all()
+    productoFilter = ProductoFilter(request.GET, queryset=product_list)
+    product_list = productoFilter.qs
     paginator = Paginator(product_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/productos.html', {'page_obj': page_obj})
+    return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
+
 
 def pre_editar_producto(request,idproducto):
     producto=Producto.objects.get(idproducto=idproducto)

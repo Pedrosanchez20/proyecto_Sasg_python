@@ -190,7 +190,10 @@ table thead tbody td i:hover{
     width: 10px;
 }
 
-
+.form-group {
+    display: inline-block;
+    margin-right: 10px;
+}
 .table th,
 .table td{
     align-items: center;
