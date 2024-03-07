@@ -7,11 +7,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body{
-    overflow: hidden;
-    background: none;
-}
-
 header{
     display: flex;
     min-height: 70px;
@@ -21,15 +16,19 @@ header{
     padding: 5px 5%;
 }
 
-header .logo{
+.logo{
     display: flex;
     align-items: center;
 }
 
-header .logo a .imagen{
-    height: 40px;
+.logo img{
+    height: 80px;
     transition: all 0.3s;
     margin-right: 20px;
+}
+
+.logo img:hover{
+    scale: 1.10;
 }
 
 .logo h2{
