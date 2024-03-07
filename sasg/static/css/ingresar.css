@@ -12,6 +12,30 @@ body{
     background: none;
 }
 
+header{
+    display: flex;
+    min-height: 70px;
+    background-color:  rgb(194, 16, 16);
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5%;
+}
+
+header .logo{
+    display: flex;
+    align-items: center;
+}
+
+header .logo a .imagen{
+    height: 40px;
+    transition: all 0.3s;
+    margin-right: 20px;
+}
+
+.logo h2{
+    color: white;
+}
+
 .container-item{
     max-width: 440px;
     padding: 0 20px;

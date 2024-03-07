@@ -16,9 +16,8 @@
     <header>
         <div class="logo">
             <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
-        <h2>Asago S.A.S</h2>
+            <h2>Asago S.A.S</h2>
         </div>
-        <p></p>
     </header>
     
     <div class="container col-sm-6 col-md-6 col-lg-5 col-xl-5">
@@ -45,7 +44,7 @@
                 </div>
 
                 <div class="col-6">
-                    <label class="form-label">Numero Documento</label>
+                    <label class="form-label">Documento</label>
                     <input name="idusuario" class="form-control" type="number" required>
                 </div>
 
@@ -55,11 +54,11 @@
                 </div>
 
                 <div class="col-6">
-                    <label class="form-label">Celular</label>
-                    <input name="telefono" class="form-control" type="tel" required>
+                    <label class="form-label">Telefono</label>
+                    <input name="telefono" class="form-control" type="number" required>
                 </div>
 
-                <div class="col-13">
+                <div class="col-6">
                     <label class="form-label">Dirección</label>
                     <input name="direccion" class="form-control" type="text" required>
                 </div>
