@@ -7,6 +7,10 @@ from django.contrib.auth.hashers import check_password
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+
 
 from sasg.models import Producto
 
@@ -71,6 +75,47 @@ def registrar_usuario(request):
             )
             
         usuario.save()
+        mensaje_html = """
+        <html>
+        <head>
+            <style>
+                body {
+                    font-family: Monaco,monospace;
+                    background-color: #737373;
+                }
+                .container {
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                }
+                h1 {
+                    color: #297EF7;
+                }
+                 p {
+                    color: #353535 ;
+                }
+                
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>¡ASAGO S.A.S te da la bienvenida.!</h1>
+                <p>Esperamos que disfrutes de tu experiencia.</p>
+            </div>
+        </body>
+        </html>
+        """
+        subject = 'Registro exitoso'
+        message = '¡Gracias por registrarte en nuestra pagina!'
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [email] 
+        #send_mail(subject, message, from_email, to_email, html_message=mensaje_html)
+        msg = EmailMultiAlternatives(subject, message, from_email, to_email)
+        msg.attach_alternative(mensaje_html,"text/html")
+        msg.send()
+        
+        
     return render(request, "sasg/registro.html")
 
 def listar_usuario(request):

@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     {% load static %}
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
-    <title>Usuarios</title>
+    <title>Proveedores</title>
+    
 </head>
 
 <body>
@@ -117,54 +118,6 @@
                 </div>
             </div>
 
-            <div class="boton-modal">
-                <label for="btn-modal">Contactar Proveedor</label>
-            </div>
-
-            <input type="checkbox" id="btn-modal">
-            <div class="container-modal">
-                <div class="content-modal">
-                    <div class="tittle">
-                        <span>Contactar Porveedor</span>
-                    </div>   
-
-                    <form name="form_persona"
-                        method="POST"
-                        action="{% url 'registrar_compra'%}"
-                        enctype="multipart/form-data">
-                        {% csrf_token %}
-
-                        <div class="row">
-                            <label>Id Compra</label>
-                            <input type="date" name="idcompra" required>
-                        </div>
-                        <div class="row">
-                            <label>Fechas de Emision</label>
-                            <input type="text" name="fechaemision" required>
-                        </div>
-                        <div class="row">
-                            <label>Id Proveedor</label>
-                            <input type="number" name="idproveedor" required>
-                        </div>
-                        <div class="row">
-                            <label>Descripcion</label>
-                            <input type="date" name="descripcion" required>
-                        </div>
-                        <div class="row">
-                            <label>Valor Producto</label>
-                            <input type="number" name="valorproducto" required>
-                        </div>
-                        <div class="row">
-                            <label>Valor Total</label>
-                            <input type="number" name="valortotal" required>
-                        </div>
-                        <div class="row block">
-                            <input type="submit" value="Registrar" class="btn btn-primary"/>
-                         </div>
-                    </form>
-                    <label for="btn-modal" class="cerrar-modal"></label>
-                </div>
-            </div>
            
             <section class="dashboard">
                 <div class="dashboard-list">
