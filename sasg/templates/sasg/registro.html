@@ -31,7 +31,7 @@
                 <hr>
             </div>
 
-            <form action="{% url 'registrar_usuario'%}" class="was-validated row g-3 mx-5" method="post">
+            <form action="{% url 'registrar_usuario' %}" class="was-validated row g-3 mx-5" method="post">
                 {% csrf_token %}
                 <div class="col-6">
                     <label class="form-label">Nombres</label>
