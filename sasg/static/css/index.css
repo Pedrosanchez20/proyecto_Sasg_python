@@ -87,11 +87,8 @@ header{
     display: inline-block;
     border-left: rgb(230, 72, 72) solid 2px;
     margin-left: 10px;
-}
-
-.carrito{
     padding-left: 35px;
-    font-size: 40px;
+    font-size: 40px;   
 }
 
 .carousel{
