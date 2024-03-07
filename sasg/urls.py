@@ -20,6 +20,9 @@ urlpatterns = [
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
     #/-----ventas------/
     path('listar_venta/',views.listar_venta,name='listar_venta'),
+    #/-----Compras----/
+    path('listar_compra/',views.listar_compra,name='listar_compra'),
+     path('registrar_compra/',views.registrar_compra,name='registrar_compra'),
     #/-----pedidos------/
     path('listar_pedido/',views.listar_pedido,name='listar_pedido'),
     path('pre_editar_pedido/<str:idpedido>',views.pre_editar_pedido,name='pre_editar_pedido'),

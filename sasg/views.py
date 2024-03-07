@@ -11,7 +11,7 @@ from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from sasg.models import Producto
 
 from .forms import LoginForm
-from .models import Pedido, Producto, Proveedor, Roles, Usuarios, Venta
+from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 
 
 # Create your views here.
@@ -169,6 +169,37 @@ def listar_venta(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/ventas.html', {'page_obj': page_obj})
+
+#--------------------COMPRAS----------------------------
+def registrar_compra(request):
+    if request.method== 'POST':
+        idcompra = request.POST.get('idcompra')
+        fechaemision = request.POST.get('fechaemision')
+        idproveedor = request.POST.get('idproveedor')
+        descripcion = request.POST.get('descripcion')
+        valorproducto = request.POST.get('valorproducto')
+        valortotal = request.POST.get('valortotal')
+        
+        compra = Compra(
+            idcompra = idcompra,
+            fechaemision = fechaemision,
+            idproveedor = idproveedor,
+            descripcion = descripcion,
+            valorproducto = valorproducto,
+            valortotal = valortotal,
+        )
+        
+        compra.save()
+    return redirect("listar_compra")
+
+def listar_compra(request):
+    compra_list = Compra.objects.all()
+    paginator = Paginator(compra_list, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/compras.html', {'page_obj': page_obj})
+
+
 
 #--------------------PEDIDOS----------------------------
 

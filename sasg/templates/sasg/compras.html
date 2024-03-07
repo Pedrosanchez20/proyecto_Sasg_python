@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     {% load static %}
+    <script src="{% static 'js/scripts.js' %}"></script>
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
-    <title>Usuarios</title>
+    <title>Producto</title>
 </head>
 
 <body>
@@ -63,51 +64,84 @@
 
         <section class="main">
             <div class="main-top">
-                <i class="fas uil uil-users-alt"></i>
-                <h1>Listado Usuarios</h1>
-                {% if page_obj %}
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Listado Compras</h1>
+            </div>
+
+            <div class="boton-modal">
+                <label for="btn-modal">Agregar Compra</label>
+            </div>
+
+            <input type="checkbox" id="btn-modal">
+            <div class="container-modal">
+                <div class="content-modal">
+                    <div class="tittle">
+                        <span>Registrar Compra</span>
+                    </div>   
+
+                    <form name="form_persona"
+                        method="POST"
+                        action="{% url 'registrar_compra'%}"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <label>Id Compra</label>
+                            <input type="date" name="idcompra" required>
+                        </div>
+                        <div class="row">
+                            <label>Fechas de Emision</label>
+                            <input type="text" name="fechaemision" required>
+                        </div>
+                        <div class="row">
+                            <label>Id Proveedor</label>
+                            <input type="number" name="idproveedor" required>
+                        </div>
+                        <div class="row">
+                            <label>Descripcion</label>
+                            <input type="date" name="descripcion" required>
+                        </div>
+                        <div class="row">
+                            <label>Valor Producto</label>
+                            <input type="number" name="valorproducto" required>
+                        </div>
+                        <div class="row">
+                            <label>Valor Total</label>
+                            <input type="number" name="valortotal" required>
+                        </div>
+                        <div class="row block">
+                            <input type="submit" value="Registrar" class="btn btn-primary"/>
+                         </div>
+                    </form>
+                    <label for="btn-modal" class="cerrar-modal"></label>
+                </div>
             </div>
 
             <section class="dashboard">
                 <div class="dashboard-list">
+                    <h1>Compras</h1>
+                    {% if page_obj %}
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Rol</th>
-                                <th>Nombres</th>
-                                <th>Apellido</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Direccion</th>
-                                <th>Telefono</th>
-                                <th>Email</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
+                        <tr>
+                            <th>Id</th>
+                            <th>fechaemision</th>
+                            <th>idproveedor</th>
+                            <th>descripcion</th>
+                            <th>valorproducto</th>
+                            <th>valortotal</th>
+                        </tr>
                         </thead>
 
                         <tbody>
-                            {% for usuarios in page_obj %}
-                            <tr id="usuarios{{usuarios.id}}">
-                                <td>{{usuarios.idusuario}}</td>
-                                <td>{{usuarios.rol.rolnombre}}</td>
-                                <td>{{usuarios.nombres}}</td>
-                                <td>{{usuarios.apellidos}}</td>
-                                <td>{{usuarios.fechanacimiento}}</td>
-                                <td>{{usuarios.direccion}}</td>
-                                <td>{{usuarios.telefono}}</td>
-                                <td>{{usuarios.email}}</td>
-                                <td>{{usuarios.estado}}</td>
-                                <td>
-                                    <span>
-                                        <a class="editar"
-                                        title="Editar Datos"
-                                        href="{% url 'pre_editar_usuario' usuarios.idusuario %}">
-                                        Editar
-                                    </a>
-                                    {% csrf_token %}
-                                    </span>
-                                </td>   
+                            {% for compra in page_obj %}
+                            <tr id="compra{{compra.id}} ">
+                                <td>{{compra.idcompra}}</td>
+                                <td>{{compra.fechaemision}}</td>
+                                <td>{{compra.idproveedor.idproveedor}}</td>
+                                <td>{{compra.descripcion}}</td>
+                                <td>{{compra.valorproducto}}</td>
+                                <td>{{compra.valortotal}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -132,10 +166,11 @@
                     </div>
                 </div>
                 {% else %}
-                <p class="text-center">No hay usuarios registrados</p>
+                <p class="text-center">No hay productos Compras</p>
                 {% endif %}
             </section>
         </section>
     </div>
+    
 </body>
 </html>
