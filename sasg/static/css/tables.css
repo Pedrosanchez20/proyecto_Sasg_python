@@ -408,3 +408,34 @@ form .row select{
     }
 }
 
+/*------EstiloFiltro-----*/
+.custom-btn {
+    color: rgb(255, 255, 255);
+    padding: 4px 7px;
+    border-radius: 25px;
+    background-color: rgb(60, 60, 60);
+}
+
+.custom-btn:hover {
+    background-color: black; 
+}
+.custom-input {
+    border: 1px solid #ccc;
+    padding: 8px; 
+    border-radius: 5px;
+    width: 110px; 
+    height: 30px; 
+
+}
+.custom-select {
+    border: 1px solid #ccc;
+    padding: 8px; 
+    border-radius: 5px;
+    width: 12rem; 
+    font-size: 11px;
+
+}
+.filtro{
+    font-size: 13px; 
+    color: #333; 
+}

@@ -135,19 +135,34 @@
                     <table class="table">
                         <form method="get" class="filtro-form">
                             <div class="form-group">
-                                <label for="id_cantidad">Cantidad:</label>
-                                {{ productoFilter.form.cantidad }}
+                                <label class='filtro' for="id_idproducto">Id Producto:</label>
+                                <input type="text" name="idproducto" id="id_idproducto" class="custom-input">
                             </div>
                             <div class="form-group">
-                                <label for="id_nomproducto">Nombre del producto:</label>
-                                {{ productoFilter.form.nomproducto }}
+                                <label class='filtro' for="id_fecharegistro">Fecha registro:</label>
+                                <input type="date" name="fecharegistro" id="id_fecharegistro" class="custom-input">
                             </div>
                             <div class="form-group">
-                                <label for="id_nomcategoria">Categoría:</label>
-                                {{ productoFilter.form.nomcategoria }}
+                                <label class='filtro' for="id_nomproducto">Nombre producto:</label>
+                                <input type="text" name="nomproducto" id="id_nomproducto" class="custom-input">
                             </div>
-                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                            <div class="form-group">
+                                <label class='filtro' for="id_nomcategoria">Categoría:</label>
+                                <select name="nomcategoria" id="id_nomcategoria" class="custom-select">
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="Carnicos">Carnicos</option>
+                                    <option value="Pollo">Pollo</option>
+                                    <option value="Cerdo">Cerdo</option>
+                                    <option value="Chorizo">Chorizo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_cantidad">Cantidad:</label>
+                                <input type="text" name="cantidad" id="id_cantidad" class="custom-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
                         </form>
+                        
                         <thead>
                         <tr>
                             <th>Id</th>
