@@ -1,7 +1,8 @@
 import json
+from django.urls import reverse
 import pdfkit
-
-config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+import tempfile
+import os
 
 from cProfile import Profile
 from django.contrib.auth import authenticate, login
@@ -253,18 +254,18 @@ def actualizar_producto(request, idproducto):
     return redirect("listar_productos")
 
 def generarPDF(request):
-    pdf = pdfkit.from_url(request.build_absolute_uri(reversed('reportProd')), False, configuration=config)
-    response = HttpResponse(pdf, content_type = 'application/pdf')
-    response['Content-Disposition'] = 'attachment; filename = Productos.pdf'
-    
+    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('reportProd')), False, configuration=config)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
     return response
 
 def generarCv(request, pk):
-   pdf = pdfkit.from_url(request.build_absolute_uri(reversed('specific_user', args = [pk])), False, configuration=config)
-   response = HttpResponse(pdf, content_type = 'application/pdf')
-   response['Content-Disposition'] = 'attachment; filename = Productos.pdf'
-   
-   return response    
+    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('specific_user', args=[pk])), False, configuration=config)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
+    return response
 
 #--------------------VENTAS----------------------------
 

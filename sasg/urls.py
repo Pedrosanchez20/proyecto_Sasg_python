@@ -21,8 +21,8 @@ urlpatterns = [
     path('registrar_producto/',login_required(views.registrar_producto),name='registrar_producto'),
     path('pre_editar_producto/<str:idproducto>',login_required(views.pre_editar_producto),name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',login_required(views.actualizar_producto),name='actualizar_producto'),
-    path('generarPDF/',views.generarPDF,name='generarPDF'),
-    path('generarCv/<int:pk>',views.generarCv,name='generarCv'),
+    path('generarPDF/', views.generarPDF, name='generarPDF'),
+    path('generarCv/<int:pk>', views.generarCv, name='generarCv'),
 
     #/-----ventas------/
     path('listar_venta/',login_required(views.listar_venta),name='listar_venta'),
