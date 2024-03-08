@@ -36,15 +36,29 @@ def catChoView(request):
 #--------------------USUARIOS----------------------------
 
 def user_login(request):
-    if request.method == 'POST':  # Si se envió el formulario
-            # idusuario = form.cleaned_data['idusuario']  # Obtiene el ID de usuario del formulario
-            # contrasena = form.cleaned_data['contrasena']  # Obtiene la contraseña del formulario
-            # user = authenticate(request, idusuario=idusuario, contrasena=contrasena)  # Autentica al usuario
-            usuario = Usuarios.objects.get(idusuario=request.POST['idusuario'])
-            if usuario.contrasena == request.POST['contrasena']:
+    if request.method == 'POST':
+        idusuario = request.POST.get('idusuario')
+        contrasena = request.POST.get('contrasena')
+        try:
+            usuario = Usuarios.objects.get(idusuario=idusuario)
+            if usuario.contrasena == contrasena:
                 request.session['user'] = usuario.idusuario
-                return redirect('listar_usuario')
+                if usuario.rol.idrol == 971: 
+                    return redirect('listar_usuario')  
+                elif usuario.rol.idrol == 214:
+                    return redirect('listar_productos')  
+                elif usuario.rol.idrol == 354:
+                    return redirect('index') 
+                else:
+                    messages.error(request, 'Rol no reconocido.')
+            else:
+                messages.error(request, 'Contraseña incorrecta.')
+        except Usuarios.DoesNotExist:
+            messages.error(request, 'Usuario no encontrado.')
     return render(request, 'sasg/login.html')
+
+
+
             
 
 def registrar_usuario(request):
