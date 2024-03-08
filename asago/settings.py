@@ -109,6 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 3600
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -135,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT ='587'
-EMAIL_HOST_USER ='jonreinaro2410@gmail.com'
-EMAIL_HOST_PASSWORD = 'dasf gteo lrdf csix'
+EMAIL_HOST_USER ='asagoempresa@gmail.com'
+EMAIL_HOST_PASSWORD = 'nmns kyxz fudc lpoi'
 EMAIL_USE_TLS = True
 
