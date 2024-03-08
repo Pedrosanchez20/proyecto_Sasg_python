@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Producto</title>
+</head>
+
+<body>
+    <div class="container">
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Listado Productos</h1>
+            </div>
+
+            <section class="dashboard">
+                <div class="dashboard-list">
+                    <h1>Productos</h1>
+                    {% if page_obj %}
+                    <table class="table">                        
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Fecha Registro</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>cantidad</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Valor libra</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for producto in page_obj %}
+                            <tr id="producto{{producto.id}} ">
+                                <td>{{producto.idproducto}}</td>
+                                <td>{{producto.fecharegistro}}</td>
+                                <td>{{producto.nomproducto}}</td>
+                                <td>{{producto.nomcategoria}}</td>
+                                <td>{{producto.cantidad}}</td>
+                                <td>{{producto.fechavencimiento}}</td>
+                                <td>{{producto.valorlibra}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </div>
+    
+</body>
+</html>

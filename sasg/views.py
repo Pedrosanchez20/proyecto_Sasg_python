@@ -1,6 +1,9 @@
 import json
-from cProfile import Profile
+import pdfkit
 
+config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+
+from cProfile import Profile
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
@@ -12,9 +15,6 @@ from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-
-
-
 
 from sasg.models import Producto
 
@@ -251,6 +251,20 @@ def actualizar_producto(request, idproducto):
         
         producto.save()
     return redirect("listar_productos")
+
+def generarPDF(request):
+    pdf = pdfkit.from_url(request.build_absolute_uri(reversed('reportProd')), False, configuration=config)
+    response = HttpResponse(pdf, content_type = 'application/pdf')
+    response['Content-Disposition'] = 'attachment; filename = Productos.pdf'
+    
+    return response
+
+def generarCv(request, pk):
+   pdf = pdfkit.from_url(request.build_absolute_uri(reversed('specific_user', args = [pk])), False, configuration=config)
+   response = HttpResponse(pdf, content_type = 'application/pdf')
+   response['Content-Disposition'] = 'attachment; filename = Productos.pdf'
+   
+   return response    
 
 #--------------------VENTAS----------------------------
 
