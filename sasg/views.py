@@ -21,7 +21,6 @@ from sasg.models import Producto
 from .forms import LoginForm
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 from .filters import ProductoFilter
-import logging
 # Create your views here.
 
 def sasg(request):
@@ -67,17 +66,9 @@ def user_login(request):
             messages.error(request, 'Usuario no encontrado.')
     return render(request, 'sasg/login.html')
 
-logger = logging.getLogger(__name__)
 
 def user_logout(request):
-    logger.debug("Iniciando logout del usuario")
-
-    # Elimina todos los datos de la sesión
     request.session.flush()
-
-    logger.debug("Datos de la sesión eliminados")
-
-    # Redirige al usuario a la página de inicio
     return redirect('asago')    
             
 
