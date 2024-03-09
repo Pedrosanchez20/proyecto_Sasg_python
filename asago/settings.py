@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 3600
-
+LOGIN_URL = '/login/'
 
 
 # Internationalization
@@ -129,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -142,4 +142,5 @@ EMAIL_PORT ='587'
 EMAIL_HOST_USER ='asagoempresa@gmail.com'
 EMAIL_HOST_PASSWORD = 'nmns kyxz fudc lpoi'
 EMAIL_USE_TLS = True
+
 

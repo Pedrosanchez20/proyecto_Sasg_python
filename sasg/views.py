@@ -1,6 +1,5 @@
 import json
 from django.urls import reverse
-import pdfkit
 import tempfile
 import os
 
@@ -22,6 +21,7 @@ from sasg.models import Producto
 from .forms import LoginForm
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 from .filters import ProductoFilter
+import logging
 # Create your views here.
 
 def sasg(request):
@@ -67,9 +67,18 @@ def user_login(request):
             messages.error(request, 'Usuario no encontrado.')
     return render(request, 'sasg/login.html')
 
+logger = logging.getLogger(__name__)
 
 def user_logout(request):
-    return redirect('asago')
+    logger.debug("Iniciando logout del usuario")
+
+    # Elimina todos los datos de la sesión
+    request.session.flush()
+
+    logger.debug("Datos de la sesión eliminados")
+
+    # Redirige al usuario a la página de inicio
+    return redirect('asago')    
             
 
 
@@ -155,7 +164,7 @@ def registrar_usuario(request):
         
     return render(request, "sasg/registro.html")
 
-@login_required(login_url='login')
+
 def listar_usuario(request):
     usuario_list = Usuarios.objects.all()
     paginator = Paginator(usuario_list, 13) 
@@ -163,7 +172,7 @@ def listar_usuario(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/usuarios.html', {'page_obj': page_obj})
 
-@login_required(login_url='login')
+
 def pre_editar_usuario(request, idusuario):
     usuario = Usuarios.objects.get(idusuario=idusuario)
     roles = Roles.objects.all()
@@ -173,7 +182,7 @@ def pre_editar_usuario(request, idusuario):
     }
     return render(request, 'sasg/editarUsuario.html', data)
 
-@login_required(login_url='login')
+
 def actualizar_usuario(request, idusuario):
     if request.method=='POST':
         usuario=Usuarios.objects.get(idusuario=idusuario)
@@ -194,7 +203,7 @@ def actualizar_usuario(request, idusuario):
 
 #--------------------PRODUCTOS----------------------------
 
-@login_required(login_url='login')
+
 def registrar_producto(request):
     if request.method== 'POST':
         idproducto=request.POST.get('idproducto')
@@ -218,7 +227,7 @@ def registrar_producto(request):
         producto.save()
     return redirect("listar_producto")
 
-@login_required(login_url='login')
+
 def listar_producto(request):
     product_list = Producto.objects.all()
     productoFilter = ProductoFilter(request.GET, queryset=product_list)
@@ -229,7 +238,7 @@ def listar_producto(request):
     return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
 
-@login_required(login_url='login')
+
 def pre_editar_producto(request,idproducto):
     producto=Producto.objects.get(idproducto=idproducto)
     data={
@@ -237,7 +246,7 @@ def pre_editar_producto(request,idproducto):
     }
     return render(request, 'sasg/editarProducto.html',data)
 
-@login_required(login_url='login')
+
 def actualizar_producto(request, idproducto):
     if request.method=='POST':
         producto=Producto.objects.get(idproducto=idproducto)
@@ -269,7 +278,7 @@ def generarCv(request, pk):
 
 #--------------------VENTAS----------------------------
 
-@login_required(login_url='login')
+
 def listar_venta(request):
     venta_list = Venta.objects.all()
     paginator = Paginator(venta_list, 10) 
@@ -278,7 +287,7 @@ def listar_venta(request):
     return render(request, 'sasg/ventas.html', {'page_obj': page_obj})
 
 #--------------------COMPRAS----------------------------
-@login_required(login_url='login')
+
 def registrar_compra(request):
     if request.method== 'POST':
         idcompra = request.POST.get('idcompra')
@@ -300,7 +309,7 @@ def registrar_compra(request):
         compra.save()
     return redirect("listar_compra")
 
-@login_required(login_url='login')
+
 def listar_compra(request):
     compra_list = Compra.objects.all()
     paginator = Paginator(compra_list, 10) 
@@ -312,7 +321,7 @@ def listar_compra(request):
 
 #--------------------PEDIDOS----------------------------
 
-@login_required(login_url='login')
+
 def listar_pedido(request):
     pedido_list = Pedido.objects.all()
     paginator = Paginator(pedido_list, 10) 
@@ -320,7 +329,7 @@ def listar_pedido(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/pedidos.html', {'page_obj': page_obj})
 
-@login_required(login_url='login')
+
 def pre_editar_pedido(request,idpedido):
     pedido=Pedido.objects.get(idpedido=idpedido)
     usuario=Usuarios.objects.all()
@@ -330,7 +339,7 @@ def pre_editar_pedido(request,idpedido):
     }
     return render(request, 'sasg/editarPedido.html',data)
 
-@login_required(login_url='login')
+
 def actualizar_pedido(request, idpedido):
     if request.method=='POST':
         pedido=Pedido.objects.get(idpedido=idpedido)
@@ -348,7 +357,7 @@ def actualizar_pedido(request, idpedido):
 
 #--------------------PROVEEDORES----------------------------
 
-@login_required(login_url='login')
+
 def listar_proveedor(request):
     provee_list = Proveedor.objects.all()
     paginator = Paginator(provee_list, 10) 

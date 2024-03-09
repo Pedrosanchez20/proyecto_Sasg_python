@@ -55,7 +55,7 @@
                     <span class="nav-item">Proveedores</span>
                 </a></li>
                 
-                <li><a href="config/logout.php" class="logout">
+                <li><a href="{% url 'logout' %}" class="logout">
                 <i class="fas uil uil-sign-out-alt"></i>
                 <span class="nav-item">Cerrar Sesión</span>
                 </a></li>
@@ -72,7 +72,7 @@
                 <label for="btn-modal">Agregar Producto</label>
             </div>
 
-            <a href="{% url 'reportProd' %}">Enlace a reportProd</a>
+            <a href="">Enlace a reportProd</a>
 
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
