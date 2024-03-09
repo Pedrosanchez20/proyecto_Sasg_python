@@ -16,21 +16,30 @@
 <body>
 
   <header>
+    {% if nombre_usuario %}
+     <p>{{ nombre_usuario }}</p>
+    {% else %}
+      <p>No hay nombre de usuario</p>
+    {% endif %}
     <div class="logo">
       <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-
+  
     <div class="login">
-      <p>Iniciar Sesión</p>
+      {% if nombre_usuario %}
+        <p>Bienvenido, {{ nombre_usuario }}!</p>
+      {% else %}
+        <p>Iniciar Sesión</p>
+      {% endif %}
       <div class="dropdown">
         <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
         <div class="dropdown-content">
-        <a href="{% url 'login' %}">Iniciar Sesión</a>
-        <a href="{% url 'registrar_usuario' %}">Registrarse</a>
+          <a href="{% url 'login' %}">Iniciar Sesión</a>
+          <a href="{% url 'registrar_usuario' %}">Registrarse</a>
+        </div> 
       </div> 
-    </div> 
-        
+    </div>
   </header>
 
   <div class="carousel slide" id="carouselExampleAutoplaying" data-bs-ride="carousel">
