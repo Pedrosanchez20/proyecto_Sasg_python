@@ -139,11 +139,11 @@
                         <tbody>
                             {% for proveedor in page_obj %}
                             <tr id="proveedor{{proveedor.id}}">
-                                <td>{{provedor.IdProveedor}}</td>
-                                <td>{{usuarios.nombres}}</td>
-                                <td>{{usuarios.direccion}}</td>
-                                <td>{{usuarios.telefono}}</td>
-                                <td>{{usuarios.email}}</td>
+                                <td>{{proveedor.IdProveedor}}</td>
+                                <td>{{proveedor.nombres}}</td>
+                                <td>{{proveedor.direccion}}</td>
+                                <td>{{proveedor.telefono}}</td>
+                                <td>{{proveedor.email}}</td>
                                 <td></td>   
                             </tr>
                             {% endfor %}

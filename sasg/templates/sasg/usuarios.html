@@ -71,6 +71,42 @@
             <section class="dashboard">
                 <div class="dashboard-list">
                     <table class="table">
+                        <form method="get" class="filtro-form">
+                            <div class="form-group">
+                                <label class='filtro' for="id_idusuario  ">ID Usuario:</label>
+                                <input type="text" name="idusuario" id="id_idusuario" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_rol">Rol:</label>
+                                <select name="rol" id="id_rol" class="custom-select">
+                                    <option value="">Seleccione un rol</option>
+                                    <option value="214">Vendedor</option>
+                                    <option value="354">SupAdministrador</option>
+                                    <option value="971">Cliente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_nombres">Nombre:</label>
+                                <input type="text" name="nombres" id="id_nombres" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_apellidos">Apellido:</label>
+                                <input type="text" name="apellidos" id="id_apellidos" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_email">Email:</label>
+                                <input type="text" name="email" id="id_email" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_estado">Estado:</label>
+                                <select name="estado" id="id_estado" class="custom-select">
+                                    <option value="">Seleccione un estado</option>
+                                    <option value="Habilitado">Habilitado</option>
+                                    <option value="deshabilitado">deshabilitado</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
+                        </form>
                         <thead>
                             <tr>
                                 <th>Id</th>

@@ -19,7 +19,7 @@ from django.contrib.auth import logout
 from sasg.models import Producto
 
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
-from .filters import ProductoFilter
+from .filters import ProductoFilter, VentaFilter, PedidoFilter, CompraFilter, UsuariosFilter
 # Create your views here.
 
 def sasg(request):
@@ -163,10 +163,12 @@ def registrar_usuario(request):
 
 def listar_usuario(request):
     usuario_list = Usuarios.objects.all()
+    usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
+    usuario_list = usuariosFilter.qs
     paginator = Paginator(usuario_list, 13) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/usuarios.html', {'page_obj': page_obj})
+    return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuario_list': usuario_list})
 
 
 def pre_editar_usuario(request, idusuario):
@@ -277,10 +279,12 @@ def generarCv(request, pk):
 
 def listar_venta(request):
     venta_list = Venta.objects.all()
+    ventaFilter = VentaFilter(request.GET, queryset=venta_list)
+    venta_list = ventaFilter.qs
     paginator = Paginator(venta_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/ventas.html', {'page_obj': page_obj})
+    return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter})
 
 #--------------------COMPRAS----------------------------
 
@@ -308,10 +312,12 @@ def registrar_compra(request):
 
 def listar_compra(request):
     compra_list = Compra.objects.all()
+    compraFilter = CompraFilter(request.GET, queryset=compra_list)
+    compra_list = compraFilter.qs
     paginator = Paginator(compra_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/compras.html', {'page_obj': page_obj})
+    return render(request, 'sasg/compras.html', {'page_obj': page_obj, 'compraFilter': compraFilter})
 
 
 
@@ -320,10 +326,12 @@ def listar_compra(request):
 
 def listar_pedido(request):
     pedido_list = Pedido.objects.all()
+    pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
+    pedido_list = pedidoFilter.qs
     paginator = Paginator(pedido_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/pedidos.html', {'page_obj': page_obj})
+    return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter': pedidoFilter})
 
 
 def pre_editar_pedido(request,idpedido):

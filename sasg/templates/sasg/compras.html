@@ -122,6 +122,21 @@
                     <h1>Compras</h1>
                     {% if page_obj %}
                     <table class="table">
+                        <form method="get" class="filtro-form">
+                            <div class="form-group">
+                                <label class='filtro' for="id_idcompra ">Id Compra:</label>
+                                <input type="text" name="idcompra" id="id_idcompra" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_fechaemision ">Fecha Emision:</label>
+                                <input type="date" name="fechaemision " id="id_fechaemision" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_idproveedor ">Id Proveedor:</label>
+                                <input type="text" name="idproveedor " id="id_idproveedor " class="custom-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
+                        </form>
                         <thead>
                         <tr>
                             <th>Id</th>

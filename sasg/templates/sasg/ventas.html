@@ -71,6 +71,33 @@
                 <div class="dashboard-list">
                     {% if page_obj %}
                     <table class="table">
+                        <form method="get" class="filtro-form">
+                            <div class="form-group">
+                                <label class='filtro' for="id_idventa">ID Venta:</label>
+                                <input type="text" name="idventa" id="id_idventa" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_fechaemision">Fecha Emision:</label>
+                                <input type="date" name="fechaemision" id="id_fechaemision" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_idpedido">Id Pedido:</label>
+                                <input type="text" name="idpedido" id="id_idpedido" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_idcliente">Id Cliente:</label>
+                                <input type="text" name="idcliente" id="id_idcliente" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_producto">Producto:</label>
+                                <input type="text" name="producto" id="id_producto" class="custom-input">
+                            </div>
+                            <div class="form-group">
+                                <label class='filtro' for="id_cantidad">Cantidad:</label>
+                                <input type="text" name="cantidad" id="id_cantidad" class="custom-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
+                        </form>
                         <thead>
                         <tr>
                             <th>Id</th>
