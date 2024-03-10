@@ -16,8 +16,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-from sasg.models import Producto
 
+from sasg.models import Producto
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 from .filters import ProductoFilter, VentaFilter, PedidoFilter, CompraFilter, UsuariosFilter
 # Create your views here.
@@ -40,6 +40,9 @@ def catCerdView(request):
 
 def catChoView(request):
     return render(request, 'sasg/catchorizo.html')
+
+def dashboard(request):
+    return render(request, 'sasg/dashboard.html')
 
 #--------------------USUARIOS----------------------------
 
@@ -198,7 +201,9 @@ def actualizar_usuario(request, idusuario):
         
         usuario.save()
     return redirect("listar_usuario")
-
+def contar_usuarios(request):
+    cantidad_usuarios = Usuarios.objects.count()
+    return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
 #--------------------PRODUCTOS----------------------------
 
 
@@ -230,6 +235,11 @@ def listar_producto(request):
     product_list = Producto.objects.all()
     productoFilter = ProductoFilter(request.GET, queryset=product_list)
     product_list = productoFilter.qs
+    for producto in product_list:
+        if int (producto.cantidad) <= 10:
+            producto.is_low_quantity = True
+        else:
+            producto.is_low_quantity = False
     paginator = Paginator(product_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -273,6 +283,10 @@ def generarCv(request, pk):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
     return response
+
+def contar_productos(request):
+    cantidad_producto = Producto.objects.count()
+    return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
 
 #--------------------VENTAS----------------------------
 

@@ -9,7 +9,9 @@ urlpatterns = [
     path('catCarne',views.catCarnView,name='catCarne'),
     path('catCerdo',views.catCerdView,name='catCerdo'),
     path('catChorizo',views.catChoView,name='catChorizo'),
-    
+    path('dashboard/',views.dashboard,name='dashboard'),
+    path('contar_productos',views.contar_productos,name='contar_productos'),
+    path('contar_usuarios',views.contar_usuarios,name='contar_usuarios'),
     #/-----usuarios------/
     path('listar_usuario/',views.listar_usuario,name='listar_usuario'),
     path('registrar_usuario/',views.registrar_usuario,name='registrar_usuario'),

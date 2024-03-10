@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/dashboard.css' %}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'asago' %}" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png'%}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </li>
+
+                <li><a href="{% url 'asago' %}">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_usuario' %}">
+                    <i class="fas uil uil-users-alt"></i>
+                    <span class="nav-item">Usuarios</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_productos' %}">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_venta' %}">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_pedido' %}">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+                
+                <li><a href="{% url 'listar_compra' %}">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_proveedor' %}">
+                    <i class="fas uil uil-user"></i>
+                    <span class="nav-item">Proveedores</span>
+                </a></li>
+                
+                <li><a href="{% url 'logout' %}" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>
+            </ul>
+        </nav>
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-dashboard"></i>
+                <h1>Estadisticas Diarias</h1>
+                <p></p>
+            </div>
+
+            <section class="contenedor">
+                <div class="contenedor-items">
+                    <div class="item">
+                        <div class="iconBx">
+                            <i class="uil uil-users-alt"></i>
+                        </div>
+                        <span class="titulo-item">Usuarios</span>
+                        <span class="card-text">{{ cantidad_usuarios }}</span>       
+                    </div>
+
+                    <div class="item"> 
+                        <div class="iconBx">
+                            <i class="uil uil-shopping-bag"></i>
+                        </div>
+                        <span class="titulo-item">Productos</span>
+                        <span class="card-text">{{ cantidad_producto }}</span>
+                    </div>
+
+                    <div class="item">
+                        <div class="iconBx">
+                            <i class="uil uil-bill"></i>
+                        </div>
+                        <span class="titulo-item">Ventas</span>
+                        <span class="card-text"></span>
+                    </div>
+
+                    <div class="item">
+                        <div class="iconBx">
+                            <i class="uil uil-truck"></i>
+                        </div>
+                        <span class="titulo-item">Pedidos</span>
+                        <span class="card-text"></span>
+                    </div>
+
+                    <div class="item">
+                        <div class="iconBx">
+                            <i class="uil uil-store"></i>
+                        </div>
+                        <span class="titulo-item">Compras</span>
+                        <span class="card-text"></span>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    
+</body>
+</html>

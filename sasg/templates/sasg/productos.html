@@ -181,7 +181,16 @@
                                 <td>{{producto.fecharegistro}}</td>
                                 <td>{{producto.nomproducto}}</td>
                                 <td>{{producto.nomcategoria}}</td>
-                                <td>{{producto.cantidad}}</td>
+                                <td>
+                                    <div>
+                                        <p>{{ producto.cantidad }}</p>
+                                        {% if producto.is_low_quantity %}
+                                            <div class="alert alert-danger" role="alert">
+                                                ¡Cantidad Baja!
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
                                 <td>
@@ -218,7 +227,7 @@
                     </div>
                 </div>
                 {% else %}
-                <p class="text-center">No hay productos registradas</p>
+                <p class="text-center">No hay productos registrados</p>
                 {% endif %}
             </section>
         </section>
