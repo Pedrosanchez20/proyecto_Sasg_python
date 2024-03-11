@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'sasg',
     
     'django_filters',
+    
+    
 ]
 
 MIDDLEWARE = [
