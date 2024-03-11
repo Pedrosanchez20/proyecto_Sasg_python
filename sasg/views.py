@@ -1,25 +1,24 @@
 import json
-from django.urls import reverse
-import tempfile
 import os
-
+import tempfile
 from cProfile import Profile
-from django.contrib.auth import authenticate, login
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
+from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
-from django.conf import settings
-from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-
+from django.urls import reverse
 
 from sasg.models import Producto
+
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
-from .filters import ProductoFilter, VentaFilter, PedidoFilter, CompraFilter, UsuariosFilter
+
+#from .filters import ProductoFilter, VentaFilter, PedidoFilter, CompraFilter, UsuariosFilter
 # Create your views here.
 
 def sasg(request):
@@ -58,12 +57,12 @@ def user_login(request):
                 print("ID del usuario en la sesión:", request.session['user'])
                 nombre_usuario = usuario.nombres
                 print("Nombre de usuario:", nombre_usuario)
-                if usuario.rol.idrol == 971: 
-                    return redirect('listar_usuario')  
+                if usuario.rol.idrol == 971:
+                    return redirect('listar_usuario')
                 elif usuario.rol.idrol == 214:
-                    return redirect('listar_productos')  
+                    return redirect('listar_productos')
                 elif usuario.rol.idrol == 354:
-                    return redirect('asago') 
+                    return redirect('asago')
                 else:
                     messages.error(request, 'Rol no reconocido.')
             else:
@@ -73,13 +72,10 @@ def user_login(request):
     return render(request, 'sasg/login.html', {'nombre_usuario': nombre_usuario})
 
 
-
-
 def user_logout(request):
-    request.session.flush()
-    return redirect('asago')    
+    request.session['user']= None
+    return redirect('asago')
             
-
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -165,173 +161,197 @@ def registrar_usuario(request):
 
 
 def listar_usuario(request):
-    usuario_list = Usuarios.objects.all()
-    usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
-    usuario_list = usuariosFilter.qs
-    paginator = Paginator(usuario_list, 13) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuario_list': usuario_list})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        usuario_list = Usuarios.objects.all()
+        #usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
+        #usuario_list = usuariosFilter.qs
+        paginator = Paginator(usuario_list, 13) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuario_list': usuario_list})
 
 
 def pre_editar_usuario(request, idusuario):
-    usuario = Usuarios.objects.get(idusuario=idusuario)
-    roles = Roles.objects.all()
-    data = {
-        "usuarios": usuario,
-        "rol": roles,
-    }
-    return render(request, 'sasg/editarUsuario.html', data)
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        usuario = Usuarios.objects.get(idusuario=idusuario)
+        roles = Roles.objects.all()
+        data = {
+            "usuarios": usuario,
+            "rol": roles,
+        }
+        return render(request, 'sasg/editarUsuario.html', data)
 
 
 def actualizar_usuario(request, idusuario):
-    if request.method=='POST':
-        usuario=Usuarios.objects.get(idusuario=idusuario)
-        
-        # usuario.idusuario=request.POST.get('idusuario')
-        # usuario.nombres=request.POST.get('nombres')
-        # usuario.apellidos=request.POST.get('apellidos')
-        # usuario.fechanacimiento=request.POST.get('fechanacimiento')
-        # usuario.direccion=request.POST.get('direccion')
-        # usuario.telefono=request.POST.get('telefono')
-        # usuario.email=request.POST.get('email')
-        # usuario.contrasena=request.POST.get('contrasena')
-        usuario.estado=request.POST.get('estado')
-        usuario.rol=Roles.objects.get(idrol=request.POST.get('idrol')) 
-        
-        usuario.save()
-    return redirect("listar_usuario")
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method=='POST':
+            usuario=Usuarios.objects.get(idusuario=idusuario)
+            
+            # usuario.idusuario=request.POST.get('idusuario')
+            # usuario.nombres=request.POST.get('nombres')
+            # usuario.apellidos=request.POST.get('apellidos')
+            # usuario.fechanacimiento=request.POST.get('fechanacimiento')
+            # usuario.direccion=request.POST.get('direccion')
+            # usuario.telefono=request.POST.get('telefono')
+            # usuario.email=request.POST.get('email')
+            # usuario.contrasena=request.POST.get('contrasena')
+            usuario.estado=request.POST.get('estado')
+            usuario.rol=Roles.objects.get(idrol=request.POST.get('idrol')) 
+            
+            usuario.save()
+        return redirect("listar_usuario")
+
 def contar_usuarios(request):
-    cantidad_usuarios = Usuarios.objects.count()
-    return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        cantidad_usuarios = Usuarios.objects.count()
+        return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
 #--------------------PRODUCTOS----------------------------
 
 
 def registrar_producto(request):
-    if request.method== 'POST':
-        idproducto=request.POST.get('idproducto')
-        fecharegistro=request.POST.get('fecharegistro')
-        nomproducto=request.POST.get('nomproducto')
-        nomcategoria=request.POST.get('nomcategoria')
-        cantidad=request.POST.get('cantidad')
-        fechavencimiento=request.POST.get('fechavencimiento')
-        valorlibra=request.POST.get('valorlibra')
-        
-        producto = Producto(
-            idproducto=idproducto,
-            fecharegistro=fecharegistro,
-            nomproducto=nomproducto,
-            nomcategoria=nomcategoria,
-            cantidad=cantidad,
-            fechavencimiento=fechavencimiento,
-            valorlibra=valorlibra,
-        )
-        
-        producto.save()
-    return redirect("listar_producto")
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method== 'POST':
+            idproducto=request.POST.get('idproducto')
+            fecharegistro=request.POST.get('fecharegistro')
+            nomproducto=request.POST.get('nomproducto')
+            nomcategoria=request.POST.get('nomcategoria')
+            cantidad=request.POST.get('cantidad')
+            fechavencimiento=request.POST.get('fechavencimiento')
+            valorlibra=request.POST.get('valorlibra')
+            
+            producto = Producto(
+                idproducto=idproducto,
+                fecharegistro=fecharegistro,
+                nomproducto=nomproducto,
+                nomcategoria=nomcategoria,
+                cantidad=cantidad,
+                fechavencimiento=fechavencimiento,
+                valorlibra=valorlibra,
+            )
+            
+            producto.save()
+        return redirect("listar_producto")
 
 
 def listar_producto(request):
-    product_list = Producto.objects.all()
-    productoFilter = ProductoFilter(request.GET, queryset=product_list)
-    product_list = productoFilter.qs
-    for producto in product_list:
-        if int (producto.cantidad) <= 10:
-            producto.is_low_quantity = True
-        else:
-            producto.is_low_quantity = False
-    paginator = Paginator(product_list, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        product_list = Producto.objects.all()
+        #productoFilter = ProductoFilter(request.GET, queryset=product_list)
+        #product_list = productoFilter.qs
+        for producto in product_list:
+            if int (producto.cantidad) <= 10:
+                producto.is_low_quantity = True
+            else:
+                producto.is_low_quantity = False
+        paginator = Paginator(product_list, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'product_list': product_list})
 
 
 
 def pre_editar_producto(request,idproducto):
-    producto=Producto.objects.get(idproducto=idproducto)
-    data={
-        "producto":producto,
-    }
-    return render(request, 'sasg/editarProducto.html',data)
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        producto=Producto.objects.get(idproducto=idproducto)
+        data={
+            "producto":producto,
+        }
+        return render(request, 'sasg/editarProducto.html',data)
 
 
 def actualizar_producto(request, idproducto):
-    if request.method=='POST':
-        producto=Producto.objects.get(idproducto=idproducto)
-        
-        producto.idproducto=request.POST.get('idproducto')
-        producto.fecharegistro=request.POST.get('fecharegistro')
-        producto.nomproducto=request.POST.get('nomproducto')
-        producto.nomcategoria=request.POST.get('nomcategoria')
-        producto.cantidad=request.POST.get('cantidad')
-        producto.fechavencimiento=request.POST.get('fechavencimiento')
-        producto.valorlibra=request.POST.get('valorlibra')
-        
-        producto.save()
-    return redirect("listar_productos")
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method=='POST':
+            producto=Producto.objects.get(idproducto=idproducto)
+            
+            producto.idproducto=request.POST.get('idproducto')
+            producto.fecharegistro=request.POST.get('fecharegistro')
+            producto.nomproducto=request.POST.get('nomproducto')
+            producto.nomcategoria=request.POST.get('nomcategoria')
+            producto.cantidad=request.POST.get('cantidad')
+            producto.fechavencimiento=request.POST.get('fechavencimiento')
+            producto.valorlibra=request.POST.get('valorlibra')
+            
+            producto.save()
+        return redirect("listar_productos")
 
-def generarPDF(request):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
-    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('reportProd')), False, configuration=config)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
-    return response
-
-def generarCv(request, pk):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
-    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('specific_user', args=[pk])), False, configuration=config)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
-    return response
 
 def contar_productos(request):
-    cantidad_producto = Producto.objects.count()
-    return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        cantidad_producto = Producto.objects.count()
+        return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
 
 #--------------------VENTAS----------------------------
 
 
 def listar_venta(request):
-    venta_list = Venta.objects.all()
-    ventaFilter = VentaFilter(request.GET, queryset=venta_list)
-    venta_list = ventaFilter.qs
-    paginator = Paginator(venta_list, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        venta_list = Venta.objects.all()
+        ventaFilter = VentaFilter(request.GET, queryset=venta_list)
+        venta_list = ventaFilter.qs
+        paginator = Paginator(venta_list, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter})
 
 #--------------------COMPRAS----------------------------
 
 def registrar_compra(request):
-    if request.method== 'POST':
-        idcompra = request.POST.get('idcompra')
-        fechaemision = request.POST.get('fechaemision')
-        idproveedor = request.POST.get('idproveedor')
-        descripcion = request.POST.get('descripcion')
-        valorproducto = request.POST.get('valorproducto')
-        valortotal = request.POST.get('valortotal')
-        
-        compra = Compra(
-            idcompra = idcompra,
-            fechaemision = fechaemision,
-            idproveedor = idproveedor,
-            descripcion = descripcion,
-            valorproducto = valorproducto,
-            valortotal = valortotal,
-        )
-        
-        compra.save()
-    return redirect("listar_compra")
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method== 'POST':
+            idcompra = request.POST.get('idcompra')
+            fechaemision = request.POST.get('fechaemision')
+            idproveedor = request.POST.get('idproveedor')
+            descripcion = request.POST.get('descripcion')
+            valorproducto = request.POST.get('valorproducto')
+            valortotal = request.POST.get('valortotal')
+            
+            compra = Compra(
+                idcompra = idcompra,
+                fechaemision = fechaemision,
+                idproveedor = idproveedor,
+                descripcion = descripcion,
+                valorproducto = valorproducto,
+                valortotal = valortotal,
+            )
+            
+            compra.save()
+        return redirect("listar_compra")
 
 
 def listar_compra(request):
-    compra_list = Compra.objects.all()
-    compraFilter = CompraFilter(request.GET, queryset=compra_list)
-    compra_list = compraFilter.qs
-    paginator = Paginator(compra_list, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/compras.html', {'page_obj': page_obj, 'compraFilter': compraFilter})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        compra_list = Compra.objects.all()
+        compraFilter = CompraFilter(request.GET, queryset=compra_list)
+        compra_list = compraFilter.qs
+        paginator = Paginator(compra_list, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/compras.html', {'page_obj': page_obj, 'compraFilter': compraFilter})
 
 
 
@@ -339,46 +359,59 @@ def listar_compra(request):
 
 
 def listar_pedido(request):
-    pedido_list = Pedido.objects.all()
-    pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
-    pedido_list = pedidoFilter.qs
-    paginator = Paginator(pedido_list, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter': pedidoFilter})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        pedido_list = Pedido.objects.all()
+        pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
+        pedido_list = pedidoFilter.qs
+        paginator = Paginator(pedido_list, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter': pedidoFilter})
 
 
 def pre_editar_pedido(request,idpedido):
-    pedido=Pedido.objects.get(idpedido=idpedido)
-    usuario=Usuarios.objects.all()
-    data={
-        "pedido":pedido,
-        "usuario":usuario,
-    }
-    return render(request, 'sasg/editarPedido.html',data)
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        pedido=Pedido.objects.get(idpedido=idpedido)
+        usuario=Usuarios.objects.all()
+        data={
+            "pedido":pedido,
+            "usuario":usuario,
+        }
+        return render(request, 'sasg/editarPedido.html',data)
 
 
 def actualizar_pedido(request, idpedido):
-    if request.method=='POST':
-        pedido=Pedido.objects.get(idpedido=idpedido)
-        
-        # pedido.idpedido=request.POST.get('idproducto')
-        # pedido.fechaemision=request.POST.get('fechaemision')
-        # pedido.descripcion=request.POST.get('descripcion')
-        pedido.estado=request.POST.get('estado')
-        # pedido.valortotal=request.POST.get('valortotal')    
-        # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
-          
-        
-        pedido.save()
-    return redirect("listar_pedido")
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method=='POST':
+            pedido=Pedido.objects.get(idpedido=idpedido)
+            
+            # pedido.idpedido=request.POST.get('idproducto')
+            # pedido.fechaemision=request.POST.get('fechaemision')
+            # pedido.descripcion=request.POST.get('descripcion')
+            pedido.estado=request.POST.get('estado')
+            # pedido.valortotal=request.POST.get('valortotal')    
+            # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
+            
+            
+            pedido.save()
+        return redirect("listar_pedido")
 
 #--------------------PROVEEDORES----------------------------
 
 
 def listar_proveedor(request):
-    provee_list = Proveedor.objects.all()
-    paginator = Paginator(provee_list, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        provee_list = Proveedor.objects.all()
+        paginator = Paginator(provee_list, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
+    
