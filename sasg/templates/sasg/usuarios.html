@@ -76,32 +76,32 @@
                                 <label class='filtro' for="id_idusuario  ">ID Usuario:</label>
                                 <input type="text" name="idusuario" id="id_idusuario" class="custom-input">
                             </div>
+
                             <div class="form-group">
                                 <label class='filtro' for="id_rol">Rol:</label>
                                 <select name="rol" id="id_rol" class="custom-select">
                                     <option value="">Seleccione un rol</option>
                                     <option value="214">Vendedor</option>
-                                    <option value="354">SupAdministrador</option>
-                                    <option value="971">Cliente</option>
+                                    <option value="971">SupAdministrador</option>
+                                    <option value="354">Cliente</option>
                                 </select>
                             </div>
+
                             <div class="form-group">
                                 <label class='filtro' for="id_nombres">Nombre:</label>
                                 <input type="text" name="nombres" id="id_nombres" class="custom-input">
                             </div>
+
                             <div class="form-group">
                                 <label class='filtro' for="id_apellidos">Apellido:</label>
                                 <input type="text" name="apellidos" id="id_apellidos" class="custom-input">
                             </div>
-                            <div class="form-group">
-                                <label class='filtro' for="id_email">Email:</label>
-                                <input type="text" name="email" id="id_email" class="custom-input">
-                            </div>
+                    
                             <div class="form-group">
                                 <label class='filtro' for="id_estado">Estado:</label>
                                 <select name="estado" id="id_estado" class="custom-select">
                                     <option value="">Seleccione un estado</option>
-                                    <option value="Habilitado">Habilitado</option>
+                                    <option value="habilitado">Habilitado</option>
                                     <option value="deshabilitado">deshabilitado</option>
                                 </select>
                             </div>
@@ -113,7 +113,6 @@
                                 <th>Rol</th>
                                 <th>Nombres</th>
                                 <th>Apellido</th>
-                                <th>Fecha Nacimiento</th>
                                 <th>Direccion</th>
                                 <th>Telefono</th>
                                 <th>Email</th>
@@ -129,7 +128,6 @@
                                 <td>{{usuarios.rol.rolnombre}}</td>
                                 <td>{{usuarios.nombres}}</td>
                                 <td>{{usuarios.apellidos}}</td>
-                                <td>{{usuarios.fechanacimiento}}</td>
                                 <td>{{usuarios.direccion}}</td>
                                 <td>{{usuarios.telefono}}</td>
                                 <td>{{usuarios.email}}</td>

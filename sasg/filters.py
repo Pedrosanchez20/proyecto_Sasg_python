@@ -147,18 +147,14 @@ class UsuariosFilter(django_filters.FilterSet):
         label='Apellidos ',
         widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
     )
-    email = django_filters.CharFilter(
-        lookup_expr='icontains',
-        label='email',
-        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
-    )
+    
     estado = django_filters.CharFilter(
-        lookup_expr='icontains',
+        lookup_expr='exact',
         label='Estado',
         widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
     )
     class Meta:
         model = Usuarios
-        fields = ['idusuario', 'rol', 'nombres' , 'apellidos', 'email', 'estado']
+        fields = ['idusuario', 'rol', 'nombres' , 'apellidos', 'estado']
     
 """
