@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('',views.sasg,name='asago'),
     path('catPollo',views.catPollView,name='catPollo'),
-    path('catCarne',views.catCarnView,name='catCarne'),
+    path('catcarne',views.catcarne,name='catcarne'),
     path('catCerdo',views.catCerdView,name='catCerdo'),
     path('catChorizo',views.catChoView,name='catChorizo'),
     path('dashboard/',views.dashboard,name='dashboard'),
@@ -23,8 +23,8 @@ urlpatterns = [
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
     path('pre_editar_producto/<str:idproducto>',views.pre_editar_producto,name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
+    path('report_prod/', views.report_prod, name='report_prod'),
     path('generarPDF/', views.generarPDF, name='generarPDF'),
-    path('generarCv/<int:pk>', views.generarCv, name='generarCv'),
 
     #/-----ventas------/
     path('listar_venta/',views.listar_venta,name='listar_venta'),

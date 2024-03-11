@@ -3,7 +3,10 @@ from django.urls import reverse
 import tempfile
 import os
 
+import pdfkit
+
 from cProfile import Profile
+from random import sample
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
@@ -24,11 +27,6 @@ from .filters import ProductoFilter, VentaFilter, PedidoFilter, CompraFilter, Us
 
 def sasg(request):
     return render(request, 'sasg/index.html')
-
-
-def catCarnView(request):
-    return render(request, 'sasg/catcarne.html')
-
 
 def catPollView(request):
     return render(request, 'sasg/catpollo.html')
@@ -160,9 +158,7 @@ def registrar_usuario(request):
         msg.attach_alternative(mensaje_html,"text/html")
         msg.send()
         
-        
     return render(request, "sasg/registro.html")
-
 
 def listar_usuario(request):
     usuario_list = Usuarios.objects.all()
@@ -173,7 +169,6 @@ def listar_usuario(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuario_list': usuario_list})
 
-
 def pre_editar_usuario(request, idusuario):
     usuario = Usuarios.objects.get(idusuario=idusuario)
     roles = Roles.objects.all()
@@ -182,7 +177,6 @@ def pre_editar_usuario(request, idusuario):
         "rol": roles,
     }
     return render(request, 'sasg/editarUsuario.html', data)
-
 
 def actualizar_usuario(request, idusuario):
     if request.method=='POST':
@@ -245,6 +239,9 @@ def listar_producto(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
+def catcarne(request):
+    product_list_carne = Producto.objects.filter(nomcategoria='Carnicos')
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
 
 
 def pre_editar_producto(request,idproducto):
@@ -270,15 +267,19 @@ def actualizar_producto(request, idproducto):
         producto.save()
     return redirect("listar_productos")
 
+def report_prod(request):
+    # Lógica para generar el contenido de la plantilla
+    return render(request, 'sasg/reportProd.html')
+
 def generarPDF(request):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
-    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('reportProd')), False, configuration=config)
+    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Aprendiz\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('report_prod')), False, configuration=config)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
     return response
 
 def generarCv(request, pk):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Paula\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Aprendiz\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
     pdf = pdfkit.from_url(request.build_absolute_uri(reverse('specific_user', args=[pk])), False, configuration=config)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=Productos.pdf'

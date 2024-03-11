@@ -1,13 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+body{
+    font-family: system-ui;
 }
-
-
 header{
     display: flex;
     min-height: 70px;
@@ -16,7 +9,6 @@ header{
     align-items: center;
     padding: 5px 5%;
 }
-
 .logo{
     display: flex;
     align-items: center;
@@ -82,29 +74,36 @@ header{
     display: block;
 }
 
-.carrito{
-    color: white;
-    display: inline-block;
-    border-left: rgb(230, 72, 72) solid 2px;
-    margin-left: 10px;
-}
-
-.carrito i{
-    padding: 10px;
-    margin-left: 10px;
-    font-size: 40px;
-    justify-content: space-between;
-}
-
-.tittle{
-    margin-top: 40px;
+.container{
+    max-width: 1200px;
     text-align: center;
-    font-size: 30px;
-    font-weight: 500;
-    color: rgb(194, 16, 16);
+    margin: auto;
 }
 
-.contenedor-items{
+.cart{
+    width: 39px;
+    height: 38px;
+}
+.cart-products{
+    position: absolute!important;
+    top: 82px;
+    right: -18px;
+    background-color: #fff;
+    padding: 0 18px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+    display: none;
+
+    min-width: 290px;
+}
+
+.cart:hover{
+    margin-bottom: 16px;
+    transition-duration: .5s;
+}
+
+/*end header*/
+
+.products{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -112,7 +111,7 @@ header{
     margin-bottom: 50px;
 }
 
-.contenedor-items .item{
+.carts{
     display: flex;
     overflow: hidden;
     width: 240px;
@@ -125,26 +124,22 @@ header{
     transition: all .3s;
     border: 1px solid rgb(194, 16, 16);
 }
-
-.item .img-item{
+.carts img{
     width: 100%;
     height: 10rem;
     border-radius: 5px;
 }
-
-.item:hover{
-    box-shadow: 0 0 10px #666;
-    scale: 1.05;
-}
-
-.item .titulo-item{
+.carts p{
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: bold;
 }
 
-.item .card-button{
+.carts div{
+    position: relative;
+}
+.carts a{
     color: white;
     border: none;
     margin: 10px;
@@ -154,20 +149,77 @@ header{
     background-color: rgb(194, 16, 16);
 }
 
-.item a:link .item a:visited{
-    color: white;
-    display: inline-block;
-    padding: 1.2rem 3rem;
-    border-radius: 1rem;
-    margin-top: 1rem;
-    transition: all .3s;
+.carts a:hover{
+    background: #fff;
+    color: red;
+    border: solid 2px red;
+    transition-duration: .3s;
 }
 
-.item a{
-    color: white;
+/*float cart*/
+.cart-products .item img{
+    width: 115px;
+}
+
+.cart-products .item{
+    display: flex;
+    align-items: center;
+    border-bottom: solid 2px red;
+}
+.cart-products .item .item-content{
+    margin: 0 19px;
+    width: 201px;
+}
+.cart-products .item .item-content h5{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: system-ui;
+}
+.cart-products .item .item-content h6{
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: system-ui;
+}
+.cart-products .item span{
+    background-color: red;
+    padding: 0px 5px;
+    border-radius: 50%;
+    color: #fff;
+    font-family: system-ui;
+    cursor: pointer;
+}
+.cart-products h3{
+    margin-bottom: 0;
+}
+.cart-products .item .item-content h5.cart-price{
+    font-weight: 700;
+}
+
+/*stye to btn close*/
+
+p.close-btn{
+    top: -4px;
+    right: 6px;
+    cursor: pointer;
+    color: #000;
+}
+
+p.author {
+    display: flex;
+    justify-content: center;
+    FONT-VARIANT: JIS04;
+    margin-top: 3%;
+    gap: 7px;
+}
+p.author a {
     text-decoration: none;
+    font-weight: 700;
+    color: #000;
 }
 
+/*--------FOOTER-------*/
 
 .pie-pagina{
     width: 100%;
@@ -247,22 +299,4 @@ figure .image img{
     max-width:70%;
     max-height:70%; 
     margin-right: 5rem;   
-}
-
-
-@media screen and (max-width:1160px){
-    header{
-        flex-direction: column;
-    }
-
-    nav{
-        padding: 10px 0;
-    }
-
-    .pie-pagina .grupo-1{
-        width: 90%;
-        grid-template-columns: repeat(1, 1fr);
-        grid-gap:30px;
-        padding: 35px 0px;
-    }
 }
