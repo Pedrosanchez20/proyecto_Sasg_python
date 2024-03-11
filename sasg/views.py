@@ -3,7 +3,6 @@ from django.urls import reverse
 import tempfile
 import os
 
-import pdfkit
 
 from cProfile import Profile
 from random import sample
@@ -267,23 +266,7 @@ def actualizar_producto(request, idproducto):
         producto.save()
     return redirect("listar_productos")
 
-def report_prod(request):
-    # Lógica para generar el contenido de la plantilla
-    return render(request, 'sasg/reportProd.html')
 
-def generarPDF(request):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Aprendiz\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
-    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('report_prod')), False, configuration=config)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
-    return response
-
-def generarCv(request, pk):
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\Aprendiz\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
-    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('specific_user', args=[pk])), False, configuration=config)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=Productos.pdf'
-    return response
 
 def contar_productos(request):
     cantidad_producto = Producto.objects.count()

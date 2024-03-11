@@ -23,9 +23,6 @@ urlpatterns = [
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
     path('pre_editar_producto/<str:idproducto>',views.pre_editar_producto,name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
-    path('report_prod/', views.report_prod, name='report_prod'),
-    path('generarPDF/', views.generarPDF, name='generarPDF'),
-
     #/-----ventas------/
     path('listar_venta/',views.listar_venta,name='listar_venta'),
     
