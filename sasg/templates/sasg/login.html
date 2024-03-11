@@ -31,7 +31,13 @@
                     <span>iniciar sesión en tu Tienda Virtual</span>  
                 </div>
             </div>    
-
+            {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
                 <div class="row">
@@ -62,6 +68,7 @@
                 </div>
             </form>
         </div>
+       
     </div>
 
 </body>

@@ -49,21 +49,24 @@ def user_login(request):
         contrasena = request.POST.get('contrasena')
         try:
             usuario = Usuarios.objects.get(idusuario=idusuario)
-            if usuario.contrasena == contrasena:
-                request.session['user'] = usuario.idusuario
-                print("ID del usuario en la sesión:", request.session['user'])
-                nombre_usuario = usuario.nombres
-                print("Nombre de usuario:", nombre_usuario)
-                if usuario.rol.idrol == 971 and usuario.estado == "habilitado":
-                    return redirect('listar_usuario')  
-                elif usuario.rol.idrol == 214 and usuario.estado == "habilitado":
-                    return redirect('listar_productos')  
-                elif usuario.rol.idrol == 354 and usuario.estado == "habilitado":
-                    return redirect('asago') 
+            if usuario.estado == "habilitado":
+                if usuario.contrasena == contrasena:
+                    request.session['user'] = usuario.idusuario
+                    print("ID del usuario en la sesión:", request.session['user'])
+                    nombre_usuario = usuario.nombres
+                    print("Nombre de usuario:", nombre_usuario)
+                    if usuario.rol.idrol == 971:
+                        return redirect('listar_usuario')  
+                    elif usuario.rol.idrol == 214:
+                        return redirect('listar_productos')  
+                    elif usuario.rol.idrol == 354:
+                        return redirect('asago') 
+                    else:
+                        messages.error(request, 'Rol no reconocido.')
                 else:
-                    messages.error(request, 'Rol no reconocido.')
+                    messages.error(request, 'Contraseña incorrecta.')
             else:
-                messages.error(request, 'Contraseña incorrecta.')
+                messages.error(request, 'El usuario está deshabilitado.') 
         except Usuarios.DoesNotExist:
             messages.error(request, 'Usuario no encontrado.')
     return render(request, 'sasg/login.html', {'nombre_usuario': nombre_usuario})
