@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'sasg',
     'carts',
     'django_filters',
+    
+    
 ]
 
 MIDDLEWARE = [

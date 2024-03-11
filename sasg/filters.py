@@ -1,6 +1,7 @@
-import django_filters 
+import django_filters
 from django import forms
-from .models import Producto, Venta, Pedido, Compra, Usuarios
+
+from .models import Compra, Pedido, Producto, Usuarios, Venta
 
 
 #-------------FILTRO DE PRODUCTOS-------------------------------
