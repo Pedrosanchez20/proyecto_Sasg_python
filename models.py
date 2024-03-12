@@ -43,7 +43,7 @@ class Producto(models.Model):
     cantidad = models.CharField(max_length=50)
     fechavencimiento = models.DateField(db_column='FechaVencimiento')  # Field name made lowercase.
     valorlibra = models.IntegerField(db_column='Valorlibra')  # Field name made lowercase.
-    imagen = models.ImageField(upload_to="productos", null=True)
+    imagen = models.TextField()
 
     class Meta:
         managed = False
