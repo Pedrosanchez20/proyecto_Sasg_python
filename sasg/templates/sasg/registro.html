@@ -30,7 +30,13 @@
                 <p class="card-text">iniciar sesión en tu Tienda Virtual</p>
                 <hr>
             </div>
-
+            {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             <form action="{% url 'registrar_usuario' %}" class="was-validated row g-3 mx-5" method="post">
                 {% csrf_token %}
                 <div class="col-6">

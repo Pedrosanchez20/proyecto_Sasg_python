@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse
+from datetime import datetime, timedelta
 
 from sasg.models import *
 
@@ -96,20 +97,26 @@ def registrar_usuario(request):
         contrasena = request.POST.get('contrasena')
         estado = request.POST.get('estado')
         
+        fecha_nacimiento = datetime.strptime(fechanacimiento, '%Y-%m-%d')
+        edad_minima = datetime.now() - timedelta(days=365*18)  # 18 años atrás
+        if fecha_nacimiento > edad_minima:
+            messages.error(request, 'Debes tener al menos 18 años para registrarte.')
+            return render(request, "sasg/registro.html", {'error_message': 'Debes tener al menos 18 años para registrarte.'})
+
         usuario = Usuarios(
             idusuario=idusuario,
             nombres=nombres,
             apellidos=apellidos,
-            fechanacimiento=fechanacimiento,
+            fechanacimiento=fecha_nacimiento,
             direccion=direccion,
             telefono=telefono,
             email=email,
             contrasena=contrasena,
             estado="habilitado",
             rol=Roles.objects.get(idrol=354),
-            )
-            
+        )
         usuario.save()
+        
         mensaje_html = """
         <html>
         <head>
@@ -154,12 +161,11 @@ def registrar_usuario(request):
         </html>
         """
         subject = 'Registro exitoso'
-        message = '¡Gracias por registrarte en nuestra pagina!'
+        message = '¡Gracias por registrarte en nuestra página!'
         from_email = settings.EMAIL_HOST_USER
         to_email = [email] 
-        #send_mail(subject, message, from_email, to_email, html_message=mensaje_html)
         msg = EmailMultiAlternatives(subject, message, from_email, to_email)
-        msg.attach_alternative(mensaje_html,"text/html")
+        msg.attach_alternative(mensaje_html, "text/html")
         msg.send()
         
     return render(request, "sasg/registro.html")
