@@ -1,7 +1,11 @@
-from django.urls import path, include
-#from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import include, path
 
 from . import views
+
+#from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
     path('',views.sasg,name='asago'),
@@ -19,7 +23,7 @@ urlpatterns = [
     path('actualizar_usuario/<str:idusuario>/', views.actualizar_usuario,name='actualizar_usuario'),
     
     #/-----productos------/
-    path('listar_productos/',views.listar_producto,name='listar_productos'),
+    path('listar_producto/',views.listar_producto,name='listar_producto'),
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
     path('pre_editar_producto/<str:idproducto>',views.pre_editar_producto,name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
@@ -28,7 +32,7 @@ urlpatterns = [
     
     #/-----Compras----/
     path('listar_compra/',views.listar_compra,name='listar_compra'),
-     path('registrar_compra/',views.registrar_compra,name='registrar_compra'),
+    path('registrar_compra/',views.registrar_compra,name='registrar_compra'),
      
     #/-----pedidos------/
     path('listar_pedido/',views.listar_pedido,name='listar_pedido'),
@@ -40,4 +44,4 @@ urlpatterns = [
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout, name='logout'),
     
-]
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

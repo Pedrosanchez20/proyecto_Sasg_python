@@ -30,7 +30,7 @@
                     <span class="nav-item">Usuarios</span>
                 </a></li>
 
-                <li><a href="{% url 'listar_productos' %}">
+                <li><a href="{% url 'listar_producto' %}">
                     <i class="fas uil uil-shopping-bag"></i>
                     <span class="nav-item">Productos</span>
                 </a></li>
@@ -120,6 +120,10 @@
                             <label>Valor Libra</label>
                             <input type="number" name="valorlibra" required>
                         </div>
+                        <div class="row">
+                            <label>Subir archivo</label>
+                            <input type="file" accept="image/*" name="imagen" required>
+                        </div>
                         <div class="row block">
                             <input type="submit" value="Registrar" class="btn btn-primary"/>
                          </div>
@@ -168,6 +172,7 @@
                             <th>cantidad</th>
                             <th>Fecha Vencimiento</th>
                             <th>Valor libra</th>
+                            <th>Imagen</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -191,6 +196,7 @@
                                 </td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
+                                <td><img src="{{producto.imagen.url}}" style="object-fit:cover;width:80px"></td>
                                 <td>
                                     <span>
                                         <a class="editar"

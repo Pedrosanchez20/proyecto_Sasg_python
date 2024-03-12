@@ -62,81 +62,13 @@
       {% for producto in product_list_carne %}
         <div class="carts">
             <div>
-              <img src="{% static 'imagenes/'|add:producto.nomproducto|add:'.webp' %}" alt="" class="img-item">
+              <img src="{{producto.imagen.url}}" alt="" class="img-item">
             </div>
             <p class="title">{{ producto.nomproducto }}</p>
             <p>$<span>{{ producto.valorlibra }}</span></p>
             <a href="" data-id="1" class="btn-add-cart">Agregar al Carrito</a>
         </div>
         {% endfor %}
-
-
-
-        
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="2" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="3" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="4" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="5" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="6" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="7" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-
-        <div class="carts">
-            <div>
-                <img src="{%static 'imagenes/jamon.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="8" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-    </div>
   </section>
   
   <footer class="pie-pagina">

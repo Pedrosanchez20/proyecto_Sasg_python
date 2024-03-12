@@ -15,16 +15,19 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse
 
-from sasg.models import Producto
+from sasg.models import *
 
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
                       UsuariosFilter, VentaFilter)
-from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 
 # Create your views here.
 
 def sasg(request):
     return render(request, 'sasg/index.html')
+
+def catcarne(request):
+    product_list_carne = Producto.objects.filter(nomcategoria='Carnicos')
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
 
 def catPollView(request):
     return render(request, 'sasg/catpollo.html')
@@ -236,6 +239,7 @@ def registrar_producto(request):
                 cantidad=cantidad,
                 fechavencimiento=fechavencimiento,
                 valorlibra=valorlibra,
+                imagen=request.FILES['imagen']
             )
             
             producto.save()
@@ -259,12 +263,7 @@ def listar_producto(request):
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
-def catcarne(request):
-    if request.session['user'] is None:
-        return redirect("login")
-    else:
-        product_list_carne = Producto.objects.filter(nomcategoria='Carnicos')
-        return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
+
 
 
 def pre_editar_producto(request,idproducto):
