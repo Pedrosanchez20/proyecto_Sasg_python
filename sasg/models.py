@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.utils import timezone
 
 
 class Compra(models.Model):
@@ -36,12 +37,13 @@ class Pedido(models.Model):
 
 class Producto(models.Model):
     idproducto = models.AutoField(db_column='IdProducto', primary_key=True)  # Field name made lowercase.
-    fecharegistro = models.DateField(db_column='FechaRegistro')  # Field name made lowercase.
+    fecharegistro = models.DateField(default=timezone.now, null=True)  # Field name made lowercase.
     nomproducto = models.CharField(db_column='NomProducto', max_length=50)  # Field name made lowercase.
     nomcategoria = models.CharField(db_column='NomCategoria', max_length=10)  # Field name made lowercase.
     cantidad = models.CharField(max_length=50)
     fechavencimiento = models.DateField(db_column='FechaVencimiento')  # Field name made lowercase.
     valorlibra = models.IntegerField(db_column='Valorlibra')  # Field name made lowercase.
+    foto_producto = models.ImageField(upload_to="productos",null=True) # Field name made lowercase.
 
     class Meta:
         managed = False

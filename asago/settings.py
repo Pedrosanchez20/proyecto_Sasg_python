@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sasg',
-    'carts',
     'django_filters',
     
     
@@ -81,7 +80,7 @@ WSGI_APPLICATION = 'asago.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sasg',
+        'NAME': 'asago',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
