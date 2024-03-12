@@ -17,8 +17,8 @@ from django.urls import reverse
 
 from sasg.models import Producto
 
-# from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
-#                       UsuariosFilter, VentaFilter)
+from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
+                      UsuariosFilter, VentaFilter)
 from .models import Compra, Pedido, Producto, Proveedor, Roles, Usuarios, Venta
 
 # Create your views here.
@@ -166,12 +166,12 @@ def listar_usuario(request):
         return redirect("login")
     else:
         usuario_list = Usuarios.objects.all()
-        # usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
-        # usuario_list = usuariosFilter.qs
+        usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
+        usuario_list = usuariosFilter.qs
         paginator = Paginator(usuario_list, 13) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuario_list': usuario_list})
+        return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
 
 def pre_editar_usuario(request, idusuario):
     if request.session['user'] is None:
@@ -247,8 +247,8 @@ def listar_producto(request):
         return redirect("login")
     else:
         product_list = Producto.objects.all()
-        # productoFilter = ProductoFilter(request.GET, queryset=product_list)
-        # product_list = productoFilter.qs
+        productoFilter = ProductoFilter(request.GET, queryset=product_list)
+        product_list = productoFilter.qs
         for producto in product_list:
             if int (producto.cantidad) <= 10:
                 producto.is_low_quantity = True
@@ -257,7 +257,7 @@ def listar_producto(request):
         paginator = Paginator(product_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/productos.html', {'page_obj': page_obj})
+        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
 def catcarne(request):
     if request.session['user'] is None:
@@ -313,12 +313,12 @@ def listar_venta(request):
         return redirect("login")
     else:
         venta_list = Venta.objects.all()
-        # ventaFilter = VentaFilter(request.GET, queryset=venta_list)
-        # venta_list = ventaFilter.qs
+        ventaFilter = VentaFilter(request.GET, queryset=venta_list)
+        venta_list = ventaFilter.qs
         paginator = Paginator(venta_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/ventas.html', {'page_obj': page_obj})
+        return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter})
 
 #--------------------COMPRAS----------------------------
 
@@ -352,12 +352,12 @@ def listar_compra(request):
         return redirect("login")
     else:
         compra_list = Compra.objects.all()
-        # compraFilter = CompraFilter(request.GET, queryset=compra_list)
-        # compra_list = compraFilter.qs
+        compraFilter = CompraFilter(request.GET, queryset=compra_list)
+        compra_list = compraFilter.qs
         paginator = Paginator(compra_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/compras.html', {'page_obj': page_obj})
+        return render(request, 'sasg/compras.html', {'page_obj': page_obj, 'compraFilter':compraFilter})
 
 
 
@@ -369,12 +369,12 @@ def listar_pedido(request):
         return redirect("login")
     else:
         pedido_list = Pedido.objects.all()
-        # pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
-        # pedido_list = pedidoFilter.qs
+        pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
+        pedido_list = pedidoFilter.qs
         paginator = Paginator(pedido_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/pedidos.html', {'page_obj': page_obj})
+        return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter':pedidoFilter})
 
 
 def pre_editar_pedido(request,idpedido):

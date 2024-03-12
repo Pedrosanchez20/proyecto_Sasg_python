@@ -71,7 +71,7 @@
                 <div class="dashboard-list">
                     {% if page_obj %}
                     <table class="table">
-                        {% comment %} <form method="get" class="filtro-form">
+                        <form method="get" class="filtro-form">
                             <div class="form-group">
                                 <label class='filtro' for="id_idventa">ID Venta:</label>
                                 <input type="text" name="idventa" id="id_idventa" class="custom-input">
@@ -97,7 +97,7 @@
                                 <input type="text" name="cantidad" id="id_cantidad" class="custom-input">
                             </div>
                             <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
-                        </form> {% endcomment %}
+                        </form>
                         <thead>
                         <tr>
                             <th>Id</th>
