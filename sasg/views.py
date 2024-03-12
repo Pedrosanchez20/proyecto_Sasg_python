@@ -167,6 +167,8 @@ def registrar_usuario(request):
         msg = EmailMultiAlternatives(subject, message, from_email, to_email)
         msg.attach_alternative(mensaje_html, "text/html")
         msg.send()
+
+        return redirect('login')
         
     return render(request, "sasg/registro.html")
 
