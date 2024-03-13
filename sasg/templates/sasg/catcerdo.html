@@ -18,20 +18,31 @@
   
   <header>
     <div class="logo">
-      <a href="{% url 'asago' %}"><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
+      <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-  
-      <div class="login">
-        <p>Iniciar Sesión</p>
+    
+    <div class="login">
+      {% if request.session.user %}
+        <p>Bienvenido a Asago! </p>
         <div class="dropdown">
           <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
           <div class="dropdown-content">
-          <a href="ingresar.php">Iniciar Sesión</a>
-          <a href="registro2.php">Registrarse</a>
+            <a href="{% url 'logout' %}">Cerrar Sesión</a>
+          </div> 
         </div> 
-      </div> 
-    </div> 
+      {% else %}
+        <p>Inicio de Sesion</p>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+          <div class="dropdown-content">
+            <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'registrar_usuario' %}">Registrarse</a>
+          </div> 
+        </div> 
+      {% endif %}
+    </div>
+    
   </header>
 
   <div class="tittle">

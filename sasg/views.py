@@ -20,6 +20,7 @@ from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Image, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
+from django.utils import timezone
 
 from sasg.models import *
 
@@ -67,7 +68,7 @@ def user_login(request):
                     if usuario.rol.idrol == 971:
                         return redirect('listar_usuario')  
                     elif usuario.rol.idrol == 214:
-                        return redirect('listar_productos')  
+                        return redirect('listar_producto')  
                     elif usuario.rol.idrol == 354:
                         return redirect('asago') 
                     else:
@@ -289,7 +290,7 @@ def registrar_producto(request):
     else:
         if request.method== 'POST':
             idproducto=request.POST.get('idproducto')
-            fecharegistro=request.POST.get('fecharegistro')
+            fecharegistro = timezone.now().date()
             nomproducto=request.POST.get('nomproducto')
             nomcategoria=request.POST.get('nomcategoria')
             cantidad=request.POST.get('cantidad')
@@ -354,10 +355,52 @@ def actualizar_producto(request, idproducto):
             producto.cantidad=request.POST.get('cantidad')
             producto.fechavencimiento=request.POST.get('fechavencimiento')
             producto.valorlibra=request.POST.get('valorlibra')
+            #if 'imagen' in request.FILES:
+             #   producto.imagen = request.FILES['imagen']
             
             producto.save()
-        return redirect("listar_productos")
+        return redirect("listar_producto")
 
+
+def exportar_productos_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="productos.pdf"'
+
+        producto_list = Producto.objects.all()
+
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        titulo = Paragraph('Reporte Productos', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  
+
+
+        data = [['ID', 'Fecha Registro', 'Nombre', 'Categoria', 'Cantidad', 'Fecha Vencimiento', 'Valor Libra']]
+        for producto in producto_list:
+            data.append([producto.idproducto, producto.fecharegistro, producto.nomproducto,
+                         producto.nomcategoria, producto.cantidad, producto.fechavencimiento, producto.valorlibra])
+
+        col_widths = ['auto'] * len(data[0]) 
+
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        elements.append(table)
+
+        doc.build(elements)
+        return response
 
 
 def contar_productos(request):
@@ -388,7 +431,6 @@ def prod_chorizo(request):
 
 #--------------------VENTAS----------------------------
 
-
 def listar_venta(request):
     if request.session['user'] is None:
         return redirect("login")
@@ -400,6 +442,47 @@ def listar_venta(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter})
+    
+
+def exportar_ventas_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="ventas.pdf"'
+
+        venta_list = Venta.objects.all()
+
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        titulo = Paragraph('Reporte Ventas', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  
+
+
+        data = [['ID', 'Fecha Registro', 'Nombre', 'Categoria', 'Cantidad', 'Fecha Vencimiento', 'Valor Libra']]
+        for venta in venta_list:
+            data.append([venta.idventa, venta.fecharegistro, venta.nomventa,
+                         venta.nomcategoria, venta.cantidad, venta.fechavencimiento, venta.valorlibra])
+
+        col_widths = ['auto'] * len(data[0]) 
+
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        elements.append(table)
+
+        doc.build(elements)
+        return response
 
 #--------------------COMPRAS----------------------------
 
@@ -501,3 +584,59 @@ def listar_proveedor(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
+    
+def registrar_proveedor(request):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method== 'POST':
+            idproveedor = request.POST.get('idproveedor')
+            nomempresa = request.POST.get('nomempresa')
+            producto = request.POST.get('producto')
+            telefono = request.POST.get('telefono')
+            correo = request.POST.get('correo')
+
+            proveedor = Proveedor(
+                idproveedor = idproveedor,
+                nomempresa = nomempresa,
+                producto = producto,
+                telefono = telefono,
+                correo = correo,
+            )
+
+            proveedor.save()
+        return redirect("listar_proveedor")    
+
+
+
+
+def pre_editar_proveedor(request,idproveedor):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        proveedor=Proveedor.objects.get(idproveedor=idproveedor)
+        usuario=Usuarios.objects.all()
+        data={
+            "proveedor":proveedor,
+            "usuario":usuario,
+        }
+        return render(request, 'sasg/editarProveedor.html',data)
+
+
+def actualizar_proveedor(request, idproveedor):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method=='POST':
+            proveedor=Proveedor.objects.get(idproveedor=idproveedor)
+
+            # proveedor.idproveedor=request.POST.get('idproveedor')
+            proveedor.nomempresa=request.POST.get('nomempresa')
+            proveedor.producto=request.POST.get('producto')
+            proveedor.telefono=request.POST.get('telefono')   
+            proveedor.correo=request.POST.get('correo')  
+            # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
+
+
+            proveedor.save()
+        return redirect("listar_proveedor")
