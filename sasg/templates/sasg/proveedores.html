@@ -94,8 +94,6 @@
                             <input type="text" name="nomempresa" required>
                         </div>
 
-        
-
                         <div class="row">
                             <label>Direccion</label>
                             <input type="text" name="producto" required>
@@ -126,16 +124,13 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Direccion</th>
+                                <th>Empresa</th>
+                                <th>Descripcion</th>
                                 <th>Telefono</th>
                                 <th>Email</th>
                                 <th>Acciones</th>
-                           
-
                             </tr>
                         </thead>
-
                         <tbody>
                             {% for proveedor in page_obj %}
                             <tr id="proveedor{{proveedor.id}}">
