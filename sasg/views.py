@@ -359,8 +359,7 @@ def actualizar_producto(request, idproducto):
             
             producto.save()
         return redirect("listar_producto")
-
-
+    
 
 def exportar_productos_pdf(request):
     if request.session.get('user') is None:
