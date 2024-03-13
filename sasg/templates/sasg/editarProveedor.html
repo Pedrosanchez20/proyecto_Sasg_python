@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
+    <title>Actualizar Producto</title>
+</head>
+
+<body>
+  <div class="container">
+    <input type="checkbox" id="btn-modal">       
+        <section class="main">
+            <div class="main-top">
+                <i class="fas uil uil-shopping-bag"></i>
+                <h1>Editar Productos</h1>
+            </div>
+          <section class="dashboard">
+            <form name="form_proveedor"
+                method="POST"
+                action="{% url 'actualizar_proveedor' proveedor.idproveedor%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+              <div class="dashboard-list">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nombre</th>
+                      <th>Direccion</th>
+                      <th>Telefono</th>
+                      <th>Correo </th>
+                      
+                    </tr>
+                  </thead>
+                  <span>
+
+                  <tbody>
+                    <tr>
+                      <td><input type="text" name="idproveedor" class="form-control" value="{{proveedor.idproveedor}}" required></td>
+                      <td><input type="text" name="nomempresa" class="form-control" value="{{proveedor.nomempresa}}" required></td>
+                      <td><input type="text" name="producto" class="form-control" value="{{proveedor.producto}}" required></td>
+                      <td><input type="text" name="telefono" class="form-control" value="{{proveedor.telefono}}" required></td>
+                      <td><input type="text" name="correo" class="form-control" value="{{proveedor.correo}}" required></td>
+                    </tr>            
+                  </tbody>
+                </table>
+                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                <a class="btn btn-secondary"
+                    title="Cancelar"
+                    href="{% url 'listar_proveedor' %}">
+                    Cancelar
+                </a>
+ 
+            </div>
+            </form>
+          </section>
+        </section>
+    </div>
+</body>
+</html>

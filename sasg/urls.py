@@ -41,6 +41,9 @@ urlpatterns = [
     
     #/-----proveedores------/
     path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
+    path('registrar_proveedor/',views.registrar_proveedor,name='registrar_proveedor'),
+    path('pre_editar_proveedor/<str:idproveedor>',views.pre_editar_proveedor,name='pre_editar_proveedor'),
+    path('actualizar_proveedor/<str:idproveedor>',views.actualizar_proveedor,name='actualizar_proveedor'),
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout, name='logout'),
     

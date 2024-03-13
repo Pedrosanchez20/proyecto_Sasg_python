@@ -427,3 +427,60 @@ def listar_proveedor(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
+    
+    
+def registrar_proveedor(request):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method== 'POST':
+            idproveedor = request.POST.get('idproveedor')
+            nomempresa = request.POST.get('nomempresa')
+            producto = request.POST.get('producto')
+            telefono = request.POST.get('telefono')
+            correo = request.POST.get('correo')
+            
+            proveedor = Proveedor(
+                idproveedor = idproveedor,
+                nomempresa = nomempresa,
+                producto = producto,
+                telefono = telefono,
+                correo = correo,
+            )
+            
+            proveedor.save()
+        return redirect("listar_proveedor")    
+    
+    
+    
+    
+def pre_editar_proveedor(request,idproveedor):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        proveedor=Proveedor.objects.get(idproveedor=idproveedor)
+        usuario=Usuarios.objects.all()
+        data={
+            "proveedor":proveedor,
+            "usuario":usuario,
+        }
+        return render(request, 'sasg/editarProveedor.html',data)
+
+
+def actualizar_proveedor(request, idproveedor):
+    if request.session['user'] is None:
+        return redirect("login")
+    else:
+        if request.method=='POST':
+            proveedor=Proveedor.objects.get(idproveedor=idproveedor)
+            
+            # proveedor.idproveedor=request.POST.get('idproveedor')
+            proveedor.nomempresa=request.POST.get('nomempresa')
+            proveedor.producto=request.POST.get('producto')
+            proveedor.telefono=request.POST.get('telefono')   
+            proveedor.correo=request.POST.get('correo')  
+            # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
+            
+            
+            proveedor.save()
+        return redirect("listar_proveedor")

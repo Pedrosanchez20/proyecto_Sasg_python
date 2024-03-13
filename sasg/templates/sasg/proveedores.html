@@ -30,7 +30,7 @@
                   <span class="nav-item">Usuarios</span>
               </a></li>
 
-              <li><a href="{% url 'listar_productos' %}">
+              <li><a href="{% url 'listar_producto' %}">
                   <i class="fas uil uil-shopping-bag"></i>
                   <span class="nav-item">Productos</span>
               </a></li>
@@ -81,7 +81,7 @@
 
                     <form name="form_persona"
                         method="POST"
-                        action="{% url 'registrar_producto'%}"
+                        action="{% url 'registrar_proveedor'%}"
                         enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
@@ -91,24 +91,24 @@
 
                         <div class="row">
                             <label>Nombre</label>
-                            <input type="text" name="nomproducto" required>
+                            <input type="text" name="nomempresa" required>
                         </div>
 
         
 
                         <div class="row">
                             <label>Direccion</label>
-                            <input type="text" name="cantidad" required>
+                            <input type="text" name="producto" required>
                         </div>
 
                         <div class="row">
                             <label>Telefono</label>
-                            <input type="number" name="fechavencimiento" required>
+                            <input type="text" name="telefono" required>
                         </div>
 
                         <div class="row">
-                            <label>Email</label>
-                            <input type="email" name="valorlibra" required>
+                            <label>Correo</label>
+                            <input type="email" name="correo" required>
                         </div>
                         <div class="row block">
                             <input type="submit" value="Registrar" class="btn btn-primary"/>
@@ -139,12 +139,21 @@
                         <tbody>
                             {% for proveedor in page_obj %}
                             <tr id="proveedor{{proveedor.id}}">
-                                <td>{{proveedor.IdProveedor}}</td>
-                                <td>{{proveedor.nombres}}</td>
-                                <td>{{proveedor.direccion}}</td>
+                                <td>{{proveedor.idproveedor}}</td>
+                                <td>{{proveedor.nomempresa}}</td>
+                                <td>{{proveedor.producto}}</td>
                                 <td>{{proveedor.telefono}}</td>
-                                <td>{{proveedor.email}}</td>
-                                <td></td>   
+                                <td>{{proveedor.correo}}</td>
+                                <td>               
+                                    <span>
+                                        <a class="editar"
+                                        title="Editar Datos"
+                                        href="{% url 'pre_editar_proveedor' proveedor.idproveedor %}">
+                                        Editar
+                                    </a>
+                                    {% csrf_token %}
+                                    </span>
+                                </td>   
                             </tr>
                             {% endfor %}
                         </tbody>
