@@ -366,8 +366,8 @@ def contar_productos(request):
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
-
-   
+ 
+    
 #-----------------------------------Categorias----------------------------------------
 
 def prod_carne(request):
@@ -385,6 +385,7 @@ def prod_cerdo(request):
 def prod_chorizo(request):
     product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
     return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
+
 #--------------------VENTAS----------------------------
 
 
