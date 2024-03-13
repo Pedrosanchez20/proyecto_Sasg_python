@@ -281,8 +281,9 @@ def contar_usuarios(request):
     else:
         cantidad_usuarios = Usuarios.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
+    
+    
 #--------------------PRODUCTOS----------------------------
-
 
 def registrar_producto(request):
     if request.session['user'] is None:
@@ -320,14 +321,14 @@ def listar_producto(request):
         productoFilter = ProductoFilter(request.GET, queryset=product_list)
         product_list = productoFilter.qs
         for producto in product_list:
-            if int (producto.cantidad) <= 10:
-                producto.is_low_quantity = True
+            if producto.cantidad:  # Verificar si cantidad tiene un valor
+                producto.is_low_quantity = int(producto.cantidad) <= 10
             else:
                 producto.is_low_quantity = False
         paginator = Paginator(product_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
+        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter, 'product_list': product_list})
 
 
 def pre_editar_producto(request,idproducto):
@@ -349,17 +350,16 @@ def actualizar_producto(request, idproducto):
             producto=Producto.objects.get(idproducto=idproducto)
             
             producto.idproducto=request.POST.get('idproducto')
-            producto.fecharegistro=request.POST.get('fecharegistro')
+            producto.fecharegistro = Producto.objects.get(idproducto=idproducto).fecharegistro
             producto.nomproducto=request.POST.get('nomproducto')
             producto.nomcategoria=request.POST.get('nomcategoria')
-            producto.cantidad=request.POST.get('cantidad')
             producto.fechavencimiento=request.POST.get('fechavencimiento')
             producto.valorlibra=request.POST.get('valorlibra')
-            #if 'imagen' in request.FILES:
-             #   producto.imagen = request.FILES['imagen']
+            producto.imagen = request.FILES['imagen'] if 'imagen' in request.FILES else producto.imagen
             
             producto.save()
         return redirect("listar_producto")
+
 
 
 def exportar_productos_pdf(request):
