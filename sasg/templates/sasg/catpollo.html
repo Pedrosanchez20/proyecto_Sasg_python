@@ -18,21 +18,20 @@
 
   <header>
     <div class="logo">
-      <a href="{% url 'asago' %}" ><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
+      <a href="{% url 'asago' %}"><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-
-    <div class="login">
-    <p>Iniciar Sesión</p>
-      <div class="dropdown">
-        <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
-        <div class="dropdown-content">
-        <a href="ingresar.php">Iniciar Sesión</a>
-        <a href="registro2.php">Registrarse</a>
+  
+      <div class="login">
+        <p>Iniciar Sesión</p>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+          <div class="dropdown-content">
+          <a href="ingresar.php">Iniciar Sesión</a>
+          <a href="registro2.php">Registrarse</a>
+        </div> 
       </div> 
     </div> 
-
-
   </header>
 
   <div class="tittle">
@@ -41,86 +40,15 @@
 
   <section class="contenedor">
     <div class="contenedor-items">
+      {% for producto in product_list_pollo %}
       <div class="item">
-        <img  src="{% static "imagenes/muslos_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Muslos</span>
-        <span class="card-text">Precio Libra $5.000</span>
-        <span class="card-text">Cod: 8796</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
+        <img src="{{ producto.imagen.url }}" class="img-item" alt="">
+          <span class="titulo-item">{{ producto.nomproducto }}</span>
+          <span class="card-text">Precio: ${{ producto.valorlibra }}</span>
+          <button class="card-button"><a href="#">Agregar al Carrito</a></button>
       </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/piernas_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Piernas</span>
-        <span class="card-text">Precio Libra $????</span>
-        <span class="card-text">Cod: ????</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/alas_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Alas</span>
-        <span class="card-text">Precio Libra $7.000</span>
-        <span class="card-text">Cod: 5983</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/pechuga_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Pechuga</span>
-        <span class="card-text">Precio Libra $10.000</span>
-        <span class="card-text">Cod: 7036</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/patas_de_pollo.jpg" %}" alt="" class="img-item">
-        <span class="titulo-item">Patas</span>
-        <span class="card-text">Precio Libra $3.000</span>
-        <span class="card-text">Cod: 8426</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/corazones_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Corazones</span>
-        <span class="card-text">Precio Libra $????</span>
-        <span class="card-text">Cod: ????</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/mollejas_pollo.jpeg" %}" alt="" class="img-item">
-        <span class="titulo-item">Mollejas</span>
-        <span class="card-text">Precio Libra $????</span>
-        <span class="card-text">Cod: ????</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/espinazo_de_pollo.webp" %}" alt="" class="img-item">
-        <span class="titulo-item">Espinazo</span>
-        <span class="card-text">Precio Libra $10.000</span>
-        <span class="card-text">Cod: 7586</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/rabadilla_de_pollo.jpg" %}" alt="" class="img-item">
-        <span class="titulo-item">Rabadilla</span>
-        <span class="card-text">Precio Libra $12.000</span>
-        <span class="card-text">Cod: 5836</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-
-      <div class="item">
-        <img  src="{% static "imagenes/pescuezos_de_pollo.jpg" %}" alt="" class="img-item">
-        <span class="titulo-item">Pescuezo</span>
-        <span class="card-text">Precio Libra $5.000</span>
-        <span class="card-text">Cod: 6938</span>
-        <button class="card-button"><a href="#">Agregar al Carrito</a></button>
-      </div>
-    </div>
+      {% endfor %}
+    </div> 
   </section>
 
   <footer class="pie-pagina">

@@ -86,11 +86,6 @@
                         {% csrf_token %}
 
                         <div class="row">
-                            <label>Fecha Registro</label>
-                            <input type="date" name="fecharegistro" required>
-                        </div>
-
-                        <div class="row">
                             <label>Nombre</label>
                             <input type="text" name="nomproducto" required>
                         </div>
@@ -99,7 +94,7 @@
                             <label>Categoria</label>
                             <select name="nomcategoria" class="form-select" >
                                 <option value="">Seleccione una categoria</option>
-                                <option value="Carnicos">Carnicos</option>
+                                <option value="Carne">Carne</option>
                                 <option value="Pollo">Pollo</option>
                                 <option value="Cerdo">Cerdo</option>
                                 <option value="Chorizo">Chorizo</option>
@@ -127,7 +122,7 @@
                         <div class="row block">
                             <input type="submit" value="Registrar" class="btn btn-primary"/>
                          </div>
-                    </form>-->
+                    </form>
                     <label for="btn-modal" class="cerrar-modal"></label>
                 </div>
             </div>
@@ -196,7 +191,13 @@
                                 </td>
                                 <td>{{producto.fechavencimiento}}</td>
                                 <td>{{producto.valorlibra}}</td>
-                                <td><img src="{{producto.imagen.url}}" style="object-fit:cover;width:80px"></td>
+                                <td>
+                                    {% if producto.imagen %}
+                                        <img src="{{ producto.imagen.url }}" style="object-fit: cover; width: 80px;">
+                                    {% else %}
+                                        No hay imagen disponible
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <span>
                                         <a class="editar"
