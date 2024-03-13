@@ -293,6 +293,7 @@ def contar_productos(request):
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
+ 
     
 #-----------------------------------Categorias----------------------------------------
 
