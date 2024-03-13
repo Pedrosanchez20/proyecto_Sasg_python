@@ -158,3 +158,38 @@ class UsuariosFilter(django_filters.FilterSet):
         model = Usuarios
         fields = ['idusuario', 'rol', 'nombres' , 'apellidos', 'estado']
     
+    
+#-----------------FILTRO PROVEEDORES-----------------
+class ProveedorFilter(django_filters.FilterSet):
+    idproveedor = django_filters.NumberFilter(
+        lookup_expr='icontains',
+        label='idproveedor',
+        widget=forms.NumberInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    
+    nomempresa = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='nomempresa',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    producto = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='producto ',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    
+    telefono = django_filters.CharFilter(
+        lookup_expr='exact',
+        label='telefono',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    
+    correo = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='correo',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    
+    class Meta:
+        model = Proveedor
+        fields = ['idproveedor', 'nomempresa', 'producto' , 'telefono', 'correo']

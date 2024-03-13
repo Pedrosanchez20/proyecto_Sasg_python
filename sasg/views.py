@@ -24,7 +24,7 @@ from reportlab.lib.units import inch
 from sasg.models import *
 
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
-                      UsuariosFilter, VentaFilter)
+                      UsuariosFilter, VentaFilter, ProveedorFilter)
 
 # Create your views here.
 
@@ -497,6 +497,8 @@ def listar_proveedor(request):
         return redirect("login")
     else:
         provee_list = Proveedor.objects.all()
+        proveedorFilter = ProveedorFilter(request.GET, queryset=provee_list)
+        provee_list = proveedorFilter.qs
         paginator = Paginator(provee_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
