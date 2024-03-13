@@ -461,10 +461,10 @@ def exportar_ventas_pdf(request):
         elements.append(Spacer(1, 0.5*inch))  
 
 
-        data = [['ID', 'Fecha Registro', 'Nombre', 'Categoria', 'Cantidad', 'Fecha Vencimiento', 'Valor Libra']]
+        data = [['ID', 'Fecha Emisión', 'Pedido', 'Cliente', 'Productos', 'Cantidad', 'Valor Total']]
         for venta in venta_list:
-            data.append([venta.idventa, venta.fecharegistro, venta.nomventa,
-                         venta.nomcategoria, venta.cantidad, venta.fechavencimiento, venta.valorlibra])
+            data.append([venta.idventa, venta.fechaemision, venta.idpedido,
+                         venta.idcliente, venta.idproducto, venta.cantidad, venta.valortotal])
 
         col_widths = ['auto'] * len(data[0]) 
 
@@ -583,6 +583,7 @@ def listar_proveedor(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
+    
     
 def registrar_proveedor(request):
     if request.session['user'] is None:
