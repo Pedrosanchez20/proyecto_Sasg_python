@@ -7,7 +7,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-
 header{
     display: flex;
     min-height: 70px;
@@ -82,20 +81,6 @@ header{
     display: block;
 }
 
-.carrito{
-    color: white;
-    display: inline-block;
-    border-left: rgb(230, 72, 72) solid 2px;
-    margin-left: 10px;
-}
-
-.carrito i{
-    padding: 10px;
-    margin-left: 10px;
-    font-size: 40px;
-    justify-content: space-between;
-}
-
 .tittle{
     margin-top: 40px;
     text-align: center;
@@ -109,7 +94,6 @@ header{
     justify-content: center;
     flex-wrap: wrap;
     transition: .3s;
-    margin-bottom: 50px;
 }
 
 .contenedor-items .item{
@@ -167,7 +151,6 @@ header{
     color: white;
     text-decoration: none;
 }
-
 
 .pie-pagina{
     width: 100%;

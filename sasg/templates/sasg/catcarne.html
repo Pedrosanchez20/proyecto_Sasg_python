@@ -11,14 +11,15 @@
     {% load static %}
     <link rel="stylesheet"  type="text/css" href="{% static 'css/productos.css' %}">
     <title>Productos Carne</title>
-  
 </head>
+
 <body>
+  
   <header>
     <div class="logo">
-      <a href="{% url 'asago' %}" ><img src="imagenes/logo_asago1.png" alt=""></a>
+      <a href="{% url 'asago' %}"><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
       <h2>Asago S.A.S</h2>
-      </div>
+    </div>
   
       <div class="login">
         <p>Iniciar Sesión</p>
@@ -33,20 +34,17 @@
   </header>
     
   <div class="tittle">
-    <span>Productos de Ternera</span>
+    <span>Productos de Carne</span>
   </div>
 
   <section class="contenedor">
     <div class="contenedor-items">
       {% for producto in product_list_carne %}
       <div class="item">
-        <img src="{{ producto.imagen.url }}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{ producto.nomproducto }}</h5>
-            <p class="card-text">Cantidad: {{ producto.cantidad }}</p>
-            <p class="card-text">Precio: ${{ producto.valorlibra }}</p>
-            <a href="#" class="btn btn-primary">Agregar al carrito</a>
-        </div>
+        <img src="{{ producto.imagen.url }}" class="img-item" alt="">
+          <span class="titulo-item">{{ producto.nomproducto }}</span>
+          <span class="card-text">Precio: ${{ producto.valorlibra }}</span>
+          <button class="card-button"><a href="#">Agregar al Carrito</a></button>
       </div>
       {% endfor %}
     </div> 
@@ -90,6 +88,6 @@
       <small>&copy;  2023 <b>- GAES 5</b> - Todos los Derechos Reservados.</small>
     </div>
   </footer>
-  
+
 </body>
 </html>

@@ -3,6 +3,7 @@ import os
 import tempfile
 from cProfile import Profile
 from random import sample
+from django.utils import timezone
 
 from django.conf import settings
 from django.contrib import messages
@@ -25,21 +26,6 @@ from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
 
 def sasg(request):
     return render(request, 'sasg/index.html')
-
-def catcarne(request):
-    product_list_carne = Producto.objects.filter(nomcategoria='Carnicos')
-    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
-
-def catPollView(request):
-    return render(request, 'sasg/catpollo.html')
-
-
-def catCerdView(request):
-    return render(request, 'sasg/catcerdo.html')
-
-
-def catChoView(request):
-    return render(request, 'sasg/catchorizo.html')
 
 def dashboard(request):
     return render(request, 'sasg/dashboard.html')
@@ -223,8 +209,9 @@ def contar_usuarios(request):
     else:
         cantidad_usuarios = Usuarios.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
+    
+    
 #--------------------PRODUCTOS----------------------------
-
 
 def registrar_producto(request):
     if request.session['user'] is None:
@@ -232,7 +219,7 @@ def registrar_producto(request):
     else:
         if request.method== 'POST':
             idproducto=request.POST.get('idproducto')
-            fecharegistro=request.POST.get('fecharegistro')
+            fecharegistro = timezone.now().date()
             nomproducto=request.POST.get('nomproducto')
             nomcategoria=request.POST.get('nomcategoria')
             cantidad=request.POST.get('cantidad')
@@ -271,11 +258,6 @@ def listar_producto(request):
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
-def prod_carne(request):
-    product_list_carne = Producto.objects.filter(nomcategoria='carne')
-    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
-
-
 def pre_editar_producto(request,idproducto):
     if request.session['user'] is None:
         return redirect("login")
@@ -305,17 +287,32 @@ def actualizar_producto(request, idproducto):
             producto.save()
         return redirect("listar_producto")
 
-
-
 def contar_productos(request):
     if request.session['user'] is None:
         return redirect("login")
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
+    
+#-----------------------------------Categorias----------------------------------------
 
-#--------------------VENTAS----------------------------
+def prod_carne(request):
+    product_list_carne = Producto.objects.filter(nomcategoria='carne')
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
 
+def prod_pollo(request):
+    product_list_pollo = Producto.objects.filter(nomcategoria='pollo')
+    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo})
+
+def prod_cerdo(request):
+    product_list_cerdo = Producto.objects.filter(nomcategoria='cerdo')
+    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo})
+
+def prod_chorizo(request):
+    product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
+    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
+
+#-------------------------------VENTAS-------------------------------------
 
 def listar_venta(request):
     if request.session['user'] is None:

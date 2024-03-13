@@ -18,59 +18,37 @@
   
   <header>
     <div class="logo">
-      <a href="{% url 'asago' %}" ><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
+      <a href="{% url 'asago' %}"><img src="{%static "imagenes/logo_asago1.png" %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-
-    <div class="login">
-      <p>Iniciar Sesión</p>
-      <div class="dropdown">
-        <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
-        <div class="dropdown-content">
-        <a href="ingresar.php">Iniciar Sesión</a>
-        <a href="registro2.php">Registrarse</a>
+  
+      <div class="login">
+        <p>Iniciar Sesión</p>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+          <div class="dropdown-content">
+          <a href="ingresar.php">Iniciar Sesión</a>
+          <a href="registro2.php">Registrarse</a>
+        </div> 
       </div> 
     </div> 
-    
-    <div>
-      <img onclick="showCart(this)" class="cart" src="./images/cart.png" alt="">
-      <p class="count-product">0</p>
-  </div>
-
-  <div class="cart-products" id="products-id">
-      <p class="close-btn" onclick="closeBtn()">X</p>
-      <h3>Mi carrito</h3>
-      <div class="card-items">
-          <h6>Amount: <span class="amount">${amount}</span></h6>
-          <div class="quantity-controls">
-              <button class="increase-amount" data-id="${id}">+</button>
-              <span class="product-quantity">${amount}</span>
-              <button class="decrease-amount" data-id="${id}">-</button>
-          </div>
-      </div>
-      <h2>Total: $<strong class="price-total">0</strong></h2>
-      <button id="realizar-pedido-btn">Realizar Pedido</button>
-  </div>
-</div>
-    
   </header>
 
   <div class="tittle">
     <span>Productos de Cerdo</span>
   </div>
 
-  <section class="container">
-    <div class="products">
-      {% for producto in product_list_carne %}
-        <div class="carts">
-            <div>
-              <img src="{% static 'imagenes/'|add:producto.nomproducto|add:'.webp' %}" alt="" class="img-item">
-            </div>
-            <p class="title">{{ producto.nomproducto }}</p>
-            <p>$<span>{{ producto.valorlibra }}</span></p>
-            <a href="" data-id="1" class="btn-add-cart">Agregar al Carrito</a>
-        </div>
-        {% endfor %}
+  <section class="contenedor">
+    <div class="contenedor-items">
+      {% for producto in product_list_cerdo %}
+      <div class="item">
+        <img src="{{ producto.imagen.url }}" class="img-item" alt="">
+          <span class="titulo-item">{{ producto.nomproducto }}</span>
+          <span class="card-text">Precio: ${{ producto.valorlibra }}</span>
+          <button class="card-button"><a href="#">Agregar al Carrito</a></button>
+      </div>
+      {% endfor %}
+    </div> 
   </section>
 
   <footer class="pie-pagina">
@@ -80,7 +58,7 @@
           <div class="image">
             <img src="{%static "imagenes/logo_asago1.png" %}">
           </div>
-      
+    
           <div class="contacto">
             <h2>CONTACTOS</h2>
             <p>Tel: 3146576578 </p>

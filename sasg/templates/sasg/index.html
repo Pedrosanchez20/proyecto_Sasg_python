@@ -82,29 +82,28 @@
         <img  src="{%static 'imagenes/carnes.jpeg' %}" alt="" class="img-item">
         <span class="titulo-item">Carne</span>
         <span class="card-text">Aqui encontraras todo tipo de productos de Carne a tu gusto.</span>
-        <!-- Agrega esto donde quieras que aparezca el enlace/botón -->
-        <a href="{% url 'prod_carne' %}" class="card-button">Ir a Categoria</a>
+        <button class="card-button"><a href="{% url 'prod_carne' %}">Ir a Categoria</a></button>
       </div>
 
       <div class="item"> 
         <img src="{%static 'imagenes/pollo.jpg' %}" alt="" class="img-item">
         <span class="titulo-item">Pollo</span>
         <span class="card-text">Aqui encontraras todo tipo de productos de Pollo a tu gusto.</span>
-        <button class="card-button"><a href="{% url 'catPollo' %}">Ir a Categoria</a></button>
+        <button class="card-button"><a href="{% url 'prod_pollo' %}">Ir a Categoria</a></button>
       </div>
 
       <div class="item">
         <img src="{%static 'imagenes/cerdo.jpg' %}" alt="" class="img-item">
         <span class="titulo-item">Cerdo</span>
         <span class="card-text">Aqui encontraras todo tipo de productos de Cerdo a tu gusto.</span>
-        <button class="card-button"><a href="{% url 'catCerdo' %}">Ir a Categoria</a></button>
+        <button class="card-button"><a href="{% url 'prod_cerdo' %}">Ir a Categoria</a></button>
       </div>
 
       <div class="item">
         <img src="{%static 'imagenes/chorizo.jpg' %}" alt="" class="img-item">
         <span class="titulo-item">Chorizo</span>
         <span class="card-text">Aqui encontraras todo tipo de productos de Chorizo a tu gusto.</span>
-        <button class="card-button"><a href="{% url 'catChorizo' %}">Ir a Categoria</a></button>
+        <button class="card-button"><a href="{% url 'prod_chorizo' %}">Ir a Categoria</a></button>
       </div>
     </div>
   </section>
