@@ -15,6 +15,11 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse
 from datetime import datetime, timedelta
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Image, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 
 from sasg.models import *
 
@@ -183,6 +188,8 @@ def listar_usuario(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
+    
+    
 
 def pre_editar_usuario(request, idusuario):
     if request.session['user'] is None:
@@ -216,6 +223,56 @@ def actualizar_usuario(request, idusuario):
             
             usuario.save()
         return redirect("listar_usuario")
+    
+
+def exportar_usuarios_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="usuarios.pdf"'
+
+        # Obtener la lista de usuarios
+        usuario_list = Usuarios.objects.all()
+
+        # Crear un documento PDF
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        # Agregar título
+        titulo = Paragraph('Reporte Usuarios', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  # Espacio entre el logo/título y la tabla
+
+
+        # Definir los datos de los usuarios para la tabla
+        data = [['Rol', 'Nombres', 'Apellido', 'Direccion', 'Telefono', 'Email', 'Estado']]
+        for usuario in usuario_list:
+            data.append([usuario.rol.rolnombre, usuario.nombres, usuario.apellidos,
+                         usuario.direccion, usuario.telefono, usuario.email, usuario.estado])
+
+        # Calcular el ancho de las columnas
+        col_widths = ['auto'] * len(data[0])  # Todas las columnas tienen ancho automático
+
+        # Crear la tabla y aplicar estilos
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        # Añadir la tabla al documento
+        elements.append(table)
+
+        # Generar el PDF
+        doc.build(elements)
+        return response
+
     
 def contar_usuarios(request):
     if request.session['user'] is None:
@@ -270,8 +327,6 @@ def listar_producto(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
-
-
 
 
 def pre_editar_producto(request,idproducto):
