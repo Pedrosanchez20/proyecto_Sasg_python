@@ -262,7 +262,7 @@ def listar_producto(request):
         productoFilter = ProductoFilter(request.GET, queryset=product_list)
         product_list = productoFilter.qs
         for producto in product_list:
-            if int (producto.cantidad) <= 10:
+            if producto.cantidad and int(producto.cantidad) <= 10:
                 producto.is_low_quantity = True
             else:
                 producto.is_low_quantity = False
@@ -271,7 +271,9 @@ def listar_producto(request):
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
 
-
+def prod_carne(request):
+    product_list_carne = Producto.objects.filter(nomcategoria='carne')
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
 
 
 def pre_editar_producto(request,idproducto):
@@ -301,7 +303,7 @@ def actualizar_producto(request, idproducto):
             producto.valorlibra=request.POST.get('valorlibra')
             
             producto.save()
-        return redirect("listar_productos")
+        return redirect("listar_producto")
 
 
 

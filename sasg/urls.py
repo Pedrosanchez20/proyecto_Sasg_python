@@ -9,8 +9,8 @@ from . import views
 
 urlpatterns = [
     path('',views.sasg,name='asago'),
+    path('prod_carne/', views.prod_carne, name='prod_carne'),
     path('catPollo',views.catPollView,name='catPollo'),
-    path('catcarne',views.catcarne,name='catcarne'),
     path('catCerdo',views.catCerdView,name='catCerdo'),
     path('catChorizo',views.catChoView,name='catChorizo'),
     path('dashboard/',views.dashboard,name='dashboard'),
