@@ -3,7 +3,6 @@ import os
 import tempfile
 from cProfile import Profile
 from random import sample
-from django.utils import timezone
 
 from django.conf import settings
 from django.contrib import messages
@@ -16,6 +15,11 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse
 from datetime import datetime, timedelta
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Image, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 
 from sasg.models import *
 
@@ -26,6 +30,21 @@ from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
 
 def sasg(request):
     return render(request, 'sasg/index.html')
+
+def catcarne(request):
+    product_list_carne = Producto.objects.filter(nomcategoria='Carnicos')
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
+
+def catPollView(request):
+    return render(request, 'sasg/catpollo.html')
+
+
+def catCerdView(request):
+    return render(request, 'sasg/catcerdo.html')
+
+
+def catChoView(request):
+    return render(request, 'sasg/catchorizo.html')
 
 def dashboard(request):
     return render(request, 'sasg/dashboard.html')
@@ -169,6 +188,8 @@ def listar_usuario(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
+    
+    
 
 def pre_editar_usuario(request, idusuario):
     if request.session['user'] is None:
@@ -203,15 +224,64 @@ def actualizar_usuario(request, idusuario):
             usuario.save()
         return redirect("listar_usuario")
     
+
+def exportar_usuarios_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="usuarios.pdf"'
+
+        # Obtener la lista de usuarios
+        usuario_list = Usuarios.objects.all()
+
+        # Crear un documento PDF
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        # Agregar título
+        titulo = Paragraph('Reporte Usuarios', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  # Espacio entre el logo/título y la tabla
+
+
+        # Definir los datos de los usuarios para la tabla
+        data = [['Rol', 'Nombres', 'Apellido', 'Direccion', 'Telefono', 'Email', 'Estado']]
+        for usuario in usuario_list:
+            data.append([usuario.rol.rolnombre, usuario.nombres, usuario.apellidos,
+                         usuario.direccion, usuario.telefono, usuario.email, usuario.estado])
+
+        # Calcular el ancho de las columnas
+        col_widths = ['auto'] * len(data[0])  # Todas las columnas tienen ancho automático
+
+        # Crear la tabla y aplicar estilos
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        # Añadir la tabla al documento
+        elements.append(table)
+
+        # Generar el PDF
+        doc.build(elements)
+        return response
+
+    
 def contar_usuarios(request):
     if request.session['user'] is None:
         return redirect("login")
     else:
         cantidad_usuarios = Usuarios.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
-    
-    
 #--------------------PRODUCTOS----------------------------
+
 
 def registrar_producto(request):
     if request.session['user'] is None:
@@ -219,7 +289,7 @@ def registrar_producto(request):
     else:
         if request.method== 'POST':
             idproducto=request.POST.get('idproducto')
-            fecharegistro = timezone.now().date()
+            fecharegistro=request.POST.get('fecharegistro')
             nomproducto=request.POST.get('nomproducto')
             nomcategoria=request.POST.get('nomcategoria')
             cantidad=request.POST.get('cantidad')
@@ -249,7 +319,7 @@ def listar_producto(request):
         productoFilter = ProductoFilter(request.GET, queryset=product_list)
         product_list = productoFilter.qs
         for producto in product_list:
-            if producto.cantidad and int(producto.cantidad) <= 10:
+            if int (producto.cantidad) <= 10:
                 producto.is_low_quantity = True
             else:
                 producto.is_low_quantity = False
@@ -257,6 +327,7 @@ def listar_producto(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
+
 
 def pre_editar_producto(request,idproducto):
     if request.session['user'] is None:
@@ -285,7 +356,9 @@ def actualizar_producto(request, idproducto):
             producto.valorlibra=request.POST.get('valorlibra')
             
             producto.save()
-        return redirect("listar_producto")
+        return redirect("listar_productos")
+
+
 
 def contar_productos(request):
     if request.session['user'] is None:
@@ -293,27 +366,15 @@ def contar_productos(request):
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
+<<<<<<< HEAD
  
     
 #-----------------------------------Categorias----------------------------------------
+=======
+>>>>>>> 6c3d42c99c0821917cd3fae75087530e477230b2
 
-def prod_carne(request):
-    product_list_carne = Producto.objects.filter(nomcategoria='carne')
-    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
+#--------------------VENTAS----------------------------
 
-def prod_pollo(request):
-    product_list_pollo = Producto.objects.filter(nomcategoria='pollo')
-    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo})
-
-def prod_cerdo(request):
-    product_list_cerdo = Producto.objects.filter(nomcategoria='cerdo')
-    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo})
-
-def prod_chorizo(request):
-    product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
-    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
-
-#-------------------------------VENTAS-------------------------------------
 
 def listar_venta(request):
     if request.session['user'] is None:
@@ -427,60 +488,3 @@ def listar_proveedor(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
-    
-    
-def registrar_proveedor(request):
-    if request.session['user'] is None:
-        return redirect("login")
-    else:
-        if request.method== 'POST':
-            idproveedor = request.POST.get('idproveedor')
-            nomempresa = request.POST.get('nomempresa')
-            producto = request.POST.get('producto')
-            telefono = request.POST.get('telefono')
-            correo = request.POST.get('correo')
-            
-            proveedor = Proveedor(
-                idproveedor = idproveedor,
-                nomempresa = nomempresa,
-                producto = producto,
-                telefono = telefono,
-                correo = correo,
-            )
-            
-            proveedor.save()
-        return redirect("listar_proveedor")    
-    
-    
-    
-    
-def pre_editar_proveedor(request,idproveedor):
-    if request.session['user'] is None:
-        return redirect("login")
-    else:
-        proveedor=Proveedor.objects.get(idproveedor=idproveedor)
-        usuario=Usuarios.objects.all()
-        data={
-            "proveedor":proveedor,
-            "usuario":usuario,
-        }
-        return render(request, 'sasg/editarProveedor.html',data)
-
-
-def actualizar_proveedor(request, idproveedor):
-    if request.session['user'] is None:
-        return redirect("login")
-    else:
-        if request.method=='POST':
-            proveedor=Proveedor.objects.get(idproveedor=idproveedor)
-            
-            # proveedor.idproveedor=request.POST.get('idproveedor')
-            proveedor.nomempresa=request.POST.get('nomempresa')
-            proveedor.producto=request.POST.get('producto')
-            proveedor.telefono=request.POST.get('telefono')   
-            proveedor.correo=request.POST.get('correo')  
-            # pedido.usuario=Usuarios.objects.get(idusuario=request.POST.get('idusuario'))  
-            
-            
-            proveedor.save()
-        return redirect("listar_proveedor")

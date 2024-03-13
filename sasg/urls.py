@@ -22,6 +22,7 @@ urlpatterns = [
     path('registrar_usuario/',views.registrar_usuario,name='registrar_usuario'),
     path('pre_editar_usuario/<str:idusuario>',views.pre_editar_usuario,name='pre_editar_usuario'),
     path('actualizar_usuario/<str:idusuario>/', views.actualizar_usuario,name='actualizar_usuario'),
+    path('exportar-usuarios-pdf/', views.exportar_usuarios_pdf, name='exportar_usuarios_pdf'),
     
     #/-----productos------/
     path('listar_producto/',views.listar_producto,name='listar_producto'),
