@@ -22,6 +22,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from django.utils import timezone
 
+
 from sasg.models import *
 
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
@@ -359,7 +360,8 @@ def actualizar_producto(request, idproducto):
             
             producto.save()
         return redirect("listar_producto")
-    
+
+
 
 def exportar_productos_pdf(request):
     if request.session.get('user') is None:
@@ -408,8 +410,8 @@ def contar_productos(request):
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
- 
-    
+
+
 #-----------------------------------Categorias----------------------------------------
 
 def prod_carne(request):
@@ -461,10 +463,10 @@ def exportar_ventas_pdf(request):
         elements.append(Spacer(1, 0.5*inch))  
 
 
-        data = [['ID', 'Fecha Emisión', 'Pedido', 'Cliente', 'Productos', 'Cantidad', 'Valor Total']]
+        data = [['ID', 'Fecha Registro', 'Nombre', 'Categoria', 'Cantidad', 'Fecha Vencimiento', 'Valor Libra']]
         for venta in venta_list:
-            data.append([venta.idventa, venta.fechaemision, venta.idpedido,
-                         venta.idcliente, venta.idproducto, venta.cantidad, venta.valortotal])
+            data.append([venta.idventa, venta.fecharegistro, venta.nomventa,
+                         venta.nomcategoria, venta.cantidad, venta.fechavencimiento, venta.valorlibra])
 
         col_widths = ['auto'] * len(data[0]) 
 
@@ -583,7 +585,6 @@ def listar_proveedor(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/proveedores.html', {'page_obj': page_obj})
-    
     
 def registrar_proveedor(request):
     if request.session['user'] is None:
