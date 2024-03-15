@@ -67,20 +67,20 @@ def user_login(request):
                     nombre_usuario = usuario.nombres
                     print("Nombre de usuario:", nombre_usuario)
                     if usuario.rol.idrol == 971:
-                        return redirect('listar_usuario')  
+                        return redirect('listar_usuario')
                     elif usuario.rol.idrol == 214:
-                        return redirect('listar_producto')  
+                        return redirect('listar_producto')
                     elif usuario.rol.idrol == 354:
-                        return redirect('asago') 
+                        return render(request, 'sasg/index.html', {'nombre_usuario': nombre_usuario})
                     else:
                         messages.error(request, 'Rol no reconocido.')
                 else:
                     messages.error(request, 'Contraseña incorrecta.')
             else:
-                messages.error(request, 'El usuario está deshabilitado.') 
+                messages.error(request, 'El usuario está deshabilitado.')
         except Usuarios.DoesNotExist:
             messages.error(request, 'Usuario no encontrado.')
-    return render(request, 'sasg/login.html', {'nombre_usuario': nombre_usuario})
+    return render(request, 'sasg/login.html')
 
 
 
@@ -186,7 +186,7 @@ def listar_usuario(request):
         usuario_list = Usuarios.objects.all()
         usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
         usuario_list = usuariosFilter.qs
-        paginator = Paginator(usuario_list, 13) 
+        paginator = Paginator(usuario_list, 13)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
