@@ -23,31 +23,36 @@ urlpatterns = [
     path('pre_editar_usuario/<str:idusuario>',views.pre_editar_usuario,name='pre_editar_usuario'),
     path('actualizar_usuario/<str:idusuario>/', views.actualizar_usuario,name='actualizar_usuario'),
     path('exportar-usuarios-pdf/', views.exportar_usuarios_pdf, name='exportar_usuarios_pdf'),
-    path('exportar-productos-pdf/', views.exportar_productos_pdf, name='exportar_productos_pdf'),
-    path('exportar-ventas-pdf/', views.exportar_ventas_pdf, name='exportar_ventas_pdf'),
+    
+    
     
     #/-----productos------/
     path('listar_producto/',views.listar_producto,name='listar_producto'),
     path('registrar_producto/',views.registrar_producto,name='registrar_producto'),
     path('pre_editar_producto/<str:idproducto>',views.pre_editar_producto,name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
+    path('exportar-productos-pdf/', views.exportar_productos_pdf, name='exportar_productos_pdf'),
     #/-----ventas------/
     path('listar_venta/',views.listar_venta,name='listar_venta'),
+    path('exportar-ventas-pdf/', views.exportar_ventas_pdf, name='exportar_ventas_pdf'),
     
     #/-----Compras----/
     path('listar_compra/',views.listar_compra,name='listar_compra'),
     path('registrar_compra/',views.registrar_compra,name='registrar_compra'),
+    path('exportar-compras-pdf/', views.exportar_compras_pdf, name='exportar_compras_pdf'),
      
     #/-----pedidos------/
     path('listar_pedido/',views.listar_pedido,name='listar_pedido'),
     path('pre_editar_pedido/<str:idpedido>',views.pre_editar_pedido,name='pre_editar_pedido'),
     path('actualizar_pedido/<str:idpedido>',views.actualizar_pedido,name='actualizar_pedido'),
+    path('exportar-pedidos-pdf/', views.exportar_pedidos_pdf, name='exportar_pedidos_pdf'),
     
     #/-----proveedores------/
     path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
     path('registrar_proveedor/',views.registrar_proveedor,name='registrar_proveedor'),
     path('pre_editar_proveedor/<str:idproveedor>',views.pre_editar_proveedor,name='pre_editar_proveedor'),
     path('actualizar_proveedor/<str:idproveedor>',views.actualizar_proveedor,name='actualizar_proveedor'),
+    path('exportar-proveedores-pdf/', views.exportar_proveedores_pdf, name='exportar_proveedores_pdf'),
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout, name='logout'),
     

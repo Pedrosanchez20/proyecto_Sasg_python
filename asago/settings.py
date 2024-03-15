@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-q4+&0$en8@!#_qh_8c%0d#9+qsqfx)^fy28ex715b*m*a+0jgj
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'dcb5-191-95-58-9.ngrok-free.app'
+    #'dcb5-191-95-58-9.ngrok-free.app'
 ]
 
 
@@ -151,10 +151,10 @@ EMAIL_HOST_PASSWORD = 'nmns kyxz fudc lpoi'
 EMAIL_USE_TLS = True
 
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ['https://dcb5-191-95-58-9.ngrok-free.app']
+# CSRF_TRUSTED_ORIGINS = ['https://dcb5-191-95-58-9.ngrok-free.app']

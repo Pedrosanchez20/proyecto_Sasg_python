@@ -89,7 +89,7 @@ class Usuarios(models.Model):
         db_table = 'usuarios'
 
 
-class Venta(models.Model):
+class Venta(models.Model): 
     idventa = models.AutoField(db_column='IdVenta', primary_key=True)  # Field name made lowercase.
     fechaemision = models.DateField(db_column='FechaEmision')  # Field name made lowercase.
     idpedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='IdPedido')  # Field name made lowercase.
