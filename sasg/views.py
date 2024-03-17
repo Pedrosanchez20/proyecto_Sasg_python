@@ -2,6 +2,7 @@ import json
 import os
 import tempfile
 from cProfile import Profile
+from datetime import datetime, timedelta
 from random import sample
 
 from django.conf import settings
@@ -14,13 +15,13 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse
-from datetime import datetime, timedelta
+from django.utils import timezone
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Image, Paragraph
+from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
-from django.utils import timezone
+from reportlab.platypus import (Image, Paragraph, SimpleDocTemplate, Spacer,
+                                Table, TableStyle)
 
 from sasg.models import *
 
@@ -66,20 +67,20 @@ def user_login(request):
                     nombre_usuario = usuario.nombres
                     print("Nombre de usuario:", nombre_usuario)
                     if usuario.rol.idrol == 971:
-                        return redirect('listar_usuario')  
+                        return redirect('listar_usuario')
                     elif usuario.rol.idrol == 214:
-                        return redirect('listar_producto')  
+                        return redirect('listar_producto')
                     elif usuario.rol.idrol == 354:
-                        return redirect('asago') 
+                        return render(request, 'sasg/index.html', {'nombre_usuario': nombre_usuario})
                     else:
                         messages.error(request, 'Rol no reconocido.')
                 else:
                     messages.error(request, 'Contraseña incorrecta.')
             else:
-                messages.error(request, 'El usuario está deshabilitado.') 
+                messages.error(request, 'El usuario está deshabilitado.')
         except Usuarios.DoesNotExist:
             messages.error(request, 'Usuario no encontrado.')
-    return render(request, 'sasg/login.html', {'nombre_usuario': nombre_usuario})
+    return render(request, 'sasg/login.html')
 
 
 
@@ -185,7 +186,7 @@ def listar_usuario(request):
         usuario_list = Usuarios.objects.all()
         usuariosFilter = UsuariosFilter(request.GET, queryset=usuario_list)
         usuario_list = usuariosFilter.qs
-        paginator = Paginator(usuario_list, 13) 
+        paginator = Paginator(usuario_list, 13)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
@@ -281,8 +282,9 @@ def contar_usuarios(request):
     else:
         cantidad_usuarios = Usuarios.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_usuarios': cantidad_usuarios})
+    
+    
 #--------------------PRODUCTOS----------------------------
-
 
 def registrar_producto(request):
     if request.session['user'] is None:
@@ -320,14 +322,14 @@ def listar_producto(request):
         productoFilter = ProductoFilter(request.GET, queryset=product_list)
         product_list = productoFilter.qs
         for producto in product_list:
-            if int (producto.cantidad) <= 10:
-                producto.is_low_quantity = True
+            if producto.cantidad:  # Verificar si cantidad tiene un valor
+                producto.is_low_quantity = int(producto.cantidad) <= 10
             else:
                 producto.is_low_quantity = False
         paginator = Paginator(product_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter})
+        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter, 'product_list': product_list})
 
 
 def pre_editar_producto(request,idproducto):
@@ -349,17 +351,16 @@ def actualizar_producto(request, idproducto):
             producto=Producto.objects.get(idproducto=idproducto)
             
             producto.idproducto=request.POST.get('idproducto')
-            producto.fecharegistro=request.POST.get('fecharegistro')
+            producto.fecharegistro = Producto.objects.get(idproducto=idproducto).fecharegistro
             producto.nomproducto=request.POST.get('nomproducto')
             producto.nomcategoria=request.POST.get('nomcategoria')
-            producto.cantidad=request.POST.get('cantidad')
             producto.fechavencimiento=request.POST.get('fechavencimiento')
             producto.valorlibra=request.POST.get('valorlibra')
-            #if 'imagen' in request.FILES:
-             #   producto.imagen = request.FILES['imagen']
+            producto.imagen = request.FILES['imagen'] if 'imagen' in request.FILES else producto.imagen
             
             producto.save()
         return redirect("listar_producto")
+
 
 
 def exportar_productos_pdf(request):
@@ -409,8 +410,8 @@ def contar_productos(request):
     else:
         cantidad_producto = Producto.objects.count()
         return render(request, 'sasg/dashboard.html', {'cantidad_productos': cantidad_producto})
- 
-    
+
+
 #-----------------------------------Categorias----------------------------------------
 
 def prod_carne(request):
@@ -462,10 +463,10 @@ def exportar_ventas_pdf(request):
         elements.append(Spacer(1, 0.5*inch))  
 
 
-        data = [['ID', 'Fecha Registro', 'Nombre', 'Categoria', 'Cantidad', 'Fecha Vencimiento', 'Valor Libra']]
+        data = [['ID', 'Fecha Emision', 'Id Pedido', 'Id Cliente', 'Productos', 'Cantidad', 'Valor Producto', 'Valor Total']]
         for venta in venta_list:
-            data.append([venta.idventa, venta.fecharegistro, venta.nomventa,
-                         venta.nomcategoria, venta.cantidad, venta.fechavencimiento, venta.valorlibra])
+            data.append([venta.idventa, venta.fechaemision, venta.idpedido.idpedido,
+                         venta.idcliente, venta.producto, venta.cantidad, venta.valorproducto, venta.valortotal])
 
         col_widths = ['auto'] * len(data[0]) 
 
@@ -522,6 +523,47 @@ def listar_compra(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'sasg/compras.html', {'page_obj': page_obj, 'compraFilter':compraFilter})
+    
+    
+def exportar_compras_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="compras.pdf"'
+
+        compra_list = Compra.objects.all()
+
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        titulo = Paragraph('Reporte Compras', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  
+
+
+        data = [['ID', 'Fecha Emision', 'Proveedor', 'Descripcion', 'Valor Producto', 'Valor Total']]
+        for compra in compra_list:
+            data.append([compra.idcompra, compra.fechaemision, compra.idproveedor.nomempresa,
+                         compra.descripcion, compra.valorproducto, compra.valortotal])
+
+        col_widths = ['auto'] * len(data[0]) 
+
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        elements.append(table)
+
+        doc.build(elements)
+        return response
 
 
 
@@ -571,6 +613,46 @@ def actualizar_pedido(request, idpedido):
             
             pedido.save()
         return redirect("listar_pedido")
+    
+def exportar_pedidos_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="pedidos.pdf"'
+
+        pedido_list = Pedido.objects.all()
+
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        titulo = Paragraph('Reporte Pedidos', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  
+
+
+        data = [['ID', 'Usuario', 'Fecha Emision', 'Descripcion', 'Estado', 'Valor Total']]
+        for pedido in pedido_list:
+            data.append([pedido.idpedido, pedido.idusuario.nombres , pedido.fechaemision,
+                         pedido.descripcion, pedido.estado, pedido.valortotal])
+
+        col_widths = ['auto'] * len(data[0]) 
+
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        elements.append(table)
+
+        doc.build(elements)
+        return response
 
 #--------------------PROVEEDORES----------------------------
 
@@ -642,3 +724,44 @@ def actualizar_proveedor(request, idproveedor):
 
             proveedor.save()
         return redirect("listar_proveedor")
+    
+    
+def exportar_proveedores_pdf(request):
+    if request.session.get('user') is None:
+        return redirect("login")
+    else:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="proveedores.pdf"'
+
+        proveedor_list = Proveedor.objects.all()
+
+        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+        elements = []
+
+        titulo = Paragraph('Reporte Proveedores', getSampleStyleSheet()['Heading1'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 0.5*inch))  
+
+
+        data = [['ID', 'Empresa', 'Productos', 'Telefono', 'Correo']]
+        for proveedor in proveedor_list:
+            data.append([proveedor.idproveedor, proveedor.nomempresa ,
+                         proveedor.producto, proveedor.telefono, proveedor.correo])
+
+        col_widths = ['auto'] * len(data[0]) 
+
+        table = Table(data)
+        style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        table.setStyle(style)
+
+        elements.append(table)
+
+        doc.build(elements)
+        return response

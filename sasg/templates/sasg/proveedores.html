@@ -144,13 +144,15 @@
                             </div>
                             
                             <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
+                        </form>
+                        <a href="{% url 'exportar_proveedores_pdf' %}" class="btn btn-primary custom-btn circular-btn">Reporte PDF</a>
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Empresa</th>
-                                <th>Descripcion</th>
+                                <th>Productos</th>
                                 <th>Telefono</th>
-                                <th>Email</th>
+                                <th>Correo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>

@@ -145,7 +145,7 @@
                                 <label class='filtro' for="id_nomcategoria">Categoría:</label>
                                 <select name="nomcategoria" id="id_nomcategoria" class="custom-select">
                                     <option value="">Seleccione una categoría</option>
-                                    <option value="Carnicos">Carnicos</option>
+                                    <option value="Carne">Carne</option>
                                     <option value="Pollo">Pollo</option>
                                     <option value="Cerdo">Cerdo</option>
                                     <option value="Chorizo">Chorizo</option>
@@ -157,7 +157,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
                         </form>
-                        
+                        <a href="{% url 'exportar_productos_pdf' %}" class="btn btn-primary custom-btn circular-btn">Reporte PDF</a>
                         <thead>
                         <tr>
                             <th>Id</th>
