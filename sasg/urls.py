@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
+from django.conf.urls import handler404
 
 from . import views
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('prod_cerdo/',views.prod_cerdo,name='prod_cerdo'),
     path('prod_chorizo/',views.prod_chorizo,name='prod_chorizo'),
     path('dashboard/',views.dashboard,name='dashboard'),
+    path('graficos/', views.graficos, name='graficos'),
     
     #/-----usuarios------/
     path('recuperar_contrasena/',views.recuperar_contrasena,name='recuperar_contrasena'),
@@ -67,3 +69,5 @@ urlpatterns = [
     path('logout/',views.logout, name='logout'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+handler404 = 'sasg.views.pagina_no_encontrada'

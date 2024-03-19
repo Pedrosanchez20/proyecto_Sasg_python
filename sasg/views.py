@@ -67,6 +67,12 @@ def dashboard(request):
             return render(request, 'sasg/dashboard.html' , data)  
     except Exception:
         return redirect('login')
+    
+    
+def graficos(request):
+    cantidad_usuarios = Usuarios.objects.count()  
+    ventas_por_mes = [venta.cantidad for venta in Venta.objects.all()]  
+    return render(request, 'graficos.html', {'cantidad_usuarios': cantidad_usuarios, 'ventas_por_mes': ventas_por_mes})
 
 #--------------------USUARIOS----------------------------
 
@@ -249,7 +255,7 @@ def listar_usuario(request):
         paginator = Paginator(usuario_list, 13)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter})
+        return render(request, 'sasg/usuarios.html', {'page_obj': page_obj, 'usuarioFilter': usuariosFilter, 'usuario': recuperarSesion(request)})
     
     
 def pre_editar_usuario(request, idusuario):
@@ -295,7 +301,7 @@ def actualizar_usuario(request, idusuario):
     
 
 def exportar_usuarios_pdf(request):
-    if request.session.get('user') is None:
+    if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
          return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
@@ -565,7 +571,7 @@ def listar_venta(request):
     
 
 def exportar_ventas_pdf(request):
-    if request.session.get('user') is None:
+    if validarSesion(request):
         return redirect("login")
     else:
         response = HttpResponse(content_type='application/pdf')
@@ -763,7 +769,7 @@ def actualizar_pedido(request, idpedido):
         return redirect("listar_pedido")
     
 def exportar_pedidos_pdf(request):
-    if request.session.get('user') is None:
+    if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
          return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
@@ -1009,7 +1015,7 @@ def actualizar_proveedor(request, idproveedor):
     
     
 def exportar_proveedores_pdf(request):
-    if request.session.get('user') is None:
+    if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
          return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
@@ -1051,3 +1057,8 @@ def exportar_proveedores_pdf(request):
 
         doc.build(elements)
         return response
+    
+    
+#--------------------ERROR404----------------------------
+def pagina_no_encontrada(request, exception):
+    return render(request, 'sasg/error404.html', status=404)
