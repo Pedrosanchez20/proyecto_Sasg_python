@@ -121,9 +121,14 @@ class CompraFilter(django_filters.FilterSet):
         label='Id Proveedor',
         widget=forms.DateInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
     )
+    descripcion  = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='descripcion',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
     class Meta:
         model = Compra
-        fields = ['idcompra', 'fechaemision', 'idproveedor']
+        fields = ['idcompra', 'fechaemision', 'idproveedor', 'descripcion']
         
 #-----------------FILTRO USUARIOS-----------------
 
@@ -158,3 +163,30 @@ class UsuariosFilter(django_filters.FilterSet):
         model = Usuarios
         fields = ['idusuario', 'rol', 'nombres' , 'apellidos', 'estado']
     
+#-----------------FILTRO PROVEEDOR-----------------
+
+class ProveedorFilter(django_filters.FilterSet):
+    idproveedor = django_filters.NumberFilter(
+        lookup_expr='icontains',
+        label='ID Proveedor',
+        widget=forms.NumberInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    nomempresa = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='Nombre Empresa',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    
+    telefono = django_filters.NumberFilter(
+        lookup_expr='icontains',
+        label='telefono',
+        widget=forms.NumberInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    correo = django_filters.CharFilter(
+        lookup_expr='icontains',
+        label='correo',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar', 'class': 'form-control'})
+    )
+    class Meta:
+        model = Usuarios
+        fields = ['idproveedor', 'nomempresa', 'telefono' , 'correo']

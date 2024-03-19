@@ -43,6 +43,7 @@
     </div>
     {% if usuario.rol.idrol == 354%}
     <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+    <a class="carrito" href="{% url 'pedidos_cliente' %}"><i class="uil uil-shopping-bag"></i></a>
     {% endif %}
 
     {% if usuario.rol.idrol == 214 or usuario.rol.idrol == 971 %}

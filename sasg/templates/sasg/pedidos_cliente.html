@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/ped_client.css' %}">
+    <title>Pedidos Cliente</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
+            <h2>Asago S.A.S</h2>
+        </div>
+
+        <div class="login">
+            {% if request.session.usuario_logeado is None %}
+            <p>Inicio de Sesión</p>
+            <div class="dropdown">
+                <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'login' %}">Iniciar Sesión</a>
+                    <a href="{% url 'registrar_usuario' %}">Registrarse</a>
+                </div> 
+            </div> 
+            {% else %}
+            <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+            <div class="dropdown">
+                <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+                </div> 
+            </div> 
+            {% endif %}
+        </div>
+    </header>
+    
+    <div class="tittle_ped">
+        <h1>Mis Pedidos</h1>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Fecha de Creación</th>
+                    <th>Estado</th>
+                    <th>Total del Pedido</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos_usuario %}
+                <tr>
+                    <td>{{ pedido.idpedido }}</td>
+                    <td>{{ pedido.fechacreacion }}</td>
+                    <td>{{ pedido.estado }}</td>
+                    <td>{{ pedido.totalpedido }}</td>
+                    <td>
+                        <span>
+                            <a class="editar" title="Detalle Compra" href="#modal{{ pedido.idpedido }}" data-bs-toggle="modal">Detalle</a>
+                        </span>
+                    </td>
+                </tr>
+               
+                <div class="modal fade" id="modal{{ pedido.idpedido }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Detalle del Pedido</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="det-titulo">ID Pedido: {{ pedido.idpedido }}</p>
+                                <p class="det-info">Fecha de Creación: {{ pedido.fechacreacion }}</p>
+                                <p class="det-info">Estado: {{ pedido.estado }}</p>
+                                <p class="det-info">Productos:</p>
+                                <ul>
+                                    {% for detalle in pedido.detallepedido_set.all %}
+                                        <li>ID: {{ detalle.idproducto_id }} - Nombre: {{ detalle.idproducto.nomproducto }}</li>
+                                        <li>Cantidad: {{ detalle.cantidad }}</li>
+                                        <li>Valor del Producto: ${{ detalle.valorproducto }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <p class="det-total">Total del Pedido: ${{ pedido.totalpedido }}</p>
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No hay pedidos disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1"><i class="uil uil-angle-double-left"></i></a>
+                    <a href="?page={{ page_obj.previous_page_number }}"><i class="uil uil-angle-left-b"></i></a>
+                {% endif %}
+
+                <span class="current">
+                    Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}"><i class="uil uil-angle-right-b"></i></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}"><i class="uil uil-angle-double-right"></i></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</body>
+</html>

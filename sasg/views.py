@@ -32,7 +32,7 @@ from reportlab.platypus import (Image, Paragraph, SimpleDocTemplate, Spacer,
 from sasg.models import *
 
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
-                      UsuariosFilter, VentaFilter)
+                      UsuariosFilter, VentaFilter, ProveedorFilter)
 from .forms import CompraForm, VentaForm, DetalleVentaForm
 # Create your views here.
 
@@ -55,6 +55,7 @@ def dashboard(request):
     data = {
         'cantidad_usuarios' : Usuarios.objects.count(),
         'usuario': recuperarSesion(request),
+        
     }
     try:
         if validarSesion(request):
@@ -646,8 +647,6 @@ def registrar_compra(request):
     return render(request, 'sasg/registrar_compra.html', {'form': form})
 
 
-
-
 def listar_compra(request):
     if validarSesion(request):
         return redirect("login")
@@ -825,10 +824,9 @@ def carrito(request):
             'imagen': item['imagen'],
             'cantidad': item.get('cantidad', 1)
         }
-        productos_carrito.append(producto_info)
         total += item['precio'] * producto_info['cantidad']
     context = {'productos_carrito': productos_carrito, 'total': total}
-    return render(request, 'sasg/carrito.html', context)
+    return render(request, 'sasg/carrito.html',context)
 
 def agregar_al_carrito(request, producto_id):
     if request.session.get('usuario_logeado') is None:
@@ -918,6 +916,18 @@ def hacer_pedido(request):
             messages.error(request, "No hay productos en el carrito.")
     return redirect('carrito')
 
+def pedidos_cliente(request):
+    if request.session.get('usuario_logeado') is None:
+        return redirect('login')
+    
+    usuario_logeado_id = request.session.get('usuario_logeado')
+    
+    pedidos_usuario = Pedido.objects.filter(idusuario_id=usuario_logeado_id).order_by('-fechacreacion')
+    paginator = Paginator(pedidos_usuario, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/pedidos_cliente.html', {'page_obj': page_obj,'pedidos_usuario': pedidos_usuario, 'usuario':recuperarSesion(request)})
+
 #--------------------PROVEEDORES----------------------------
 
 def listar_proveedor(request):
@@ -930,10 +940,12 @@ def listar_proveedor(request):
     else:
         usuario = Usuarios.objects.get(idusuario=request.session.get('usuario_logeado'))
         provee_list = Proveedor.objects.all()
+        proveedorFilter = ProveedorFilter(request.GET, queryset=provee_list)
+        provee_list = proveedorFilter.qs
         paginator = Paginator(provee_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/proveedores.html', {'page_obj': page_obj, 'usuario':usuario})
+        return render(request, 'sasg/proveedores.html', {'page_obj': page_obj, 'provee_list': provee_list ,'usuario':usuario, 'proveedorFilter': proveedorFilter})
     
 def registrar_proveedor(request):
     if validarSesion(request):
@@ -946,14 +958,12 @@ def registrar_proveedor(request):
         if request.method== 'POST':
             idproveedor = request.POST.get('idproveedor')
             nomempresa = request.POST.get('nomempresa')
-            producto = request.POST.get('producto')
             telefono = request.POST.get('telefono')
             correo = request.POST.get('correo')
 
             proveedor = Proveedor(
                 idproveedor = idproveedor,
                 nomempresa = nomempresa,
-                producto = producto,
                 telefono = telefono,
                 correo = correo,
             )
