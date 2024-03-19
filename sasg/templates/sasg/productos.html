@@ -97,11 +97,29 @@
                 <i class="fas uil uil-shopping-bag"></i>
                 <h1>Listado Productos - {{ usuario.nombres }}</h1>
             </div>
-
             <div class="boton-modal">
                 <label for="btn-modal">Agregar Producto</label>
             </div>
-
+            {% if productos_proximos_vencer %}
+            <div class="alert-container">
+                <div class="table-container">
+                    <table class="alert-table">
+                        <thead>
+                            <tr>
+                                <th>Productos Próximos a Vencerse</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto in productos_proximos_vencer %}
+                            <tr>
+                                <td>{{ producto.nomproducto }} - Vence el {{ producto.fechavencimiento }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
                 <div class="content-modal">
