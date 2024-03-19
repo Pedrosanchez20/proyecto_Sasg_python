@@ -48,12 +48,14 @@ urlpatterns = [
     path('pre_editar_pedido/<str:idpedido>',views.pre_editar_pedido,name='pre_editar_pedido'),
     path('actualizar_pedido/<str:idpedido>',views.actualizar_pedido,name='actualizar_pedido'),
     path('exportar-pedidos-pdf/', views.exportar_pedidos_pdf, name='exportar_pedidos_pdf'),
+    
     path('carrito/', views.carrito, name='carrito'),
     path('agregar_al_carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('actualizar_cantidad_carrito/<int:producto_id>/', views.actualizar_cantidad_carrito, name='actualizar_cantidad_carrito'),
     path('eliminar_producto_carrito/<int:producto_id>/', views.eliminar_producto_carrito, name='eliminar_producto_carrito'),
     path('eliminar_todo_carrito/', views.eliminar_todo_carrito, name='eliminar_todo_carrito'),
     path('hacer_pedido/', views.hacer_pedido, name='hacer_pedido'),
+    path('pedidos-cliente/', views.pedidos_cliente, name='pedidos_cliente'),
     
     #/-----proveedores------/
     path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
