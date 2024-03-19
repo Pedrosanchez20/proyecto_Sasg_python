@@ -32,7 +32,7 @@ from reportlab.platypus import (Image, Paragraph, SimpleDocTemplate, Spacer,
 from sasg.models import *
 
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
-                      UsuariosFilter, VentaFilter)
+                      UsuariosFilter, VentaFilter, ProveedorFilter)
 from .forms import CompraForm, VentaForm, DetalleVentaForm
 # Create your views here.
 
@@ -930,10 +930,12 @@ def listar_proveedor(request):
     else:
         usuario = Usuarios.objects.get(idusuario=request.session.get('usuario_logeado'))
         provee_list = Proveedor.objects.all()
+        proveedorFilter = ProveedorFilter(request.GET, queryset=provee_list)
+        provee_list = proveedorFilter.qs
         paginator = Paginator(provee_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/proveedores.html', {'page_obj': page_obj, 'usuario':usuario})
+        return render(request, 'sasg/proveedores.html', {'page_obj': page_obj, 'provee_list': provee_list ,'usuario':usuario, 'proveedorFilter': proveedorFilter})
     
 def registrar_proveedor(request):
     if validarSesion(request):
@@ -946,14 +948,12 @@ def registrar_proveedor(request):
         if request.method== 'POST':
             idproveedor = request.POST.get('idproveedor')
             nomempresa = request.POST.get('nomempresa')
-            producto = request.POST.get('producto')
             telefono = request.POST.get('telefono')
             correo = request.POST.get('correo')
 
             proveedor = Proveedor(
                 idproveedor = idproveedor,
                 nomempresa = nomempresa,
-                producto = producto,
                 telefono = telefono,
                 correo = correo,
             )
