@@ -67,6 +67,12 @@ def dashboard(request):
             return render(request, 'sasg/dashboard.html' , data)  
     except Exception:
         return redirect('login')
+    
+    
+def graficos(request):
+    cantidad_usuarios = Usuarios.objects.count()  
+    ventas_por_mes = [venta.cantidad for venta in Venta.objects.all()]  
+    return render(request, 'graficos.html', {'cantidad_usuarios': cantidad_usuarios, 'ventas_por_mes': ventas_por_mes})
 
 #--------------------USUARIOS----------------------------
 
@@ -1044,7 +1050,5 @@ def exportar_proveedores_pdf(request):
     
     
 #--------------------ERROR404----------------------------
-  
-    
 def pagina_no_encontrada(request, exception):
     return render(request, 'sasg/error404.html', status=404)

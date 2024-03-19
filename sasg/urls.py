@@ -15,6 +15,7 @@ urlpatterns = [
     path('prod_cerdo/',views.prod_cerdo,name='prod_cerdo'),
     path('prod_chorizo/',views.prod_chorizo,name='prod_chorizo'),
     path('dashboard/',views.dashboard,name='dashboard'),
+    path('graficos/', views.graficos, name='graficos'),
     
     #/-----usuarios------/
     path('recuperar_contrasena/',views.recuperar_contrasena,name='recuperar_contrasena'),
