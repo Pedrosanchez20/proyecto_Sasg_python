@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+header{
+    display: flex;
+    min-height: 70px;
+    align-items: center;
+    padding: 5px 5%;
+    justify-content: flex-end;
+    background-color:  rgb(194, 16, 16);
+}
+
+.logo{
+    display: flex;
+    margin-right: auto;
+    align-items: center;
+}
+
+.logo img{
+    height: 80px;
+    margin-right: 20px;
+    transition: all 0.3s;
+}
+
+.logo img:hover{
+    scale: 1.10;
+}
+
+.logo h2{
+    color: white;
+}
+
+.login p{
+    display: inline-block;
+    color: white;
+    font-size: 18px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropbtn {
+    background: none;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.dropbtn i{
+    font-size: 30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    margin-left: -6.5rem;
+    min-width: 160px;
+    border-radius: 14px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.tittle_ped{
+    padding: 40px 10% 10px;
+    font-size: 30px;
+    font-weight: 500;
+    text-align: left;
+    color: rgb(194, 16, 16);
+}
+
+
+.dashboard{
+    margin-top: 1rem;
+    text-transform: capitalize;
+}
+
+.dashboard-list{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 5px 40px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-list h1{
+    font-size: 30px;
+    bottom: 0;
+}
+
+.dashboard-list .btn-actualizar{
+    padding: 10px;
+    color: white;
+    border: none;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: rgb(194, 16, 16);
+}
+
+.table{
+    border-collapse: collapse;
+    margin: 1px 0;
+    font-size: 15px;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+table thead tr{
+    color: white;
+    background: rgb(194, 16, 16);
+    text-align: center;
+    font-weight: bold;
+}
+
+table thead tbody td i:hover{
+    width: 10px;
+}
+
+.form-group {
+    display: inline-block;
+    margin-right: 10px;
+}
+.table th,
+.table td{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 15px;
+}
+
+.table tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(odd){
+    background: #f3f3f3;
+}
+
+.table tbody td .editar{
+    color: rgb(255, 255, 255);
+    padding: 4px 7px;
+    border-radius: 25px;
+    background-color: rgb(60, 60, 60);
+}
+
+.table tbody tr:last-of-type{
+    border-bottom: 2px solid rgb(194, 16, 16);
+}
+
+.table button{
+    padding: 6px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #000000;
+}
+
+.table button:hover{
+    background: #ffffff;
+    color: #fff;
+    transition: 0.5rem;
+}
+
+/*--------------Modal--------------*/
+.modal-title {
+    color: rgb(194, 16, 16); 
+}
+
+.det-total {
+    color: black;
+}
+

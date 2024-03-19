@@ -63,33 +63,56 @@
 
     {% if productos_carrito %}
     <div class="content-cart">
-        <table class="product-table">
-            <tbody>
-                {% for producto_info in productos_carrito %}
-                <tr>
-                    <td><img src="{{ producto_info.imagen }}" alt="{{ producto_info.nombre }}" class="product-image"></td>
-                    <td>{{ producto_info.nombre }}</td>
-                    <td>${{ producto_info.precio }}</td>
-                    <td>
-                        <form action="{% url 'actualizar_cantidad_carrito' producto_info.id %}" method="post" class="actualizar-cantidad-form">
-                            {% csrf_token %}
-                            <button type="submit" name="action" value="restar">-</button>
-                            <span>{{ producto_info.cantidad }}</span>
-                            <button type="submit" name="action" value="sumar">+</button>
-                            <input type="hidden" name="producto_id" value="{{ producto_info.id }}">
-                        </form>
-                    </td>
-                    <td>
-                        <a href="{% url 'eliminar_producto_carrito' producto_info.id %}" class="eliminar-producto" onclick="event.preventDefault(); if(confirm('¿Estás seguro de eliminar este producto?')){document.getElementById('eliminar-form-{{ producto_info.id }}').submit();}"><i class="uil uil-trash-alt"></i></a>
-                        <form action="{% url 'eliminar_producto_carrito' producto_info.id %}" method="post" id="eliminar-form-{{ producto_info.id }}">
-                            {% csrf_token %}
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p class="total_ped" id="total">Total: ${{ total }}</p>
+        <div class="cart-details">
+            <table class="product-table">
+                <tbody>
+                    {% for producto_info in productos_carrito %}
+                    <tr>
+                        <td><img src="{{ producto_info.imagen }}" alt="{{ producto_info.nombre }}" class="product-image"></td>
+                        <td>{{ producto_info.nombre }}</td>
+                        <td>${{ producto_info.precio }}</td>
+                        <td>
+                            <form action="{% url 'actualizar_cantidad_carrito' producto_info.id %}" method="post" class="actualizar-cantidad-form">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="restar">-</button>
+                                <span>{{ producto_info.cantidad }}</span>
+                                <button type="submit" name="action" value="sumar">+</button>
+                                <input type="hidden" name="producto_id" value="{{ producto_info.id }}">
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{% url 'eliminar_producto_carrito' producto_info.id %}" class="eliminar-producto" onclick="event.preventDefault(); if(confirm('¿Estás seguro de eliminar este producto?')){document.getElementById('eliminar-form-{{ producto_info.id }}').submit();}"><i class="uil uil-trash-alt"></i></a>
+                            <form action="{% url 'eliminar_producto_carrito' producto_info.id %}" method="post" id="eliminar-form-{{ producto_info.id }}">
+                                {% csrf_token %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cart-summary">
+            <table class="summary-table">
+                <tbody>
+                    <tr>
+                        <th class="Res_ped" colspan="2">Resumen del Pedido</th>
+                    </tr>
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td>${{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Envío:</td>
+                        <td>Gratis</td>
+                    </tr>
+                    <tr>
+                        <th>Total a Pagar:</th>
+                        <td id="total">${{ total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     {% else %}

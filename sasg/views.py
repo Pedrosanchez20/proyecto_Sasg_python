@@ -918,6 +918,16 @@ def hacer_pedido(request):
             messages.error(request, "No hay productos en el carrito.")
     return redirect('carrito')
 
+def pedidos_cliente(request):
+    if request.session.get('usuario_logeado') is None:
+        return redirect('login')
+    
+    usuario_logeado_id = request.session.get('usuario_logeado')
+    
+    pedidos_usuario = Pedido.objects.filter(idusuario_id=usuario_logeado_id).order_by('-fechacreacion')
+    
+    return render(request, 'sasg/pedidos_cliente.html', {'pedidos_usuario': pedidos_usuario})
+
 #--------------------PROVEEDORES----------------------------
 
 def listar_proveedor(request):
