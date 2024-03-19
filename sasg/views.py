@@ -1041,3 +1041,10 @@ def exportar_proveedores_pdf(request):
 
         doc.build(elements)
         return response
+    
+    
+#--------------------ERROR404----------------------------
+  
+    
+def pagina_no_encontrada(request, exception):
+    return render(request, 'sasg/error404.html', status=404)

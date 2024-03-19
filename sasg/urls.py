@@ -65,3 +65,5 @@ urlpatterns = [
     path('logout/',views.logout, name='logout'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+handler404 = 'sasg.views.pagina_no_encontrada'
