@@ -11,20 +11,21 @@ header{
     display: flex;
     min-height: 70px;
     background-color:  rgb(194, 16, 16);
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 5px 5%;
 }
 
 .logo{
     display: flex;
+    margin-right: auto;
     align-items: center;
 }
 
 .logo img{
     height: 80px;
-    transition: all 0.3s;
     margin-right: 20px;
+    transition: all 0.3s;
 }
 
 .logo img:hover{
@@ -44,6 +45,7 @@ header{
 .dropdown {
     position: relative;
     display: inline-block;
+    
 }
 
 .dropbtn {
@@ -67,7 +69,7 @@ header{
     min-width: 160px;
     border-radius: 14px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 5;
 }
 
 .dropdown-content a {
@@ -79,6 +81,14 @@ header{
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.carrito{
+    color: white;
+    border-left: rgb(230, 72, 72) solid 2px;
+    margin-left: 15px;
+    padding-left: 15px;
+    font-size: 40px;   
 }
 
 .tittle{

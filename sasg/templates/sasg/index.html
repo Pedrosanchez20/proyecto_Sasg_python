@@ -20,18 +20,10 @@
       <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-    
+
     <div class="login">
-      {% if request.session.user %}
-        <p>Bienvenido a Asago {{nombre_usuario}}!</p>
-        <div class="dropdown">
-          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
-          <div class="dropdown-content">
-            <a href="{% url 'logout' %}">Cerrar Sesión</a>
-          </div> 
-        </div> 
-      {% else %}
-        <p>Inicio de Sesión</p>
+      {% if request.session.usuario_logeado is None %}
+      <p>Inicio de Sesión</p>
         <div class="dropdown">
           <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
           <div class="dropdown-content">
@@ -39,10 +31,33 @@
             <a href="{% url 'registrar_usuario' %}">Registrarse</a>
           </div> 
         </div> 
+      {% else %}
+      <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+      <div class="dropdown">
+        <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+        <div class="dropdown-content">
+          <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        </div> 
+      </div> 
       {% endif %}
     </div>
-    
+    {% if usuario.rol.idrol == 354%}
+    <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+    {% endif %}
+
+    {% if usuario.rol.idrol == 214 or usuario.rol.idrol == 971 %}
+    <a class="database" href="{% url 'dashboard' %}"><i class="uil uil-database"></i></a>
+    {% endif %}
   </header>
+  
+  <div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+    {% endfor %}
+  </div>
 
   <div class="carousel slide" id="carouselExampleAutoplaying" data-bs-ride="carousel">
         <div class="carousel-inner">

@@ -22,49 +22,26 @@
     <div class="container-item">
         <div class="container">
             <div class="tittle">
-                <span>INICIAR SESIÓN</span>
+                <span>Recuperar Contraseña </span>
             </div>
 
             <div class="text">
                 <span>Ingresa tus datos para</span>
                 <div class="bold"> 
-                    <span>iniciar sesión en tu Tienda Virtual</span>  
+                    <span>Recuperar su contraseña</span>  
                 </div>
             </div>    
-            {% if messages %}
-                <div class="alert alert-danger" role="alert">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <form action="{% url 'login' %}" method="post">
+            <form method="post">
                 {% csrf_token %}
                 <div class="row">
                     <div class="flex">
                         <i class="fa-solid fa-user"></i>
-                        <label>Cédula de ciudadanía</label>
+                        <label>Correo Electronico</label>
                     </div>
-
-                    <input type="text" name="idusuario" placeholder="Ej: 1234567890" required>
+                    <input type="text" name="email" placeholder="Ej: example@gmail.com" required>
                 </div>
-
                 <div class="row">
-                    <div class="flex">
-                        <i class="fa-solid fa-unlock"></i>
-                        <label>Constraseña</label>
-                    </div>
-
-                    <input type="password" name="contrasena" placeholder="Contraseña" required>
-
-                    <div class="pass">
-                        <a href="{% url 'recuperar_contrasena' %}">¿Olvidaste tu Contraseña?</a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <input name="btningresar" class="btn" type="submit" value="Iniciar Sesión">
-                    <a class="btnregistro" value="Registrar" href="{% url 'registrar_usuario' %}">Registrarse</a>
+                    <input name="btningresar" class="btn" type="submit" value="Recuperar Contraseña">
                 </div>
             </form>
         </div>

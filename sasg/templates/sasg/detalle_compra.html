@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Compra</title>
+</head>
+<body>
+    <h1>Detalle de Compra</h1>
+    <p><strong>ID de Compra:</strong> {{ compra.idcompra }}</p>
+    <p><strong>Fecha de Emisión:</strong> {{ compra.fechaemision }}</p>
+    <p><strong>Proveedor:</strong> {{ compra.idproveedor.nomempresa }}</p>
+    <p><strong>Descripcion:</strong> {{ compra.descripcion }}</p>
+    <p><strong>Valor Total:</strong> {{ compra.valortotal }}</p>
+
+    <h2>Detalles:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.idproducto.nomproducto }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.valorproducto }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

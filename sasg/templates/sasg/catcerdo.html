@@ -11,7 +11,6 @@
     {% load static %}
     <link rel="stylesheet"  type="text/css" href="{% static 'css/productos.css' %}">
     <title>Productos Cerdo</title>
-
 </head>
 
 <body>
@@ -21,18 +20,10 @@
       <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
       <h2>Asago S.A.S</h2>
     </div>
-    
+
     <div class="login">
-      {% if request.session.user %}
-        <p>Bienvenido a Asago! </p>
-        <div class="dropdown">
-          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
-          <div class="dropdown-content">
-            <a href="{% url 'logout' %}">Cerrar Sesión</a>
-          </div> 
-        </div> 
-      {% else %}
-        <p>Inicio de Sesión</p>
+      {% if request.session.usuario_logeado is None %}
+      <p>Inicio de Sesión</p>
         <div class="dropdown">
           <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
           <div class="dropdown-content">
@@ -40,9 +31,19 @@
             <a href="{% url 'registrar_usuario' %}">Registrarse</a>
           </div> 
         </div> 
+      {% else %}
+      <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+      <div class="dropdown">
+        <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+        <div class="dropdown-content">
+          <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        </div> 
+      </div> 
       {% endif %}
     </div>
-    
+    {% if usuario.rol.idrol == 354%}
+    <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+    {% endif %}
   </header>
 
   <div class="tittle">
@@ -54,9 +55,15 @@
       {% for producto in product_list_cerdo %}
       <div class="item">
         <img src="{{ producto.imagen.url }}" class="img-item" alt="">
-          <span class="titulo-item">{{ producto.nomproducto }}</span>
-          <span class="card-text">Precio: ${{ producto.valorlibra }}</span>
-          <button class="card-button"><a href="#">Agregar al Carrito</a></button>
+        <span class="titulo-item">{{ producto.nomproducto }}</span>
+        <span class="card-text">Precio: ${{ producto.valorlibra }}</span>
+        {% if producto.idproducto in productos_en_carrito %}
+        <span>Ya en el carrito</span>
+        {% else %}
+        <a href="{% url 'agregar_al_carrito' producto.idproducto %}">
+            <button class="card-button">Agregar al Carrito</button>
+        </a>
+        {% endif %}
       </div>
       {% endfor %}
     </div> 

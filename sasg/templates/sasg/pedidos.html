@@ -14,12 +14,13 @@
     <div class="container">
         <nav>
             <ul>
+                {% if usuario.rol.idrol == 971 %}
                 <li><a href="{% url 'asago' %}" class="logo">
                     <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
                 </li>
 
-                <li><a href="{% url 'asago' %}">
+                <li><a href="{% url 'dashboard' %}">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
@@ -29,26 +30,25 @@
                     <span class="nav-item">Usuarios</span>
                 </a></li>
 
-                <li><a href="{% url 'listar_producto' %}">
-                    <i class="fas uil uil-shopping-bag"></i>
-                    <span class="nav-item">Productos</span>
-                </a></li>
-
-                <li><a href="{% url 'listar_venta' %}">
+                 <li><a href="{% url 'listar_venta' %}">
                     <i class="fas uil uil-bill"></i>
                     <span class="nav-item">Ventas</span>
-                </a></li>
+                </a></li> 
 
+                 <li><a href="{% url 'listar_compra' %}">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li> 
                 <li><a href="{% url 'listar_pedido' %}">
                     <i class="fas uil uil-truck"></i>
                     <span class="nav-item">Pedidos</span>
                 </a></li>
-                
-                <li><a href="{% url 'listar_compra' %}">
-                    <i class="fas uil uil-store"></i>
-                    <span class="nav-item">Compras</span>
-                </a></li>
 
+                <li><a href="{% url 'listar_producto' %}">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+                
                 <li><a href="{% url 'listar_proveedor' %}">
                     <i class="fas uil uil-user"></i>
                     <span class="nav-item">Proveedores</span>
@@ -57,7 +57,36 @@
                 <li><a href="{% url 'logout' %}" class="logout">
                 <i class="fas uil uil-sign-out-alt"></i>
                 <span class="nav-item">Cerrar Sesión</span>
-                </a></li>';
+                </a></li>
+                {% endif %}
+                {% if usuario.rol.idrol == 214 %}
+                <li><a href="{% url 'asago' %}" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png'%}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </li>
+                <li><a href="{% url 'dashboard' %}">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+                <li><a href="{% url 'listar_pedido' %}">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_producto' %}">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+                
+                <li><a href="{% url 'listar_venta' %}">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li> 
+                <li><a href="{% url 'logout' %}" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>
+                {% endif %}
             </ul>
         </nav>
 
@@ -102,7 +131,6 @@
                                 <th>Id Pedido</th>
                                 <th>Id Usuario</th>
                                 <th>Fecha Emisión</th>
-                                <th>Descripción</th>
                                 <th>Estado</th>
                                 <th>Valor Total</th>
                                 <th>Acciones</th>
@@ -115,7 +143,6 @@
                                 <td>{{pedido.idpedido}}</td>
                                 <td>{{pedido.idusuario.idusuario}}</td>
                                 <td>{{pedido.fechaemision}}</td>
-                                <td>{{pedido.descripcion}}</td>
                                 <td>{{pedido.estado}}</td>
                                 <td>{{pedido.valortotal}}</td>
                                 <td><span>

@@ -8,19 +8,20 @@
     {% load static %}
     <script src="{% static 'js/scripts.js' %}"></script>
     <link rel="stylesheet" href="{%static 'css/tables.css' %}">
-    <title>Producto</title>
+    <title>Compra</title>
 </head>
 
 <body>
     <div class="container">
         <nav>
             <ul>
+                {% if usuario.rol.idrol == 971 %}
                 <li><a href="{% url 'asago' %}" class="logo">
                     <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
                 </li>
 
-                <li><a href="{% url 'asago' %}">
+                <li><a href="{% url 'dashboard' %}">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
@@ -30,26 +31,25 @@
                     <span class="nav-item">Usuarios</span>
                 </a></li>
 
-                <li><a href="{% url 'listar_producto' %}">
-                    <i class="fas uil uil-shopping-bag"></i>
-                    <span class="nav-item">Productos</span>
-                </a></li>
-
-                <li><a href="{% url 'listar_venta' %}">
+                 <li><a href="{% url 'listar_venta' %}">
                     <i class="fas uil uil-bill"></i>
                     <span class="nav-item">Ventas</span>
-                </a></li>
+                </a></li> 
 
+                 <li><a href="{% url 'listar_compra' %}">
+                    <i class="fas uil uil-store"></i>
+                    <span class="nav-item">Compras</span>
+                </a></li> 
                 <li><a href="{% url 'listar_pedido' %}">
                     <i class="fas uil uil-truck"></i>
                     <span class="nav-item">Pedidos</span>
                 </a></li>
-                
-                <li><a href="{% url 'listar_compra' %}">
-                    <i class="fas uil uil-store"></i>
-                    <span class="nav-item">Compras</span>
-                </a></li>
 
+                <li><a href="{% url 'listar_producto' %}">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+                
                 <li><a href="{% url 'listar_proveedor' %}">
                     <i class="fas uil uil-user"></i>
                     <span class="nav-item">Proveedores</span>
@@ -59,6 +59,36 @@
                 <i class="fas uil uil-sign-out-alt"></i>
                 <span class="nav-item">Cerrar Sesión</span>
                 </a></li>
+                {% endif %}
+                {% if usuario.rol.idrol == 214 %}
+                <li><a href="{% url 'asago' %}" class="logo">
+                    <img src="{%static 'imagenes/logo_asago1.png'%}">
+                    <span class="nav-item">Asago S.A.S</span>
+                </li>
+                <li><a href="{% url 'asago' %}">
+                    <i class="fas uil uil-estate"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a></li>
+                <li><a href="{% url 'listar_pedido' %}">
+                    <i class="fas uil uil-truck"></i>
+                    <span class="nav-item">Pedidos</span>
+                </a></li>
+
+                <li><a href="{% url 'listar_producto' %}">
+                    <i class="fas uil uil-shopping-bag"></i>
+                    <span class="nav-item">Productos</span>
+                </a></li>
+                
+                <li><a href="{% url 'listar_venta' %}">
+                    <i class="fas uil uil-bill"></i>
+                    <span class="nav-item">Ventas</span>
+                </a></li> 
+                
+                <li><a href="{% url 'logout' %}" class="logout">
+                <i class="fas uil uil-sign-out-alt"></i>
+                <span class="nav-item">Cerrar Sesión</span>
+                </a></li>
+                {% endif %}
             </ul>
         </nav>
 
@@ -140,8 +170,8 @@
                             <th>fechaemision</th>
                             <th>idproveedor</th>
                             <th>descripcion</th>
-                            <th>valorproducto</th>
                             <th>valortotal</th>
+                            <th></th>
                         </tr>
                         </thead>
 
@@ -150,10 +180,14 @@
                             <tr id="compra{{compra.id}} ">
                                 <td>{{compra.idcompra}}</td>
                                 <td>{{compra.fechaemision}}</td>
-                                <td>{{compra.idproveedor.idproveedor}}</td>
+                                <td>{{compra.idproveedor.nomempresa}}</td>
                                 <td>{{compra.descripcion}}</td>
-                                <td>{{compra.valorproducto}}</td>
                                 <td>{{compra.valortotal}}</td>
+                                <td>
+                                    <span>
+                                        <a class="editar" title="Detalle Compra" href="{% url 'detalle_compra' compra.idcompra %}">Detalle</a>
+                                    </span>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

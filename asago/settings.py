@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-q4+&0$en8@!#_qh_8c%0d#9+qsqfx)^fy28ex715b*m*a+0jgj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    #'dcb5-191-95-58-9.ngrok-free.app'
-]
+# ALLOWED_HOSTS = [
+#     'able-sensible-llama.ngrok-free.app'
+# ]
 
 
 # Application definition
@@ -122,7 +122,7 @@ LOGIN_URL = '/login/'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -149,7 +149,6 @@ EMAIL_PORT ='587'
 EMAIL_HOST_USER ='asagoempresa@gmail.com'
 EMAIL_HOST_PASSWORD = 'nmns kyxz fudc lpoi'
 EMAIL_USE_TLS = True
-
 
 # CORS_ALLOW_CREDENTIALS = True
 

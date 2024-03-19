@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Venta</title>
+</head>
+<body>
+    <h1>Detalle de Venta</h1>
+    <p><strong>ID de Venta:</strong> {{ venta.idventa }}</p>
+    <p><strong>Fecha de Emisión:</strong> {{ venta.fechaemision }}</p>
+    <p><strong>Valor Total:</strong> {{ venta.valortotal }}</p>
+
+    <h2>Detalles:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.idproducto.nomproducto }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.valorproducto }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

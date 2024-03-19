@@ -11,20 +11,21 @@ header{
     display: flex;
     min-height: 70px;
     background-color:  rgb(194, 16, 16);
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 5px 5%;
 }
 
 .logo{
     display: flex;
+    margin-right: auto;
     align-items: center;
 }
 
 .logo img{
     height: 80px;
-    transition: all 0.3s;
     margin-right: 20px;
+    transition: all 0.3s;
 }
 
 .logo img:hover{
@@ -84,15 +85,44 @@ header{
 
 .carrito{
     color: white;
-    display: inline-block;
     border-left: rgb(230, 72, 72) solid 2px;
-    margin-left: 10px;
-    padding-left: 35px;
+    margin-left: 15px;
+    padding-left: 15px;
     font-size: 40px;   
 }
 
-.carousel{
-	margin-top: 20px;
+.database{
+    color: white;
+    border-left: rgb(230, 72, 72) solid 2px;
+    margin-left: 15px;
+    padding-left: 15px;
+    font-size: 40px;   
+}
+
+.messages{
+    padding: 10px 0 0;
+}
+
+.alert {
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(230, 72, 72, 0.895);
+    position: relative; 
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 7px; 
+    border: none;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+    background: transparent;
 }
 
 .carousel-item img{
@@ -251,9 +281,9 @@ figure .image img{
     margin-right: 5rem;   
 }
 
-
 @media screen and (max-width:630px){
     header{
+        justify-content: center;
         flex-direction: column;
     }
 
