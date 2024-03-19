@@ -503,19 +503,19 @@ def contar_productos(request):
 
 def prod_carne(request):
     product_list_carne = Producto.objects.filter(nomcategoria='carne')
-    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne, 'usuario':recuperarSesion(request)})
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
 
 def prod_pollo(request):
     product_list_pollo = Producto.objects.filter(nomcategoria='pollo')
-    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo, 'usuario':recuperarSesion(request)})
+    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo})
 
 def prod_cerdo(request):
     product_list_cerdo = Producto.objects.filter(nomcategoria='cerdo')
-    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo, 'usuario':recuperarSesion(request)})
+    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo})
 
 def prod_chorizo(request):
     product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
-    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo, 'usuario':recuperarSesion(request)})
+    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
 
 #--------------------VENTAS----------------------------
 @transaction.atomic
@@ -824,7 +824,6 @@ def carrito(request):
             'imagen': item['imagen'],
             'cantidad': item.get('cantidad', 1)
         }
-        productos_carrito.append(producto_info)
         total += item['precio'] * producto_info['cantidad']
     context = {'productos_carrito': productos_carrito, 'total': total}
     return render(request, 'sasg/carrito.html',context)

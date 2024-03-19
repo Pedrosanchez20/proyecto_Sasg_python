@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'asago.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'asagoprueba',
+        'NAME': 'asago',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
