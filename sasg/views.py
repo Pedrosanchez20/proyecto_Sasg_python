@@ -393,16 +393,27 @@ def listar_producto(request):
     else:
         product_list = Producto.objects.all()
         productoFilter = ProductoFilter(request.GET, queryset=product_list)
-        product_list = productoFilter.qs
-        for producto in product_list:
+        product_list_filtered = productoFilter.qs
+        for producto in product_list_filtered:
             if producto.cantidad: 
                 producto.is_low_quantity = int(producto.cantidad) <= 10
             else:
                 producto.is_low_quantity = False
-        paginator = Paginator(product_list, 10) 
+        fecha_actual = datetime.now().date()
+
+        dias_proximo_vencimiento = 7
+        productos_proximos_vencer = []
+        for producto in product_list:
+            if producto.fechavencimiento:
+                dias_restantes = (producto.fechavencimiento - fecha_actual).days
+                producto.is_proximo_vencimiento = dias_restantes <= dias_proximo_vencimiento
+                if producto.is_proximo_vencimiento:
+                    productos_proximos_vencer.append(producto)  
+        paginator = Paginator(product_list_filtered, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter, 'product_list': product_list, 'usuario':recuperarSesion(request)})
+        return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter, 'productos_proximos_vencer': productos_proximos_vencer, 'usuario':recuperarSesion(request)})
+
 
 
 def pre_editar_producto(request,idproducto):
