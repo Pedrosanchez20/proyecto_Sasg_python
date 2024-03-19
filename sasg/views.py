@@ -792,8 +792,8 @@ def exportar_pedidos_pdf(request):
 
         data = [['ID', 'Usuario', 'Fecha Emision', 'Estado', 'Valor Total']]
         for pedido in pedido_list:
-            data.append([pedido.idpedido, pedido.idusuario.nombres , pedido.fechaemision,
-                          pedido.estado, pedido.valortotal])
+            data.append([pedido.idpedido, pedido.idusuario , pedido.fechacreacion,
+                          pedido.estado, pedido.totalpedido])
 
         col_widths = ['auto'] * len(data[0]) 
 
