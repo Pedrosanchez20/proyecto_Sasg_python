@@ -55,6 +55,7 @@ def dashboard(request):
     data = {
         'cantidad_usuarios' : Usuarios.objects.count(),
         'usuario': recuperarSesion(request),
+        
     }
     try:
         if validarSesion(request):
@@ -502,19 +503,19 @@ def contar_productos(request):
 
 def prod_carne(request):
     product_list_carne = Producto.objects.filter(nomcategoria='carne')
-    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne})
+    return render(request, 'sasg/catcarne.html', {'product_list_carne': product_list_carne, 'usuario':recuperarSesion(request)})
 
 def prod_pollo(request):
     product_list_pollo = Producto.objects.filter(nomcategoria='pollo')
-    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo})
+    return render(request, 'sasg/catpollo.html', {'product_list_pollo': product_list_pollo, 'usuario':recuperarSesion(request)})
 
 def prod_cerdo(request):
     product_list_cerdo = Producto.objects.filter(nomcategoria='cerdo')
-    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo})
+    return render(request, 'sasg/catcerdo.html', {'product_list_cerdo': product_list_cerdo, 'usuario':recuperarSesion(request)})
 
 def prod_chorizo(request):
     product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
-    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
+    return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo, 'usuario':recuperarSesion(request)})
 
 #--------------------VENTAS----------------------------
 @transaction.atomic
@@ -644,8 +645,6 @@ def registrar_compra(request):
         form = CompraForm()
         form.fields['productos'].queryset = Producto.objects.all()
     return render(request, 'sasg/registrar_compra.html', {'form': form})
-
-
 
 
 def listar_compra(request):
@@ -828,7 +827,7 @@ def carrito(request):
         productos_carrito.append(producto_info)
         total += item['precio'] * producto_info['cantidad']
     context = {'productos_carrito': productos_carrito, 'total': total}
-    return render(request, 'sasg/carrito.html', context)
+    return render(request, 'sasg/carrito.html',context)
 
 def agregar_al_carrito(request, producto_id):
     if request.session.get('usuario_logeado') is None:
@@ -925,8 +924,10 @@ def pedidos_cliente(request):
     usuario_logeado_id = request.session.get('usuario_logeado')
     
     pedidos_usuario = Pedido.objects.filter(idusuario_id=usuario_logeado_id).order_by('-fechacreacion')
-    
-    return render(request, 'sasg/pedidos_cliente.html', {'pedidos_usuario': pedidos_usuario})
+    paginator = Paginator(pedidos_usuario, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'sasg/pedidos_cliente.html', {'page_obj': page_obj,'pedidos_usuario': pedidos_usuario, 'usuario':recuperarSesion(request)})
 
 #--------------------PROVEEDORES----------------------------
 
