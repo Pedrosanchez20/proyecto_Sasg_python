@@ -242,6 +242,14 @@ table thead tbody td i:hover{
 
 /*--------------MODAL-------------*/
 
+.boton-registro {
+    padding: 40px;
+    background-color: rgb(194, 16, 16);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .boton-modal{
     padding: 40px;
     background-color: #fff;
