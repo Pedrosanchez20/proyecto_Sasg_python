@@ -1,11 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-    {% load static %}
-    <link rel="stylesheet" href="{%static 'css/tables.css' %}">
-    <title>Actualizar Producto</title>
+    
+    <title>Gráficos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body>
+    <h1>Gráficos</h1>
+
+    <!-- usuarios -->
+    <canvas id="graficoUsuarios" width="400" height="200"></canvas>
+
+    <div class="dashboard-graph">
+        <h2>Gráfico de Ventas</h2>
+        <canvas id="graficoVentas" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctxUsuarios = document.getElementById('graficoUsuarios').getContext('2d');
+            var cantidadUsuarios = {{ cantidad_usuarios }};
+            var configUsuarios = {
+                type: 'bar',
+                data: {
+                    labels: ['Usuarios'],
+                    datasets: [{
+                        label: 'Cantidad de Usuarios',
+                        data: [cantidadUsuarios],
+                        backgroundColor: 'rgba(5, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            };
+
+            var graficoUsuarios = new Chart(ctxUsuarios, configUsuarios);
+
+            var ctxVentas = document.getElementById('graficoVentas').getContext('2d');
+            var ventasData = {{ ventas_por_mes|safe }};
+            var ventasLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            var configVentas = {
+                type: 'bar',
+                data: {
+                    labels: ventasLabels,
+                    datasets: [{
+                        label: 'Cantidad de Ventas',
+                        data: ventasData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            };
+            var graficoVentas = new Chart(ctxVentas, configVentas);
+        });
+    </script>
+    <h1>Listado Pedidos</h1>
+
+    <div class="dashboard-graph">
+        <h2>Gráfico de Compras por Mes</h2>
+        <canvas id="graficoCompras" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctxCompras = document.getElementById('graficoCompras').getContext('2d');
+            var comprasPorMes = {{ compras_por_mes|safe }};
+            var meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            var configCompras = {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Cantidad de Compras',
+                        data: comprasPorMes,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            };
+            var graficoCompras = new Chart(ctxCompras, configCompras);
+        });
+    </script>
+
+</body>
+</html>

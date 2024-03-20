@@ -72,7 +72,7 @@ def dashboard(request):
 def graficos(request):
     cantidad_usuarios = Usuarios.objects.count()  
     ventas_por_mes = [venta.cantidad for venta in Venta.objects.all()]  
-    return render(request, 'graficos.html', {'cantidad_usuarios': cantidad_usuarios, 'ventas_por_mes': ventas_por_mes})
+    return render(request, 'sasg/graficos.html', {'cantidad_usuarios': cantidad_usuarios, 'ventas_por_mes': ventas_por_mes})
 
 #--------------------USUARIOS----------------------------
 
