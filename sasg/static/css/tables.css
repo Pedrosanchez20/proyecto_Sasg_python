@@ -459,4 +459,29 @@ form .row select{
     }
 }
 
+/*-----------EstilosMiniTablaAlerta-------------------*/
+.alert-container {
+    margin-top: 20px;
+}
 
+.table-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.alert-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.alert-table th, .alert-table td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.alert-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
