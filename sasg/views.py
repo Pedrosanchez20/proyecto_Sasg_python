@@ -522,40 +522,45 @@ def prod_chorizo(request):
 
 @transaction.atomic
 def registrar_venta(request):
-    if request.method == 'POST':
-        form = VentaForm(request.POST)
-        if form.is_valid():
-            total_valor = 0
-            productos_invalidos = []
-            venta = form.save(commit=False)
-            venta.fechaemision = timezone.localtime(timezone.now())
-            venta.save()  
-            for producto in form.cleaned_data['productos']:
-                cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
-                if cantidad > 0 and producto.cantidad >= cantidad:
-                    detalle = Detalleventa.objects.create(
-                        idventa=venta,
-                        idproducto=producto,
-                        cantidad=cantidad,
-                        valorproducto=producto.valorlibra
-                    )
-                    detalle.save()
-                    total_valor += detalle.valorproducto * cantidad
-                    producto.cantidad -= cantidad
-                    producto.save()
-                else:
-                    productos_invalidos.append(producto)
-            if productos_invalidos:
-                for producto_invalido in productos_invalidos:
-                    form.add_error(None, f"No hay suficientes unidades disponibles de {producto_invalido.nomproducto}")
-                return render(request, 'sasg/registrar_venta.html', {'form': form})
-            venta.valortotal = total_valor
-            venta.save() 
-            return redirect('listar_venta')
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 1:
+         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
     else:
-        form = VentaForm()
-        form.fields['productos'].queryset = Producto.objects.all()
-    return render(request, 'sasg/registrar_venta.html', {'form': form})
+        if request.method == 'POST':
+            form = VentaForm(request.POST)
+            if form.is_valid():
+                total_valor = 0
+                productos_invalidos = []
+                venta = form.save(commit=False)
+                venta.fechaemision = timezone.localtime(timezone.now())
+                venta.save()  
+                for producto in form.cleaned_data['productos']:
+                    cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
+                    if cantidad > 0 and producto.cantidad >= cantidad:
+                        detalle = Detalleventa.objects.create(
+                            idventa=venta,
+                            idproducto=producto,
+                            cantidad=cantidad,
+                            valorproducto=producto.valorlibra
+                        )
+                        detalle.save()
+                        total_valor += detalle.valorproducto * cantidad
+                        producto.cantidad -= cantidad
+                        producto.save()
+                    else:
+                        productos_invalidos.append(producto)
+                if productos_invalidos:
+                    for producto_invalido in productos_invalidos:
+                        form.add_error(None, f"No hay suficientes unidades disponibles de {producto_invalido.nomproducto}")
+                    return render(request, 'sasg/registrar_venta.html', {'form': form})
+                venta.valortotal = total_valor
+                venta.save() 
+                return redirect('listar_venta')
+        else:
+            form = VentaForm()
+            form.fields['productos'].queryset = Producto.objects.all()
+        return render(request, 'sasg/registrar_venta.html', {'form': form})
 
 
 def listar_venta(request):
@@ -576,6 +581,10 @@ def listar_venta(request):
 def exportar_ventas_pdf(request):
     if validarSesion(request):
         return redirect("login")
+    elif validar_rol(request) == 1:
+         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
     else:
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="ventas.pdf"'
@@ -613,41 +622,55 @@ def exportar_ventas_pdf(request):
         return response
 
 def detalle_venta(request, venta_id):
-    venta = get_object_or_404(Venta, idventa=venta_id)
-    detalles = venta.obtener_detalles()
-    return render(request, 'sasg/detalle_venta.html', {'venta': venta, 'detalles': detalles})
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 1:
+         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        venta = get_object_or_404(Venta, idventa=venta_id)
+        detalles = venta.obtener_detalles()
+        return render(request, 'sasg/detalle_venta.html', {'venta': venta, 'detalles': detalles})
 
 #------------------------COMPRAS------------------------------
 
 @transaction.atomic
 def registrar_compra(request):
-    if request.method == 'POST':
-        form = CompraForm(request.POST)
-        if form.is_valid():
-            compra = form.save(commit=False)
-            total_valor = 0
-            compra.fechaemision = timezone.localtime(timezone.now())
-            compra.save() 
-            for producto in form.cleaned_data['productos']:
-                cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
-                if cantidad > 0:
-                    detalle = DetalleCompra.objects.create(
-                        idcompra=compra,
-                        idproducto=producto,
-                        cantidad=cantidad,
-                        valorproducto=producto.valorlibra
-                    )
-                    detalle.save()
-                    total_valor += detalle.valorproducto * cantidad
-                    producto.cantidad += cantidad
-                    producto.save()
-            compra.valortotal = total_valor
-            compra.save()  # Actualiza la compra con el valor total
-            return redirect('listar_compra')
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 1:
+         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
     else:
-        form = CompraForm()
-        form.fields['productos'].queryset = Producto.objects.all()
-    return render(request, 'sasg/registrar_compra.html', {'form': form})
+        if request.method == 'POST':
+            form = CompraForm(request.POST)
+            if form.is_valid():
+                compra = form.save(commit=False)
+                total_valor = 0
+                compra.fechaemision = timezone.localtime(timezone.now())
+                compra.save() 
+                for producto in form.cleaned_data['productos']:
+                    cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
+                    if cantidad > 0:
+                        detalle = DetalleCompra.objects.create(
+                            idcompra=compra,
+                            idproducto=producto,
+                            cantidad=cantidad,
+                            valorproducto=producto.valorlibra
+                        )
+                        detalle.save()
+                        total_valor += detalle.valorproducto * cantidad
+                        producto.cantidad += cantidad
+                        producto.save()
+                compra.valortotal = total_valor
+                compra.save()  # Actualiza la compra con el valor total
+                return redirect('listar_compra')
+        else:
+            form = CompraForm()
+            form.fields['productos'].queryset = Producto.objects.all()
+        return render(request, 'sasg/registrar_compra.html', {'form': form})
 
 
 def listar_compra(request):
@@ -712,9 +735,16 @@ def exportar_compras_pdf(request):
         return response
 
 def detalle_compra(request, compra_id):
-    compra = get_object_or_404(Compra, idcompra=compra_id)
-    detalles = compra.obtener_detalles()
-    return render(request, 'sasg/detalle_compra.html', {'compra': compra, 'detalles': detalles})
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 1:
+         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        compra = get_object_or_404(Compra, idcompra=compra_id)
+        detalles = compra.obtener_detalles()
+        return render(request, 'sasg/detalle_compra.html', {'compra': compra, 'detalles': detalles})
 
 #-------------------------------PEDIDOS-------------------------------------
 
@@ -811,125 +841,165 @@ def exportar_pedidos_pdf(request):
         return response
 
 def carrito(request):
-    carrito = request.session.get('carrito_productos', {})
-    productos_carrito = []
-    total = 0
-    for producto_id, item in carrito.items():
-        producto = get_object_or_404(Producto, idproducto=producto_id)
-        producto_info = {
-            'id': producto_id,
-            'nombre': item['nombre'],
-            'precio': item['precio'],
-            'imagen': item['imagen'],
-            'cantidad': item.get('cantidad', 1)
-        }
-        productos_carrito.append(producto_info)
-        total += item['precio'] * producto_info['cantidad']
-    context = {'productos_carrito': productos_carrito, 'total': total}
-    return render(request, 'sasg/carrito.html', context)
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        carrito = request.session.get('carrito_productos', {})
+        productos_carrito = []
+        total = 0
+        for producto_id, item in carrito.items():
+            producto = get_object_or_404(Producto, idproducto=producto_id)
+            producto_info = {
+                'id': producto_id,
+                'nombre': item['nombre'],
+                'precio': item['precio'],
+                'imagen': item['imagen'],
+                'cantidad': item.get('cantidad', 1)
+            }
+            productos_carrito.append(producto_info)
+            total += item['precio'] * producto_info['cantidad']
+        context = {'productos_carrito': productos_carrito, 'total': total}
+        return render(request, 'sasg/carrito.html', context)
 
 def agregar_al_carrito(request, producto_id):
-    if request.session.get('usuario_logeado') is None:
-        request.session['carrito_productos'] = {}
-        messages.error(request, "Debe iniciar sesión para agregar productos al carrito.")
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
     else:
-        producto = get_object_or_404(Producto, idproducto=producto_id)
-        if producto:
-            carrito = request.session.get('carrito_productos', {})
-            if producto_id in carrito:
-                pass
-            else:
-                carrito[producto_id] = {
-                    'nombre': producto.nomproducto,
-                    'cantidad': 1,
-                    'precio': producto.valorlibra,
-                    'imagen': producto.imagen.url,
-                    'usuario_id': request.session.get('usuario_logeado')
-                }
-                request.session['carrito_productos'] = carrito
+        if request.session.get('usuario_logeado') is None:
+            request.session['carrito_productos'] = {}
+            messages.error(request, "Debe iniciar sesión para agregar productos al carrito.")
         else:
-            messages.error(request, "El producto seleccionado no existe.")
-    return redirect('asago')
+            producto = get_object_or_404(Producto, idproducto=producto_id)
+            if producto:
+                carrito = request.session.get('carrito_productos', {})
+                if producto_id in carrito:
+                    pass
+                else:
+                    carrito[producto_id] = {
+                        'nombre': producto.nomproducto,
+                        'cantidad': 1,
+                        'precio': producto.valorlibra,
+                        'imagen': producto.imagen.url,
+                        'usuario_id': request.session.get('usuario_logeado')
+                    }
+                    request.session['carrito_productos'] = carrito
+            else:
+                messages.error(request, "El producto seleccionado no existe.")
+        return redirect('asago')
 
 def actualizar_cantidad_carrito(request, producto_id):
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        producto_id = request.POST.get('producto_id')
-        if action in ['sumar', 'restar']:
-            carrito = request.session.get('carrito_productos', {})
-            if producto_id in carrito:
-                if action == 'sumar':
-                    carrito[producto_id]['cantidad'] += 1
-                elif action == 'restar':
-                    if carrito[producto_id]['cantidad'] > 1:
-                        carrito[producto_id]['cantidad'] -= 1
-                request.session['carrito_productos'] = carrito
-    return redirect('carrito')
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        if request.method == 'POST':
+            action = request.POST.get('action')
+            producto_id = request.POST.get('producto_id')
+            if action in ['sumar', 'restar']:
+                carrito = request.session.get('carrito_productos', {})
+                if producto_id in carrito:
+                    if action == 'sumar':
+                        carrito[producto_id]['cantidad'] += 1
+                    elif action == 'restar':
+                        if carrito[producto_id]['cantidad'] > 1:
+                            carrito[producto_id]['cantidad'] -= 1
+                    request.session['carrito_productos'] = carrito
+        return redirect('carrito')
 
 def eliminar_producto_carrito(request, producto_id):
-    if request.method == 'POST':
-        if 'carrito_productos' in request.session:
-            carrito = request.session['carrito_productos']
-            if str(producto_id) in carrito:
-                del carrito[str(producto_id)]
-                request.session['carrito_productos'] = carrito
-    return redirect('carrito')
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        if request.method == 'POST':
+            if 'carrito_productos' in request.session:
+                carrito = request.session['carrito_productos']
+                if str(producto_id) in carrito:
+                    del carrito[str(producto_id)]
+                    request.session['carrito_productos'] = carrito
+        return redirect('carrito')
 
 def eliminar_todo_carrito(request):
-    if request.method == 'POST':
-        if 'carrito_productos' in request.session:
-            del request.session['carrito_productos']
-            messages.success(request, "Se han eliminado todos los productos del carrito.")
-    return redirect('carrito')
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        if request.method == 'POST':
+            if 'carrito_productos' in request.session:
+                del request.session['carrito_productos']
+                messages.success(request, "Se han eliminado todos los productos del carrito.")
+        return redirect('carrito')
 
 @transaction.atomic
 def hacer_pedido(request):
-    if request.method == 'POST':
-        carrito = request.session.get('carrito_productos', {})
-        if carrito:
-            usuario_id = carrito.get(next(iter(carrito)),'').get('usuario_id')
-            usuario = Usuarios.objects.get(idusuario=usuario_id) if usuario_id else None 
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        if request.method == 'POST':
+            carrito = request.session.get('carrito_productos', {})
+            if carrito:
+                usuario_id = carrito.get(next(iter(carrito)),'').get('usuario_id')
+                usuario = Usuarios.objects.get(idusuario=usuario_id) if usuario_id else None 
 
-            nuevo_pedido = Pedido.objects.create(
-                idusuario=usuario,
-                estado='En espera',
-                fechacreacion=datetime.now(),
-                totalpedido=sum(item['precio'] * item['cantidad'] for item in carrito.values())
-            )
-
-            for producto_id, item in carrito.items():
-                producto = get_object_or_404(Producto, idproducto=producto_id)
-                cantidad_carrito = item['cantidad']
-                producto.cantidad -= cantidad_carrito
-                producto.save()
-                
-                DetallePedido.objects.create(
-                    idpedido=nuevo_pedido,
-                    idproducto=producto,
-                    cantidad=cantidad_carrito,
-                    valorproducto=item['precio']
+                nuevo_pedido = Pedido.objects.create(
+                    idusuario=usuario,
+                    estado='En espera',
+                    fechacreacion=datetime.now(),
+                    totalpedido=sum(item['precio'] * item['cantidad'] for item in carrito.values())
                 )
-            del request.session['carrito_productos']
-            return redirect('carrito')
-        else:
-            messages.error(request, "No hay productos en el carrito.")
-    return redirect('carrito')
+
+                for producto_id, item in carrito.items():
+                    producto = get_object_or_404(Producto, idproducto=producto_id)
+                    cantidad_carrito = item['cantidad']
+                    producto.cantidad -= cantidad_carrito
+                    producto.save()
+                    
+                    DetallePedido.objects.create(
+                        idpedido=nuevo_pedido,
+                        idproducto=producto,
+                        cantidad=cantidad_carrito,
+                        valorproducto=item['precio']
+                    )
+                del request.session['carrito_productos']
+                return redirect('carrito')
+            else:
+                messages.error(request, "No hay productos en el carrito.")
+        return redirect('carrito')
 
 def pedidos_cliente(request):
-    if request.session.get('usuario_logeado') is None:
-        return redirect('login')
-    
-    usuario_logeado_id = request.session.get('usuario_logeado')
-    
-    pedidos_usuario = Pedido.objects.filter(idusuario_id=usuario_logeado_id).order_by('-fechacreacion')
-    paginator = Paginator(pedidos_usuario, 10) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'sasg/pedidos_cliente.html', {'page_obj': page_obj,'pedidos_usuario': pedidos_usuario, 'usuario':recuperarSesion(request)})
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        if request.session.get('usuario_logeado') is None:
+            return redirect('login')
+        
+        usuario_logeado_id = request.session.get('usuario_logeado')
+        
+        pedidos_usuario = Pedido.objects.filter(idusuario_id=usuario_logeado_id).order_by('-fechacreacion')
+        paginator = Paginator(pedidos_usuario, 10) 
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sasg/pedidos_cliente.html', {'page_obj': page_obj,'pedidos_usuario': pedidos_usuario, 'usuario':recuperarSesion(request)})
 
 def detalle_pedido(request, pedido_id):
-    detalles_pedido = DetallePedido.objects.filter(idpedido=pedido_id)
-    return render(request, 'sasg/detalle_pedido.html', {'detalles_pedido': detalles_pedido})
+    if validarSesion(request):
+        return redirect("login")
+    elif validar_rol(request) == 2:
+        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    else:
+        detalles_pedido = DetallePedido.objects.filter(idpedido=pedido_id)
+        return render(request, 'sasg/detalle_pedido.html', {'detalles_pedido': detalles_pedido})
 
 #--------------------PROVEEDORES----------------------------
 
@@ -973,8 +1043,6 @@ def registrar_proveedor(request):
 
             proveedor.save()
         return redirect("listar_proveedor")    
-
-
 
 
 def pre_editar_proveedor(request,idproveedor):
