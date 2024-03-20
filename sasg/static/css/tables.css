@@ -242,6 +242,14 @@ table thead tbody td i:hover{
 
 /*--------------MODAL-------------*/
 
+.boton-registro {
+    padding: 40px;
+    background-color: rgb(194, 16, 16);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .boton-modal{
     padding: 40px;
     background-color: #fff;
@@ -336,7 +344,7 @@ form .row select{
     color: white;
     border: none;
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 30px;
     background-color: rgb(194, 16, 16);
 }
 
@@ -366,6 +374,49 @@ form .row select{
 
 .checkbox-hidden {
     display: none;
+}
+
+/*-------------Btn Registro Venta---------------*/
+.reg_venta a {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 30px; 
+    background-color: rgb(194, 16, 16);
+}
+
+/*------EstiloFiltro-----*/
+.custom-btn {
+    color: rgb(255, 255, 255);
+    padding: 4px 7px;
+    border-radius: 25px;
+    background-color: rgb(60, 60, 60);
+}
+
+.custom-btn:hover {
+    background-color: black; 
+}
+.custom-input {
+    border: 1px solid #ccc;
+    padding: 8px; 
+    border-radius: 5px;
+    width: 110px; 
+    height: 30px; 
+
+}
+.custom-select {
+    border: 1px solid #ccc;
+    padding: 8px; 
+    border-radius: 5px;
+    width: 12rem; 
+    font-size: 11px;
+
+}
+.filtro{
+    font-size: 13px; 
+    color: #333; 
 }
 
 /*--------------PAGINACION-------------------*/
@@ -408,34 +459,29 @@ form .row select{
     }
 }
 
-/*------EstiloFiltro-----*/
-.custom-btn {
-    color: rgb(255, 255, 255);
-    padding: 4px 7px;
-    border-radius: 25px;
-    background-color: rgb(60, 60, 60);
+/*-----------EstilosMiniTablaAlerta-------------------*/
+.alert-container {
+    margin-top: 20px;
 }
 
-.custom-btn:hover {
-    background-color: black; 
-}
-.custom-input {
+.table-container {
     border: 1px solid #ccc;
-    padding: 8px; 
     border-radius: 5px;
-    width: 110px; 
-    height: 30px; 
-
+    overflow: hidden;
 }
-.custom-select {
-    border: 1px solid #ccc;
-    padding: 8px; 
-    border-radius: 5px;
-    width: 12rem; 
-    font-size: 11px;
 
+.alert-table {
+    width: 100%;
+    border-collapse: collapse;
 }
-.filtro{
-    font-size: 13px; 
-    color: #333; 
+
+.alert-table th, .alert-table td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.alert-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
 }

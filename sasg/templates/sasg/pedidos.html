@@ -141,10 +141,10 @@
                             {% for pedido in page_obj %}
                             <tr id="pedido{{pedido.id}}">
                                 <td>{{pedido.idpedido}}</td>
-                                <td>{{pedido.idusuario.idusuario}}</td>
+                                <td>{{pedido.idusuario}}</td>
                                 <td>{{pedido.fechaemision}}</td>
                                 <td>{{pedido.estado}}</td>
-                                <td>{{pedido.valortotal}}</td>
+                                <td>{{pedido.totalpedido}}</td>
                                 <td><span>
                                     <a class="editar"
                                     title="Editar Datos"

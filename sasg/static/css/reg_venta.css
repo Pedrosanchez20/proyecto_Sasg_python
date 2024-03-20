@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+header{
+    display: flex;
+    min-height: 70px;
+    background-color:  rgb(194, 16, 16);
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 5%;
+}
+
+.logo{
+    display: flex;
+    margin-right: auto;
+    align-items: center;
+}
+
+.logo img{
+    height: 80px;
+    margin-right: 20px;
+    transition: all 0.3s;
+}
+
+.logo img:hover{
+    scale: 1.10;
+}
+
+.logo h2{
+    color: white;
+}
+
+.login p{
+    display: inline-block;
+    color: white;
+    font-size: 18px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropbtn {
+    background: none;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.dropbtn i{
+    font-size: 30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    margin-left: -6.5rem;
+    min-width: 160px;
+    border-radius: 14px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.btn-regresar {
+    color: black; 
+    padding: 10px 20px;
+    font-size: 16px; 
+    cursor: pointer;
+    margin: 10px 20px;
+    border-radius: 30px;
+    background-color: transparent;
+    border: 2px solid rgb(194, 16, 16);
+}
+
+.btn-regresar a {
+    color: black; 
+    padding: 10px 20px;
+    font-size: 16px; 
+    cursor: pointer;
+    text-decoration: none;   
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    padding: 0 0 20px;
+    text-align: center;
+    color: rgb(194, 16, 16);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form button[type="submit"] {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    border-radius: 30px;
+    background-color: rgb(194, 16, 16);
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0; 
+}
+
+form button[type="submit"]:hover {
+    color: black;
+    background-color: transparent;
+    border: 2px solid rgb(194, 16, 16);
+}
+
+/*----------------------DETALLES-----------------*/
+
+.content_detalle{
+    width: 40%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid rgb(194, 16, 16);
+}
+
+.content_title{
+    padding: 10px;
+    text-align: center;
+    color: rgb(194, 16, 16);
+}
+.content_detalle .val_total{
+    padding-bottom: 20px;
+}
+
+.content_detalle p{
+    padding: 9px;
+}
+
+.detalles{
+    font-weight: bold;
+    border-top: 1px solid rgb(194, 16, 16);
+    padding-top: 10px;
+}
+
+/*----------------TABLA---------------*/
+
+
+.table{
+    border-collapse: collapse;
+    margin: 1px 0;
+    font-size: 15px;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+table thead tr{
+    color: white;
+    background: rgb(194, 16, 16);
+    text-align: center;
+    font-weight: bold;
+}
+
+table thead tbody td i:hover{
+    width: 10px;
+}
+
+.form-group {
+    display: inline-block;
+    margin-right: 10px;
+}
+.table th,
+.table td{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 15px;
+}
+
+.table tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(odd){
+    background: #f3f3f3;
+}
+
+.table tbody td .editar{
+    color: rgb(255, 255, 255);
+    padding: 4px 7px;
+    border-radius: 25px;
+    background-color: rgb(60, 60, 60);
+}
+
+.table tbody tr:last-of-type{
+    border-bottom: 2px solid rgb(194, 16, 16);
+}
+
+.table button:hover{
+    background: #ffffff;
+    color: #fff;
+    transition: 0.5rem;
+}
+

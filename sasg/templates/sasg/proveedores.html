@@ -96,12 +96,11 @@
             <div class="main-top">
               <i class="fas uil uil-user"></i>
                 <h1>Listado Proveedores</h1>
-                {% if page_obj %}
+                {% if page_obj %}   
             </div>
             <div class="boton-modal">
                 <label for="btn-modal">Agregar Proveedor</label>
             </div>
-
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
                 <div class="content-modal">
@@ -126,7 +125,7 @@
 
                         <div class="row">
                             <label>Direccion</label>
-                            <input type="text" name="producto" required>
+                            <input type="text" name="Direccion" required>
                         </div>
 
                         <div class="row">
@@ -158,21 +157,16 @@
                             </div>
                             <div class="form-group">
                                 <label class='filtro' for="id_nomempresa ">Nombre Empresa:</label>
-                                <input type="text" name="nomempresa " id="id_nomempresa" class="custom-input">
-                            </div>
-                            <div class="form-group">
-                                <label class='filtro' for="id_producto ">Direccion:</label>
-                                <input type="text" name="producto " id="id_producto " class="custom-input">
+                                <input type="text" name="nomempresa" id="id_nomempresa" class="custom-input">
                             </div>
                             <div class="form-group">
                                 <label class='filtro' for="id_telefono ">Telefono:</label>
-                                <input type="text" name="telefono " id="id_telefono " class="custom-input">
+                                <input type="text" name="telefono" id="id_telefono" class="custom-input">
                             </div>
                             <div class="form-group">
                                 <label class='filtro' for="id_correo ">Correo:</label>
-                                <input type="text" name="correo " id="id_correo " class="custom-input">
-                            </div>
-                            
+                                <input type="text" name="correo" id="id_correo" class="custom-input">
+                            </div>                       
                             <button type="submit" class="btn btn-primary custom-btn circular-btn">Filtrar</button>
                         </form>
                         <a href="{% url 'exportar_proveedores_pdf' %}" class="btn btn-primary custom-btn circular-btn">Reporte PDF</a>
