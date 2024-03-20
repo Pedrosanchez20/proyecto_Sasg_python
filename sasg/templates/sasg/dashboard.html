@@ -59,15 +59,18 @@
                 <span class="nav-item">Cerrar Sesión</span>
                 </a></li>
                 {% endif %}
+
                 {% if usuario.rol.idrol == 214 %}
                 <li><a href="{% url 'asago' %}" class="logo">
                     <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
                 </li>
+
                 <li><a href="{% url 'dashboard' %}">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
+                
                 <li><a href="{% url 'listar_pedido' %}">
                     <i class="fas uil uil-truck"></i>
                     <span class="nav-item">Pedidos</span>
@@ -122,7 +125,7 @@
                             <i class="uil uil-bill"></i>
                         </div>
                         <span class="titulo-item">Ventas</span>
-                        <span class="card-text"></span>
+                        <span class="card-text">{{ cantidad_venta }}</span>
                     </div>
 
                     <div class="item">
@@ -130,7 +133,7 @@
                             <i class="uil uil-truck"></i>
                         </div>
                         <span class="titulo-item">Pedidos</span>
-                        <span class="card-text"></span>
+                        <span class="card-text">{{ cantidad_pedido }}</span>
                     </div>
 
                     <div class="item">
@@ -138,10 +141,9 @@
                             <i class="uil uil-store"></i>
                         </div>
                         <span class="titulo-item">Compras</span>
-                        <span class="card-text"></span>
+                        <span class="card-text">{{ cantidad_compra }}</span>
                     </div>
                 </div>
-                
             </section>
         </section>
     </div>

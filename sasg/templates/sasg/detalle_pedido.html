@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet"  type="text/css" href="{% static 'css/reg_venta.css' %}">
-    <title>Detalle de Venta</title>
+    <title>Detalle Pedido</title>
 </head>
 
-<body>
+<body>    
     <header>
         <div class="logo">
           <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
@@ -40,34 +40,23 @@
         {% endif %}
     </header>
 
-    <button class="btn-regresar"><a href="{% url 'listar_venta' %}">Regresar</a></button>
+    <button class="btn-regresar"><a href="{% url 'listar_pedido' %}">Regresar</a></button>
 
     <div class="content_detalle">
-        <h1 class="content_title">Detalle Venta</h1>
-        <p><strong>ID de Venta:</strong> {{ venta.idventa }}</p>
-        <p><strong>Fecha de Emisión:</strong> {{ venta.fechaemision }}</p>
-        <p class="val_total"><strong>Valor Total:</strong> {{ venta.valortotal }}</p>
-
-        <h3 class="detalles">Detalles:</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Valor Unitario</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for detalle in detalles %}
-                <tr>
-                    <td>{{ detalle.idproducto.nomproducto }}</td>
-                    <td>{{ detalle.cantidad }}</td>
-                    <td>${{ detalle.valorproducto }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <h2 class="content_title">Detalles del Pedido</h2>
+        <ul>
+            {% for detalle in detalles_pedido %}
+                <li>
+                    <p><strong>ID Detalle Pedido:</strong> {{ detalle.iddetallepedido }}</p>
+                    <p><strong>Producto:</strong> {{ detalle.idproducto }}</p>
+                    <p><strong>Cantidad:</strong> {{ detalle.cantidad }}</p>
+                    <p><strong>Valor Producto:</strong> ${{ detalle.valorproducto }}</p>
+                </li>
+            {% empty %}
+                <p>No hay detalles disponibles para este pedido.</p>
+            {% endfor %}
+        </ul>
     </div>
+
 </body>
 </html>

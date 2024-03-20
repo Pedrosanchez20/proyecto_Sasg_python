@@ -34,7 +34,6 @@ from sasg.models import *
 from .filters import (CompraFilter, PedidoFilter, ProductoFilter,
                       UsuariosFilter, VentaFilter, ProveedorFilter)
 from .forms import CompraForm, VentaForm, DetalleVentaForm
-# Create your views here.
 
 def validarSesion(request):
     if request.session.get('usuario_logeado') is None:
@@ -54,6 +53,10 @@ def sasg(request):
 def dashboard(request):
     data = {
         'cantidad_usuarios' : Usuarios.objects.count(),
+        'cantidad_producto' : Producto.objects.count(),
+        'cantidad_venta' : Venta.objects.count(),
+        'cantidad_pedido' : Pedido.objects.count(),
+        'cantidad_compra' : Compra.objects.count(),
         'usuario': recuperarSesion(request),
         
     }
@@ -75,8 +78,7 @@ def graficos(request):
     ventas_por_mes = [venta.cantidad for venta in Venta.objects.all()]  
     return render(request, 'graficos.html', {'cantidad_usuarios': cantidad_usuarios, 'ventas_por_mes': ventas_por_mes})
 
-#--------------------USUARIOS----------------------------
-
+#-----------------------------------------USUARIOS-------------------------------------
 
 def user_login(request):
     if request.method == 'POST':
@@ -121,9 +123,9 @@ def validar_rol(request):
 
 def logout(request):
     if 'carrito_productos' in request.session:
-        del request.session['carrito_productos']  # Eliminar el carrito de compras de la sesión
+        del request.session['carrito_productos']  
     if 'usuario_logeado' in request.session:
-        del request.session['usuario_logeado']  # Eliminar la información del usuario de la sesión
+        del request.session['usuario_logeado'] 
     return redirect('asago')
 
 def user_logout(request):
@@ -312,30 +314,23 @@ def exportar_usuarios_pdf(request):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="usuarios.pdf"'
 
-        # Obtener la lista de usuarios
         usuario_list = Usuarios.objects.all()
 
-        # Crear un documento PDF
         doc = SimpleDocTemplate(response, pagesize=landscape(letter))
         elements = []
 
-        # Agregar título
         titulo = Paragraph('Reporte Usuarios', getSampleStyleSheet()['Heading1'])
         elements.append(titulo)
 
-        elements.append(Spacer(1, 0.5*inch))  # Espacio entre el logo/título y la tabla
+        elements.append(Spacer(1, 0.5*inch))
 
-
-        # Definir los datos de los usuarios para la tabla
         data = [['Rol', 'Nombres', 'Apellido', 'Direccion', 'Telefono', 'Email', 'Estado']]
         for usuario in usuario_list:
             data.append([usuario.rol.rolnombre, usuario.nombres, usuario.apellidos,
                          usuario.direccion, usuario.telefono, usuario.email, usuario.estado])
 
-        # Calcular el ancho de las columnas
-        col_widths = ['auto'] * len(data[0])  # Todas las columnas tienen ancho automático
+        col_widths = ['auto'] * len(data[0]) 
 
-        # Crear la tabla y aplicar estilos
         table = Table(data)
         style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.red),
                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -346,15 +341,13 @@ def exportar_usuarios_pdf(request):
                             ('GRID', (0, 0), (-1, -1), 1, colors.black)])
         table.setStyle(style)
 
-        # Añadir la tabla al documento
         elements.append(table)
 
-        # Generar el PDF
         doc.build(elements)
         return response
 
     
-#--------------------PRODUCTOS----------------------------
+#-----------------------------------------PRODUCTOS------------------------------------
 
 def registrar_producto(request):
     if validarSesion(request):
@@ -415,7 +408,6 @@ def listar_producto(request):
         return render(request, 'sasg/productos.html', {'page_obj': page_obj, 'productoFilter': productoFilter, 'productos_proximos_vencer': productos_proximos_vencer, 'usuario':recuperarSesion(request)})
 
 
-
 def pre_editar_producto(request,idproducto):
     if validarSesion(request):
         return redirect("login")
@@ -452,8 +444,6 @@ def actualizar_producto(request, idproducto):
             
             producto.save()
         return redirect("listar_producto")
-
-
 
 def exportar_productos_pdf(request):
     if validarSesion(request):
@@ -528,7 +518,8 @@ def prod_chorizo(request):
     product_list_chorizo = Producto.objects.filter(nomcategoria='chorizo')
     return render(request, 'sasg/catchorizo.html', {'product_list_chorizo': product_list_chorizo})
 
-#--------------------VENTAS----------------------------
+#--------------------------------------------VENTAS--------------------------------------
+
 @transaction.atomic
 def registrar_venta(request):
     if request.method == 'POST':
@@ -538,7 +529,7 @@ def registrar_venta(request):
             productos_invalidos = []
             venta = form.save(commit=False)
             venta.fechaemision = timezone.localtime(timezone.now())
-            venta.save()  # Guardar la venta primero
+            venta.save()  
             for producto in form.cleaned_data['productos']:
                 cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
                 if cantidad > 0 and producto.cantidad >= cantidad:
@@ -559,7 +550,7 @@ def registrar_venta(request):
                     form.add_error(None, f"No hay suficientes unidades disponibles de {producto_invalido.nomproducto}")
                 return render(request, 'sasg/registrar_venta.html', {'form': form})
             venta.valortotal = total_valor
-            venta.save()  # Actualizar la venta con el valor total
+            venta.save() 
             return redirect('listar_venta')
     else:
         form = VentaForm()
@@ -625,7 +616,8 @@ def detalle_venta(request, venta_id):
     venta = get_object_or_404(Venta, idventa=venta_id)
     detalles = venta.obtener_detalles()
     return render(request, 'sasg/detalle_venta.html', {'venta': venta, 'detalles': detalles})
-#--------------------COMPRAS----------------------------
+
+#------------------------COMPRAS------------------------------
 
 @transaction.atomic
 def registrar_compra(request):
@@ -634,8 +626,8 @@ def registrar_compra(request):
         if form.is_valid():
             compra = form.save(commit=False)
             total_valor = 0
-            compra.fechaemision = timezone.localtime(timezone.now())  # Configurar la fecha de emisión con la hora local
-            compra.save()  # Guarda la compra primero
+            compra.fechaemision = timezone.localtime(timezone.now())
+            compra.save() 
             for producto in form.cleaned_data['productos']:
                 cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
                 if cantidad > 0:
@@ -719,20 +711,18 @@ def exportar_compras_pdf(request):
         doc.build(elements)
         return response
 
-
 def detalle_compra(request, compra_id):
     compra = get_object_or_404(Compra, idcompra=compra_id)
     detalles = compra.obtener_detalles()
     return render(request, 'sasg/detalle_compra.html', {'compra': compra, 'detalles': detalles})
 
-#--------------------PEDIDOS----------------------------
-
+#-------------------------------PEDIDOS-------------------------------------
 
 def listar_pedido(request):
     if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
-         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+        return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
     else:
         pedido_list = Pedido.objects.all()
         pedidoFilter = PedidoFilter(request.GET, queryset=pedido_list)
@@ -740,8 +730,7 @@ def listar_pedido(request):
         paginator = Paginator(pedido_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter':pedidoFilter, 'usuario':recuperarSesion(request)})
-
+        return render(request, 'sasg/pedidos.html', {'page_obj': page_obj, 'pedidoFilter': pedidoFilter, 'usuario': recuperarSesion(request)})
 
 def pre_editar_pedido(request,idpedido):
     if validarSesion(request):
@@ -756,7 +745,6 @@ def pre_editar_pedido(request,idpedido):
             "usuario":usuario,
         }
         return render(request, 'sasg/editarPedido.html',data)
-
 
 def actualizar_pedido(request, idpedido):
     if validarSesion(request):
@@ -835,9 +823,10 @@ def carrito(request):
             'imagen': item['imagen'],
             'cantidad': item.get('cantidad', 1)
         }
+        productos_carrito.append(producto_info)
         total += item['precio'] * producto_info['cantidad']
     context = {'productos_carrito': productos_carrito, 'total': total}
-    return render(request, 'sasg/carrito.html',context)
+    return render(request, 'sasg/carrito.html', context)
 
 def agregar_al_carrito(request, producto_id):
     if request.session.get('usuario_logeado') is None:
@@ -893,14 +882,13 @@ def eliminar_todo_carrito(request):
             messages.success(request, "Se han eliminado todos los productos del carrito.")
     return redirect('carrito')
 
-
 @transaction.atomic
 def hacer_pedido(request):
     if request.method == 'POST':
         carrito = request.session.get('carrito_productos', {})
         if carrito:
-            usuario_id = carrito.get(next(iter(carrito)),'').get('usuario_id')  # Obtener el ID del usuario del carrito
-            usuario = Usuarios.objects.get(idusuario=usuario_id) if usuario_id else None  # Obtener el usuario
+            usuario_id = carrito.get(next(iter(carrito)),'').get('usuario_id')
+            usuario = Usuarios.objects.get(idusuario=usuario_id) if usuario_id else None 
 
             nuevo_pedido = Pedido.objects.create(
                 idusuario=usuario,
@@ -938,6 +926,10 @@ def pedidos_cliente(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'sasg/pedidos_cliente.html', {'page_obj': page_obj,'pedidos_usuario': pedidos_usuario, 'usuario':recuperarSesion(request)})
+
+def detalle_pedido(request, pedido_id):
+    detalles_pedido = DetallePedido.objects.filter(idpedido=pedido_id)
+    return render(request, 'sasg/detalle_pedido.html', {'detalles_pedido': detalles_pedido})
 
 #--------------------PROVEEDORES----------------------------
 

@@ -131,7 +131,7 @@
                             <tr id="venta{{venta.id}}">
                                 <td>{{venta.idventa}}</td>
                                 <td>{{venta.fechaemision}}</td>
-                                <td>{{venta.valortotal}}</td>
+                                <td>${{venta.valortotal}}</td>
                                 <td>
                                     <span>
                                         <a class="editar" title="Detalle Venta" href="{% url 'detalle_venta' venta.idventa %}">Detalle</a>

@@ -33,6 +33,7 @@ urlpatterns = [
     path('pre_editar_producto/<str:idproducto>',views.pre_editar_producto,name='pre_editar_producto'),
     path('actualizar_producto/<str:idproducto>',views.actualizar_producto,name='actualizar_producto'),
     path('exportar-productos-pdf/', views.exportar_productos_pdf, name='exportar_productos_pdf'),
+    
     #/-----ventas------/
     path('listar_venta/',views.listar_venta,name='listar_venta'),
     path('registrar_venta/',views.registrar_venta,name='registrar_venta'),
@@ -58,6 +59,7 @@ urlpatterns = [
     path('eliminar_todo_carrito/', views.eliminar_todo_carrito, name='eliminar_todo_carrito'),
     path('hacer_pedido/', views.hacer_pedido, name='hacer_pedido'),
     path('pedidos-cliente/', views.pedidos_cliente, name='pedidos_cliente'),
+    path('detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
     
     #/-----proveedores------/
     path('listar_proveedor/',views.listar_proveedor,name='listar_proveedor'),
