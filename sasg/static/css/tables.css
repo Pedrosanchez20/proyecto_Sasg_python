@@ -344,7 +344,7 @@ form .row select{
     color: white;
     border: none;
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 30px;
     background-color: rgb(194, 16, 16);
 }
 
@@ -374,6 +374,17 @@ form .row select{
 
 .checkbox-hidden {
     display: none;
+}
+
+/*-------------Btn Registro Venta---------------*/
+.reg_venta a {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 30px; 
+    background-color: rgb(194, 16, 16);
 }
 
 /*------EstiloFiltro-----*/

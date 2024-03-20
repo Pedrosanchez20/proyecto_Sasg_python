@@ -3,32 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/reg_venta.css' %}">
     <title>Detalle de Venta</title>
 </head>
-<body>
-    <h1>Detalle de Venta</h1>
-    <p><strong>ID de Venta:</strong> {{ venta.idventa }}</p>
-    <p><strong>Fecha de Emisión:</strong> {{ venta.fechaemision }}</p>
-    <p><strong>Valor Total:</strong> {{ venta.valortotal }}</p>
 
-    <h2>Detalles:</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Valor Unitario</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for detalle in detalles %}
-            <tr>
-                <td>{{ detalle.idproducto.nomproducto }}</td>
-                <td>{{ detalle.cantidad }}</td>
-                <td>{{ detalle.valorproducto }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<body>
+    <header>
+        <div class="logo">
+          <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
+          <h2>Asago S.A.S</h2>
+        </div>
+    
+        <div class="login">
+          {% if request.session.usuario_logeado is None %}
+          <p>Inicio de Sesión</p>
+            <div class="dropdown">
+              <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+              <div class="dropdown-content">
+                <a href="{% url 'login' %}">Iniciar Sesión</a>
+                <a href="{% url 'registrar_usuario' %}">Registrarse</a>
+              </div> 
+            </div> 
+          {% else %}
+          <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+          <div class="dropdown">
+            <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+            <div class="dropdown-content">
+              <a href="{% url 'logout' %}">Cerrar Sesión</a>
+            </div> 
+          </div> 
+          {% endif %}
+        </div>
+        {% if usuario.rol.idrol == 354%}
+        <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+        {% endif %}
+    </header>
+
+    <button class="btn-regresar"><a href="{% url 'listar_venta' %}">Regresar</a></button>
+
+    <div class="content_detalle">
+        <h1 class="content_title">Detalle de Venta</h1>
+        <p><strong>ID de Venta:</strong> {{ venta.idventa }}</p>
+        <p><strong>Fecha de Emisión:</strong> {{ venta.fechaemision }}</p>
+        <p class="val_total"><strong>Valor Total:</strong> {{ venta.valortotal }}</p>
+
+        <h3 class="detalles">Detalles:</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for detalle in detalles %}
+                <tr>
+                    <td>{{ detalle.idproducto.nomproducto }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>{{ detalle.valorproducto }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
