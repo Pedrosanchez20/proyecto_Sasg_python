@@ -83,6 +83,29 @@ header{
     display: block;
 }
 
+/*-------------------BOTON REGRESAR---------------------*/
+
+.btn-regresar {
+    color: black; 
+    padding: 10px 20px;
+    font-size: 16px; 
+    cursor: pointer;
+    margin: 30px 20px 0;
+    border-radius: 30px;
+    background-color: transparent;
+    border: 2px solid rgb(194, 16, 16);
+}
+
+.btn-regresar a {
+    color: black; 
+    padding: 30px 20px;
+    font-size: 16px; 
+    cursor: pointer;
+    text-decoration: none;   
+}
+
+/*------------------------TITULO-------------------------*/
+
 .tittle_ped{
     padding: 40px 10% 10px;
     font-size: 30px;
@@ -91,6 +114,7 @@ header{
     color: rgb(194, 16, 16);
 }
 
+/*-----------------------TABLA------------------------*/
 
 .dashboard{
     margin-top: 1rem;
