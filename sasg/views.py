@@ -864,32 +864,27 @@ def carrito(request):
         return render(request, 'sasg/carrito.html', context)
 
 def agregar_al_carrito(request, producto_id):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
+    if request.session.get('usuario_logeado') is None:
+        request.session['carrito_productos'] = {}
+        messages.error(request, "Debe iniciar sesión para agregar productos al carrito.")
     else:
-        if request.session.get('usuario_logeado') is None:
-            request.session['carrito_productos'] = {}
-            messages.error(request, "Debe iniciar sesión para agregar productos al carrito.")
-        else:
-            producto = get_object_or_404(Producto, idproducto=producto_id)
-            if producto:
-                carrito = request.session.get('carrito_productos', {})
-                if producto_id in carrito:
-                    pass
-                else:
-                    carrito[producto_id] = {
-                        'nombre': producto.nomproducto,
-                        'cantidad': 1,
-                        'precio': producto.valorlibra,
-                        'imagen': producto.imagen.url,
-                        'usuario_id': request.session.get('usuario_logeado')
-                    }
-                    request.session['carrito_productos'] = carrito
+        producto = get_object_or_404(Producto, idproducto=producto_id)
+        if producto:
+            carrito = request.session.get('carrito_productos', {})
+            if producto_id in carrito:
+                pass
             else:
-                messages.error(request, "El producto seleccionado no existe.")
-        return redirect('asago')
+                carrito[producto_id] = {
+                    'nombre': producto.nomproducto,
+                    'cantidad': 1,
+                    'precio': producto.valorlibra,
+                    'imagen': producto.imagen.url,
+                    'usuario_id': request.session.get('usuario_logeado')
+                }
+                request.session['carrito_productos'] = carrito
+        else:
+            messages.error(request, "El producto seleccionado no existe.")
+    return redirect('asago')
 
 def actualizar_cantidad_carrito(request, producto_id):
     if validarSesion(request):
