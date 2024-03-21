@@ -7,6 +7,9 @@ from datetime import datetime, timedelta
 from random import sample
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Count
+import plotly.graph_objs as go
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -569,13 +572,20 @@ def listar_venta(request):
     elif validar_rol(request) == 1:
          return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
     else:
+        productos_mas_vendidos = Detalleventa.objects.values('idproducto__nomproducto').annotate(total_vendido=Count('idproducto')).order_by('-total_vendido')[:10]
+        productos = [item['idproducto__nomproducto'] for item in productos_mas_vendidos]
+        cantidades = [item['total_vendido'] for item in productos_mas_vendidos]
+        grafico = go.Figure(data=[go.Pie(labels=productos, values=cantidades)])
+        grafico.update_traces(marker=dict(colors=['#add8e6', '#87cefa', '#00bfff', '#1e90ff', '#6495ed', '#4169e1', '#0000ff', '#0000cd', '#00008b', '#000080'], line=dict(color='#FFFFFF', width=1.5)))
+        grafico.update_layout(title='Productos más Vendidos', title_x=0.5)
+        grafico_html = grafico.to_html(full_html=False, default_height=500, default_width=700)
         venta_list = Venta.objects.all()
         ventaFilter = VentaFilter(request.GET, queryset=venta_list)
         venta_list = ventaFilter.qs
         paginator = Paginator(venta_list, 10) 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter, 'usuario':recuperarSesion(request)})
+        return render(request, 'sasg/ventas.html', {'page_obj': page_obj, 'ventaFilter': ventaFilter, 'usuario':recuperarSesion(request), 'grafico_html': grafico_html})
     
 
 def exportar_ventas_pdf(request):
@@ -841,96 +851,73 @@ def exportar_pedidos_pdf(request):
         return response
 
 def carrito(request):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
-    else:
-        carrito = request.session.get('carrito_productos', {})
-        productos_carrito = []
-        total = 0
-        for producto_id, item in carrito.items():
-            producto = get_object_or_404(Producto, idproducto=producto_id)
-            producto_info = {
-                'id': producto_id,
-                'nombre': item['nombre'],
-                'precio': item['precio'],
-                'imagen': item['imagen'],
-                'cantidad': item.get('cantidad', 1)
-            }
-            productos_carrito.append(producto_info)
-            total += item['precio'] * producto_info['cantidad']
-        context = {'productos_carrito': productos_carrito, 'total': total}
-        return render(request, 'sasg/carrito.html', context)
+    carrito = request.session.get('carrito_productos', {})
+    productos_carrito = []
+    total = 0
+    for producto_id, item in carrito.items():
+        producto = get_object_or_404(Producto, idproducto=producto_id)
+        producto_info = {
+            'id': producto_id,
+            'nombre': item['nombre'],
+            'precio': item['precio'],
+            'imagen': item['imagen'],
+            'cantidad': item.get('cantidad', 1)
+        }
+        productos_carrito.append(producto_info)
+        total += item['precio'] * producto_info['cantidad']
+    context = {'productos_carrito': productos_carrito, 'total': total}
+    return render(request, 'sasg/carrito.html', context)
 
 def agregar_al_carrito(request, producto_id):
-    if request.session.get('usuario_logeado') is None:
-        request.session['carrito_productos'] = {}
-        messages.error(request, "Debe iniciar sesión para agregar productos al carrito.")
-    else:
-        producto = get_object_or_404(Producto, idproducto=producto_id)
-        if producto:
-            carrito = request.session.get('carrito_productos', {})
-            if producto_id in carrito:
-                pass
-            else:
-                carrito[producto_id] = {
-                    'nombre': producto.nomproducto,
-                    'cantidad': 1,
-                    'precio': producto.valorlibra,
-                    'imagen': producto.imagen.url,
-                    'usuario_id': request.session.get('usuario_logeado')
-                }
-                request.session['carrito_productos'] = carrito
+    producto = get_object_or_404(Producto, idproducto=producto_id)
+    if producto:
+        carrito = request.session.get('carrito_productos', {})
+        if producto_id in carrito:
+            pass
         else:
-            messages.error(request, "El producto seleccionado no existe.")
+            carrito[producto_id] = {
+                'nombre': producto.nomproducto,
+                'cantidad': 1,
+                'precio': producto.valorlibra,
+                'imagen': producto.imagen.url,
+                'usuario_id': request.session.get('usuario_logeado')
+            }
+            request.session['carrito_productos'] = carrito
+    else:
+        messages.error(request, "El producto seleccionado no existe.")
+        
     return redirect('asago')
 
 def actualizar_cantidad_carrito(request, producto_id):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
-    else:
-        if request.method == 'POST':
-            action = request.POST.get('action')
-            producto_id = request.POST.get('producto_id')
-            if action in ['sumar', 'restar']:
-                carrito = request.session.get('carrito_productos', {})
-                if producto_id in carrito:
-                    if action == 'sumar':
-                        carrito[producto_id]['cantidad'] += 1
-                    elif action == 'restar':
-                        if carrito[producto_id]['cantidad'] > 1:
-                            carrito[producto_id]['cantidad'] -= 1
-                    request.session['carrito_productos'] = carrito
-        return redirect('carrito')
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        producto_id = request.POST.get('producto_id')
+        if action in ['sumar', 'restar']:
+            carrito = request.session.get('carrito_productos', {})
+            if producto_id in carrito:
+                if action == 'sumar':
+                    carrito[producto_id]['cantidad'] += 1
+                elif action == 'restar':
+                    if carrito[producto_id]['cantidad'] > 1:
+                        carrito[producto_id]['cantidad'] -= 1
+                request.session['carrito_productos'] = carrito
+    return redirect('carrito')
 
 def eliminar_producto_carrito(request, producto_id):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
-    else:
-        if request.method == 'POST':
-            if 'carrito_productos' in request.session:
-                carrito = request.session['carrito_productos']
-                if str(producto_id) in carrito:
-                    del carrito[str(producto_id)]
-                    request.session['carrito_productos'] = carrito
-        return redirect('carrito')
+    if request.method == 'POST':
+        if 'carrito_productos' in request.session:
+            carrito = request.session['carrito_productos']
+            if str(producto_id) in carrito:
+                del carrito[str(producto_id)]
+                request.session['carrito_productos'] = carrito
+    return redirect('carrito')
 
 def eliminar_todo_carrito(request):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
-    else:
-        if request.method == 'POST':
-            if 'carrito_productos' in request.session:
-                del request.session['carrito_productos']
-                messages.success(request, "Se han eliminado todos los productos del carrito.")
-        return redirect('carrito')
+    if request.method == 'POST':
+        if 'carrito_productos' in request.session:
+            del request.session['carrito_productos']
+            messages.success(request, "Se han eliminado todos los productos del carrito.")
+    return redirect('carrito')
 
 @transaction.atomic
 def hacer_pedido(request):

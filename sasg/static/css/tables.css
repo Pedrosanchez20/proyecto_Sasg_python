@@ -138,7 +138,7 @@ display: flex;
     width: 100%;
 }
 
-/*--------------TABLA-------------*/
+/*-------------------------------------TABLA------------------------------------*/
 
 .dashboard{
     margin-top: 1rem;
@@ -210,14 +210,44 @@ table thead tbody td i:hover{
     background: #f3f3f3;
 }
 
-.table tbody td .entregado{
-    font-weight: bold;
-    background-color: aqua;
+/*---------------------------ESTADOS PEDIDO---------------------------*/
+.table tbody td.entregado,
+.table tbody td.cancelado,
+.table tbody td.en-camino,
+.table tbody td.en-alistamiento {
+    padding: 5px 10px;
+    text-align: center;
 }
+
+.table tbody td.entregado span,
+.table tbody td.cancelado span,
+.table tbody td.en-camino span,
+.table tbody td.en-alistamiento span {
+    display: inline-block; 
+    vertical-align: middle; 
+}
+
+.table tbody td.entregado {
+    background-color: lightgreen; 
+}
+
+.table tbody td.cancelado {
+    background-color: rgb(245, 120, 120); 
+}
+
+.table tbody td.en-camino {
+    background-color: rgb(249, 249, 102); 
+}
+
+.table tbody td.en-alistamiento {
+    
+    background-color: rgb(96, 187, 244); 
+}
+/*------------------------------BOTONES TABLA-----------------------------------*/
 
 .table tbody td .editar{
     color: rgb(255, 255, 255);
-    padding: 4px 7px;
+    padding: 4px 7px;   
     border-radius: 25px;
     background-color: rgb(60, 60, 60);
 }
@@ -240,15 +270,21 @@ table thead tbody td i:hover{
     transition: 0.5rem;
 }
 
-/*--------------MODAL-------------*/
+/*----------------------------BOTONES MODALES-----------------------*/
 
-.boton-registro {
-    padding: 40px;
+/*-----------------Btn Registro Venta--------------*/
+
+.reg_venta a {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 30px; 
     background-color: rgb(194, 16, 16);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
 }
+
+/*-----------------Btn Registro Productos-------------*/
 
 .boton-modal{
     padding: 40px;
@@ -259,7 +295,31 @@ table thead tbody td i:hover{
     padding: 10px 15px;
     background-color: rgb(194, 16, 16);
     color: #fff;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.boton-registro {
+    padding: 40px;
+    background-color: rgb(194, 16, 16);
+    color: #fff;
     border-radius: 4px;
+    cursor: pointer;
+}
+
+/*------------------Boton Grafico Ventas-----------------*/
+
+.boton-modal-venta{
+    padding: 40px;
+    background-color: #fff;
+}
+
+.boton-modal-venta label{
+    padding: 10px 15px;
+    background-color: rgb(230, 72, 72);
+    color: #fff;
+    border-radius: 30px;
     cursor: pointer;
     transition: all 300ms ease;
 }
@@ -271,6 +331,8 @@ table thead tbody td i:hover{
 #btn-modal{
     display: none;
 }
+
+/*-----------------------------MODAL------------------------------*/
 
 .container-modal{
     width: 100%;
@@ -361,14 +423,13 @@ form .row select{
     z-index: -1;
 }
 
-/*Config. Modl Diferentes*/
+/*--------------------Config. Modales Diferentes---------------------*/
 
 #btn-modal-agregar:checked ~ #container-modal-agregar {
     display: flex;
 }
 
-
-#btn-modal-consultar:checked ~ #container-modal-consultar {
+#btn-modal-grafico:checked ~ #container-modal-grafico {
     display: flex;
 }
 
@@ -376,18 +437,9 @@ form .row select{
     display: none;
 }
 
-/*-------------Btn Registro Venta---------------*/
-.reg_venta a {
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 4px 2px;
-    border-radius: 30px; 
-    background-color: rgb(194, 16, 16);
-}
 
-/*------EstiloFiltro-----*/
+/*-----------------------------ESTILO FILTRO--------------------------*/
+
 .custom-btn {
     color: rgb(255, 255, 255);
     padding: 4px 7px;
@@ -419,7 +471,7 @@ form .row select{
     color: #333; 
 }
 
-/*--------------PAGINACION-------------------*/
+/*-------------------------------PAGINACION-----------------------*/
 
 .pagination{
     padding: 15px 0 ;
@@ -449,17 +501,7 @@ form .row select{
     background-color: rgb(230, 72, 72);
 }
 
-@media screen and (max-width:800px) {
-    .content-modal{
-        width: 90%;
-    }
-
-    .container-item{
-        margin: 40px auto;        
-    }
-}
-
-/*-----------EstilosMiniTablaAlerta-------------------*/
+/*-------------------------EstilosMiniTablaAlerta-------------------*/
 .alert-container {
     margin-top: 20px;
 }
@@ -484,4 +526,16 @@ form .row select{
 .alert-table th {
     background-color: #f0f0f0;
     font-weight: bold;
+}
+
+/*----------------------------RESPONSIVE----------------------*/
+
+@media screen and (max-width:800px) {
+    .content-modal{
+        width: 90%;
+    }
+
+    .container-item{
+        margin: 40px auto;        
+    }
 }
