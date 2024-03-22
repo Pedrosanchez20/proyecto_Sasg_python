@@ -525,46 +525,56 @@ def prod_chorizo(request):
 
 @transaction.atomic
 def registrar_venta(request):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 1:
-         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
-    else:
-        if request.method == 'POST':
-            form = VentaForm(request.POST)
-            if form.is_valid():
-                total_valor = 0
-                productos_invalidos = []
-                venta = form.save(commit=False)
-                venta.fechaemision = timezone.localtime(timezone.now())
-                venta.save()  
-                for producto in form.cleaned_data['productos']:
-                    cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
-                    if cantidad > 0 and producto.cantidad >= cantidad:
-                        detalle = Detalleventa.objects.create(
-                            idventa=venta,
-                            idproducto=producto,
-                            cantidad=cantidad,
-                            valorproducto=producto.valorlibra
-                        )
-                        detalle.save()
-                        total_valor += detalle.valorproducto * cantidad
-                        producto.cantidad -= cantidad
-                        producto.save()
-                    else:
-                        productos_invalidos.append(producto)
-                if productos_invalidos:
-                    for producto_invalido in productos_invalidos:
-                        form.add_error(None, f"No hay suficientes unidades disponibles de {producto_invalido.nomproducto}")
-                    return render(request, 'sasg/registrar_venta.html', {'form': form})
-                venta.valortotal = total_valor
-                venta.save() 
-                return redirect('listar_venta')
-        else:
-            form = VentaForm()
-            form.fields['productos'].queryset = Producto.objects.all()
-        return render(request, 'sasg/registrar_venta.html', {'form': form})
+    venta_actual = Venta.objects.filter(fechaemision=None).first()
+    
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto')
+        cantidad = request.POST.get('cantidad')
+        accion = request.POST.get('accion')
 
+        if not venta_actual:
+            venta_actual = Venta.objects.create()
+
+        if accion == 'agregar_producto' and producto_id and cantidad:
+            producto = Producto.objects.get(idproducto=producto_id)
+            cantidad_entero = int(cantidad) if cantidad else 0 
+            
+            if cantidad_entero > producto.cantidad:
+                messages.error(request, "No hay suficientes productos en el stock.")
+            else:
+                valor_unitario = producto.valorlibra
+                Detalleventa.objects.create(idventa=venta_actual, idproducto=producto, cantidad=cantidad_entero, valorproducto=valor_unitario)
+                producto.cantidad -= cantidad_entero 
+                producto.save()
+
+        elif accion == 'finalizar_venta':
+            if venta_actual:
+                detalles = venta_actual.detalleventa_set.all()
+                valor_total = sum(detalle.valorproducto * detalle.cantidad for detalle in detalles)
+
+                venta_actual.valortotal = valor_total
+                venta_actual.fechaemision = date.today()
+                venta_actual.save()
+
+                for detalle in detalles:
+                    producto = detalle.idproducto
+                    producto.cantidad -= detalle.cantidad
+                    producto.save()
+
+                return redirect('listar_venta')
+
+    productos = Producto.objects.all()
+    if venta_actual:
+        detalles = venta_actual.detalleventa_set.all()
+        valor_total = sum(detalle.valorproducto * detalle.cantidad for detalle in detalles)
+
+        for detalle in detalles:
+            detalle.subtotal = detalle.valorproducto * detalle.cantidad
+    else:
+        detalles = []
+        valor_total = 0
+
+    return render(request, 'sasg/registrar_venta.html', {'detalles': detalles, 'productos': productos, 'valor_total': valor_total})
 
 def listar_venta(request):
     if validarSesion(request):
@@ -643,44 +653,58 @@ def detalle_venta(request, venta_id):
         detalles = venta.obtener_detalles()
         return render(request, 'sasg/detalle_venta.html', {'venta': venta, 'detalles': detalles})
 
-#------------------------COMPRAS------------------------------
+#-----------------------------COMPRAS---------------------------------------
 
 @transaction.atomic
 def registrar_compra(request):
-    if validarSesion(request):
-        return redirect("login")
-    elif validar_rol(request) == 1:
-         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
-    elif validar_rol(request) == 2:
-        return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
-    else:
-        if request.method == 'POST':
-            form = CompraForm(request.POST)
-            if form.is_valid():
-                compra = form.save(commit=False)
-                total_valor = 0
-                compra.fechaemision = timezone.localtime(timezone.now())
-                compra.save() 
-                for producto in form.cleaned_data['productos']:
-                    cantidad = form.cleaned_data['cantidad_producto_{}'.format(producto.idproducto)]
-                    if cantidad > 0:
-                        detalle = DetalleCompra.objects.create(
-                            idcompra=compra,
-                            idproducto=producto,
-                            cantidad=cantidad,
-                            valorproducto=producto.valorlibra
-                        )
-                        detalle.save()
-                        total_valor += detalle.valorproducto * cantidad
-                        producto.cantidad += cantidad
-                        producto.save()
-                compra.valortotal = total_valor
-                compra.save()  # Actualiza la compra con el valor total
+    compra_actual = Compra.objects.filter(fechaemision=None).first()
+
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto')
+        cantidad = request.POST.get('cantidad')
+        accion = request.POST.get('accion')
+        descripcion = request.POST.get('descripcion') 
+
+        if not compra_actual:
+            compra_actual = Compra.objects.create(descripcion=descripcion) 
+            proveedor_id = request.POST.get('proveedor')
+            if proveedor_id:
+                compra_actual.idproveedor = Proveedor.objects.get(idproveedor=proveedor_id)
+                compra_actual.save()
+
+        if accion == 'agregar_producto' and producto_id and cantidad:
+            producto = Producto.objects.get(idproducto=producto_id)
+            cantidad_entero = int(cantidad) if cantidad else 0 
+            
+            valor_unitario = producto.valorlibra
+            DetalleCompra.objects.create(idcompra=compra_actual, idproducto=producto, cantidad=cantidad_entero, valorproducto=valor_unitario)
+            producto.cantidad += cantidad_entero 
+            producto.save()
+
+        elif accion == 'finalizar_compra':
+            if compra_actual:
+                detalles = compra_actual.detallecompra_set.all()
+                valor_total = sum(detalle.valorproducto * detalle.cantidad for detalle in detalles)
+
+                compra_actual.valortotal = valor_total
+                compra_actual.fechaemision = date.today()
+                compra_actual.save()
+
                 return redirect('listar_compra')
-        else:
-            form = CompraForm()
-            form.fields['productos'].queryset = Producto.objects.all()
-        return render(request, 'sasg/registrar_compra.html', {'form': form})
+
+    productos = Producto.objects.all()
+    proveedores = Proveedor.objects.all()
+    if compra_actual:
+        detalles = compra_actual.detallecompra_set.all()
+        valor_total = sum(detalle.valorproducto * detalle.cantidad for detalle in detalles)
+        
+        for detalle in detalles:
+            detalle.subtotal = detalle.valorproducto * detalle.cantidad
+    else:
+        detalles = []
+        valor_total = 0
+
+    return render(request, 'sasg/registrar_compra.html', {'detalles': detalles, 'productos': productos, 'proveedores': proveedores, 'valor_total': valor_total})
 
 
 def listar_compra(request):

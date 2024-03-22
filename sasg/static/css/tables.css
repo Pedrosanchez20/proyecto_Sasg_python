@@ -29,7 +29,7 @@ nav{
 
 nav:hover{
     width: 280px;
-    transition: 1s;
+    transition: 0.6s;
 }
 
 .logo{
@@ -79,16 +79,18 @@ nav .fas{
 }
 
 .nav-item:hover{
+    transition: 0.6s;
     color:  rgb(194, 16, 16);
 }
 
 a:hover{
+    transition: 0.6s;
     background: #eee;
 }
 
 a:hover i{
+    transition: 0.6s;
     color:  rgb(194, 16, 16);
-    transition: 0.5s;
 }
 
 .logout{
@@ -188,6 +190,7 @@ table thead tr{
 
 table thead tbody td i:hover{
     width: 10px;
+    transition: 0.6s;
 }
 
 .form-group {
@@ -265,9 +268,9 @@ table thead tbody td i:hover{
 }
 
 .table button:hover{
-    background: #ffffff;
     color: #fff;
-    transition: 0.5rem;
+    transition: 0.6s;
+    background: #ffffff;
 }
 
 /*----------------------------BOTONES MODALES-----------------------*/
@@ -275,13 +278,21 @@ table thead tbody td i:hover{
 /*-----------------Btn Registro Venta--------------*/
 
 .reg_venta a {
-    color: white;
-    border: none;
+    color: white; 
     padding: 10px 20px;
     font-size: 16px;
     margin: 4px 2px;
     border-radius: 30px; 
+    border: 2px solid rgb(194, 16, 16);
     background-color: rgb(194, 16, 16);
+}
+
+.reg_venta a:hover {
+    color: black;
+    transition: 0.6s;
+    border-radius: 30px; 
+    background-color: white;
+    border: 2px solid rgb(194, 16, 16);
 }
 
 /*-----------------Btn Registro Productos-------------*/
@@ -292,12 +303,21 @@ table thead tbody td i:hover{
 }
 
 .boton-modal label{
-    padding: 10px 15px;
-    background-color: rgb(194, 16, 16);
-    color: #fff;
-    border-radius: 30px;
+    color: white;
     cursor: pointer;
-    transition: all 300ms ease;
+    padding: 10px 15px;
+    border-radius: 30px;
+    background-color: rgb(194, 16, 16);
+}
+
+.boton-modal label:hover{
+    color: black;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: 0.6s;
+    border-radius: 30px;
+    background-color: white;
+    border: 2px solid rgb(194, 16, 16);
 }
 
 .boton-registro {
@@ -322,10 +342,6 @@ table thead tbody td i:hover{
     border-radius: 30px;
     cursor: pointer;
     transition: all 300ms ease;
-}
-
-.boton-modal label:hover{
-    background-color:  rgb(230, 72, 72);
 }
 
 #btn-modal{
@@ -411,8 +427,9 @@ form .row select{
 }
 
 .row .btn:hover{
-    background-color:  rgb(230, 72, 72);
     color: white;
+    transition: 0.6s;
+    background-color:  rgb(230, 72, 72);
 }
 
 .cerrar-modal{
@@ -448,6 +465,7 @@ form .row select{
 }
 
 .custom-btn:hover {
+    transition: 0.6s;
     background-color: black; 
 }
 .custom-input {
@@ -466,6 +484,7 @@ form .row select{
     font-size: 11px;
 
 }
+
 .filtro{
     font-size: 13px; 
     color: #333; 
@@ -498,6 +517,7 @@ form .row select{
 }
 .pagination .step-links a i:hover{ 
     color: white;
+    transition: 0.6s;
     background-color: rgb(230, 72, 72);
 }
 
