@@ -97,9 +97,11 @@
                 <i class="fas uil uil-shopping-bag"></i>
                 <h1>Listado Productos - {{ usuario.nombres }}</h1>
             </div>
+
             <div class="boton-modal">
                 <label for="btn-modal">Agregar Producto</label>
             </div>
+
             {% if productos_proximos_vencer %}
             <div class="alert-container">
                 <div class="table-container">
@@ -120,6 +122,7 @@
                 </div>
             </div>
             {% endif %}
+
             <input type="checkbox" id="btn-modal">
             <div class="container-modal">
                 <div class="content-modal">
@@ -133,6 +136,8 @@
                         enctype="multipart/form-data">
                         {% csrf_token %}
 
+                        {{ grafico_html|safe }}
+                        
                         <div class="row">
                             <label>Nombre</label>
                             <input type="text" name="nomproducto" required>

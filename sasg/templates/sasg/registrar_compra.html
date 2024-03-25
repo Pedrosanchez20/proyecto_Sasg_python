@@ -9,45 +9,105 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-          <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
-          <h2>Asago S.A.S</h2>
-        </div>
-    
-        <div class="login">
-          {% if request.session.usuario_logeado is None %}
-          <p>Inicio de Sesión</p>
-            <div class="dropdown">
-              <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
-              <div class="dropdown-content">
-                <a href="{% url 'login' %}">Iniciar Sesión</a>
-                <a href="{% url 'registrar_usuario' %}">Registrarse</a>
-              </div> 
-            </div> 
-          {% else %}
-          <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+  <header>
+      <div class="logo">
+        <a href="{% url 'asago' %}"><img src="{% static 'imagenes/logo_asago1.png' %}" alt=""></a>
+        <h2>Asago S.A.S</h2>
+      </div>
+  
+      <div class="login">
+        {% if request.session.usuario_logeado is None %}
+        <p>Inicio de Sesión</p>
           <div class="dropdown">
             <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
             <div class="dropdown-content">
-              <a href="{% url 'logout' %}">Cerrar Sesión</a>
+              <a href="{% url 'login' %}">Iniciar Sesión</a>
+              <a href="{% url 'registrar_usuario' %}">Registrarse</a>
             </div> 
           </div> 
-          {% endif %}
-        </div>
-        {% if usuario.rol.idrol == 354%}
-        <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+        {% else %}
+        <p>Bienvenido a Asago {{ usuario.nombres }}!</p>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="uil uil-angle-down"></i></button>
+          <div class="dropdown-content">
+            <a href="{% url 'logout' %}">Cerrar Sesión</a>
+          </div> 
+        </div> 
         {% endif %}
-    </header>
+      </div>
+      {% if usuario.rol.idrol == 354%}
+      <a class="carrito" href="{% url 'carrito' %}"><i class="uil uil-shopping-cart"></i></a>
+      {% endif %}
+  </header>
     
-    <button class="btn-regresar"><a href="{% url 'listar_compra' %}">Regresar</a></button>
+  <button class="btn-regresar"><a href="{% url 'listar_compra' %}">Regresar</a></button>
 
-    <form method="POST">
-        <h1 class="form-title">Registrar Compra</h1>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrar Compra</button>
+  <div class="content_detalle">
+    <h1 class="content_title">Registrar Compra</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+        <div class="message error">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% csrf_token %}
+
+      <label for="proveedor">Proveedor:</label>
+      <select id="proveedor" name="proveedor">
+        <option value="">Seleccionar proveedor</option>
+        {% for proveedor in proveedores %}
+          <option value="{{ proveedor.idproveedor }}">{{ proveedor.nomempresa }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="2" cols="50"></textarea>
+
+      <label for="producto">Producto:</label>
+      <select id="producto" name="producto">
+        <option value="">Seleccionar producto</option>
+        {% for producto in productos %}
+          <option value="{{ producto.idproducto }}">{{ producto.nomproducto }}</option>
+        {% endfor %}
+      </select>
+    
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" name="cantidad" min="1" value="">
+      
+      <button class="Rg_venta" type="submit" name="accion" value="agregar_producto">Agregar Producto</button>
+    
+      <h3 class="detalles">Productos Agregados:</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Valor Unitario</th>
+            <th>Cantidad</th>
+            <th>SubTotal</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+    
+        <tbody>
+          {% for detalle in detalles %}
+          <tr>
+            <td>{{ detalle.idproducto.nomproducto }}</td>
+            <td>${{ detalle.valorproducto }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>${{ detalle.subtotal }}</td>
+            <td>${{ detalle.subtotal }}</td>
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+      <p>Valor Total: ${{ valor_total }}</p>
+    
+      <button class="Fn_venta" type="submit" name="accion" value="finalizar_compra">Registrar Compra</button>
     </form>
+  </div>
     
 </body>
 </html>

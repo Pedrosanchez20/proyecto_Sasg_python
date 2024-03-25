@@ -65,6 +65,7 @@
                     <img src="{%static 'imagenes/logo_asago1.png'%}">
                     <span class="nav-item">Asago S.A.S</span>
                 </li>
+                
                 <li><a href="{% url 'dashboard' %}">
                     <i class="fas uil uil-estate"></i>
                     <span class="nav-item">Dashboard</span>
@@ -146,7 +147,7 @@
                                 <td>{{pedido.idpedido}}</td>
                                 <td>{{pedido.idusuario}}</td>
                                 <td>{{pedido.fechacreacion}}</td>
-                                <td>{{pedido.estado}}</td>
+                                <td class="{% if pedido.estado == 'Entregado' %}entregado{% elif pedido.estado == 'Cancelado' %}cancelado{% elif pedido.estado == 'En Camino' %}en-camino{% elif pedido.estado == 'En Alistamiento' %}en-alistamiento{% endif %}">{{pedido.estado}}</td>
                                 <td>${{pedido.totalpedido}}</td>
                                 <td>
                                     <span>
@@ -179,9 +180,11 @@
                         </span>
                     </div>
                 </div>
+
                 {% else %}
                 <p class="text-center">No hay pedidos registradas</p>
                 {% endif %}
+                
             </section>
         </section>
     </div>

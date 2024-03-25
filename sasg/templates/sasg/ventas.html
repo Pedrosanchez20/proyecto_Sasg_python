@@ -39,6 +39,7 @@
                     <i class="fas uil uil-store"></i>
                     <span class="nav-item">Compras</span>
                 </a></li> 
+
                 <li><a href="{% url 'listar_pedido' %}">
                     <i class="fas uil uil-truck"></i>
                     <span class="nav-item">Pedidos</span>
@@ -59,6 +60,7 @@
                 <span class="nav-item">Cerrar Sesión</span>
                 </a></li>
                 {% endif %}
+
                 {% if usuario.rol.idrol == 214 %}
                 <li><a href="{% url 'asago' %}" class="logo">
                     <img src="{%static 'imagenes/logo_asago1.png'%}">
@@ -97,10 +99,23 @@
                 <h1>Listado Ventas</h1>
             </div>
 
-            <div class="boton-modal">
-                <button class="reg_venta"><a href="{% url 'registrar_venta' %}">Registrar Venta</a></button>
-            </div>
+            <div class="container-botones">
+                <div class="boton-modal-venta">
+                    <button class="reg_venta"><a href="{% url 'registrar_venta' %}">Registrar Venta</a></button>
+                    <label class="grafico_venta" for="btn-modal-grafico">Grafico</label>            
+                </div>              
+            </div>         
 
+            <div class="content-container">
+                <input type="checkbox" id="btn-modal-grafico" class="checkbox-hidden">
+                <div class="container-modal" id="container-modal-grafico">
+                    {{ grafico_html|safe }}
+                    <label for="btn-modal-grafico" class="cerrar-modal"></label>
+                </div>
+                
+            </div>
+            
+            
             <section class="dashboard">
                 <div class="dashboard-list">
                     {% if page_obj %}
@@ -122,7 +137,7 @@
                             <th>Id</th>
                             <th>Fecha Emisión</th>
                             <th>Valor Total</th>
-                            <th></th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
 
@@ -141,7 +156,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-
                     <div class="pagination">
                         <span class="step-links">
                             {% if page_obj.has_previous %}
@@ -160,9 +174,11 @@
                         </span>
                     </div>
                 </div>
+
                 {% else %}
                 <p class="text-center">No hay ventas registradas</p>
                 {% endif %}
+
             </section>
         </section>
     </div>

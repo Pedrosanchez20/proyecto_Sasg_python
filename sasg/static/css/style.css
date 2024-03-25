@@ -4,9 +4,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 main{
  margin: 25rem;
 }
+
 footer
 {
     display: flex;
@@ -73,10 +75,12 @@ footer
     transform: rotate(calc(360deg / -3 * var(--i)));
     border-radius: 50%;
 }
+
 .menu.active li.active
 {
     transform: rotate(calc(360deg / 3 * var(--i))) translateX(12px);
 }
+
 .indicator
 {
     position: absolute;
@@ -88,6 +92,7 @@ footer
     pointer-events: none;
     transition: 0.5s;
 }
+
 .indicator::before
 {
     content: "";
@@ -102,6 +107,7 @@ footer
     transition: 0.5s;
     opacity: 0;
 }
+
 .menu.active .indicator::before
 {
     opacity: 1;
@@ -110,14 +116,17 @@ footer
     background: red;
     box-shadow: 0 0 0 6px white;
 }
+
 .menu li:nth-child(2).active ~ .indicator
 {
     transform: translateX(-103px) rotate(0deg);
 }
+
 .menu li:nth-child(3).active ~ .indicator
 {
     transform: translateX(-103px) rotate(120deg);
 }
+
 .menu li:nth-child(4).active ~ .indicator
 {
     transform: translateX(-103px) rotate(240deg);
