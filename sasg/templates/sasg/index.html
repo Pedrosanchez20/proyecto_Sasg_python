@@ -46,8 +46,8 @@
     
     {% if usuario.rol.idrol == 354%}
     <a class="carrito" href="{% url 'pedidos_cliente' %}"><i class="uil uil-shopping-bag"></i></a>
+    <a class="carrito" href="{% url 'pre_editar_usuario' idusuario=request.session.usuario_logeado %}"><i class="uil uil-user"></i></a>
     {% endif %}
-
     {% if usuario.rol.idrol == 214 or usuario.rol.idrol == 971 %}
     <a class="database" href="{% url 'dashboard' %}"><i class="uil uil-database"></i></a>
     {% endif %}

@@ -268,7 +268,8 @@ def pre_editar_usuario(request, idusuario):
     if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
-         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+        usuario = Usuarios.objects.get(idusuario=idusuario)
+        return render(request, 'sasg/editarCliente.html', {'usuario': usuario})
     elif validar_rol(request) == 2:
         return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
     else:
@@ -284,21 +285,25 @@ def actualizar_usuario(request, idusuario):
     if validarSesion(request):
         return redirect("login")
     elif validar_rol(request) == 1:
-         return render(request, 'sasg/index.html', {'usuario': recuperarSesion(request)})
+        if request.method == 'POST':
+            usuario=Usuarios.objects.get(idusuario=idusuario)
+            usuario.nombres = request.POST.get('nombres')
+            usuario.apellidos = request.POST.get('apellidos')
+            usuario.fechanacimiento = request.POST.get('fechanacimiento')
+            usuario.direccion = request.POST.get('direccion')
+            usuario.telefono = request.POST.get('telefono')
+            usuario.email = request.POST.get('email')
+            contrasena_encriptada = request.POST.get('contrasena')
+            if contrasena_encriptada:
+                usuario.contrasena = make_password(contrasena_encriptada)
+            usuario.save() 
+            return redirect('asago')
+        return render(request, 'editarCliente.html', {'usuario': usuario})
     elif validar_rol(request) == 2:
         return render(request, 'sasg/dashboard.html' ,{'usuario': recuperarSesion(request)}) 
     else:
         if request.method=='POST':
             usuario=Usuarios.objects.get(idusuario=idusuario)
-            
-            # usuario.idusuario=request.POST.get('idusuario')
-            # usuario.nombres=request.POST.get('nombres')
-            # usuario.apellidos=request.POST.get('apellidos')
-            # usuario.fechanacimiento=request.POST.get('fechanacimiento')
-            # usuario.direccion=request.POST.get('direccion')
-            # usuario.telefono=request.POST.get('telefono')
-            # usuario.email=request.POST.get('email')
-            # usuario.contrasena=request.POST.get('contrasena')
             usuario.estado=request.POST.get('estado')
             usuario.rol=Roles.objects.get(idrol=request.POST.get('idrol')) 
             
